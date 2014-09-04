@@ -49,11 +49,11 @@ Public Class clsMarca
     Sub editar()
         Dim strCx As New StringConex
         Dim strSql As String
-        strSql = "UPDATE elx_core_marca SET  marca = '$1', orden = '$2', imagen = '$3' WHERE idMarca= '$4'"
-        strSql = Replace(strSql, "$4", Me.prGet("txtidMarca"))
-        strSql = Replace(strSql, "$1", Me.prGet("txtMarca"))
-        strSql = Replace(strSql, "$2", Me.prGet("txtOrden"))
-        strSql = Replace(strSql, "$3", Me.prGet("txtImagen"))
+        strSql = "UPDATE elx_core_marca SET  marca = '$1', orden = $2, imagen = '$3' WHERE idMarca= $4"
+        strSql = Replace(strSql, "$4", Me.prForm("txtidMarca"))
+        strSql = Replace(strSql, "$1", Me.prForm("txtMarca"))
+        strSql = Replace(strSql, "$2", Me.prForm("txtOrden"))
+        strSql = Replace(strSql, "$3", Me.prForm("txtImagen"))
         strCx.ejecutaSql(strSql)
         If strCx.flagError Then
             rsp.estadoError(100, "Editar: No se pudo acceder a la base")

@@ -56,14 +56,14 @@ Public Class clsCategoria
     Sub editar()
         Dim strCx As New StringConex
         Dim strSql As String
-        strSql = "UPDATE elx_core_categoria SET  categoria = '$1', padre = '$2' , activo = '$3', orden = '$4', tipo = '$5', imagen = '$6' WHERE idCategoria= '$7'"
-        strSql = Replace(strSql, "$7", Me.prGet("txtidCategoria"))
-        strSql = Replace(strSql, "$1", Me.prGet("txtCategoria"))
-        strSql = Replace(strSql, "$2", Me.prGet("txtPadre"))
-        strSql = Replace(strSql, "$3", Me.prGet("txtActivo"))
-        strSql = Replace(strSql, "$4", Me.prGet("txtOrden"))
-        strSql = Replace(strSql, "$5", Me.prGet("txtTipo"))
-        strSql = Replace(strSql, "$6", Me.prGet("txtImagen"))
+        strSql = "UPDATE elx_core_categoria SET  categoria = '$1', padre = $2 , activo = '$3', orden = $4, tipo = '$5', imagen = '$6' WHERE idCategoria= $7"
+        strSql = Replace(strSql, "$7", Me.prForm("txtidCategoria"))
+        strSql = Replace(strSql, "$1", Me.prForm("txtCategoria"))
+        strSql = Replace(strSql, "$2", Me.prForm("txtPadre"))
+        strSql = Replace(strSql, "$3", Me.prForm("txtActivo"))
+        strSql = Replace(strSql, "$4", Me.prForm("txtOrden"))
+        strSql = Replace(strSql, "$5", Me.prForm("txtTipo"))
+        strSql = Replace(strSql, "$6", Me.prForm("txtImagen"))
         strCx.ejecutaSql(strSql)
         If strCx.flagError Then
             rsp.estadoError(100, "Editar: No se pudo acceder a la base")

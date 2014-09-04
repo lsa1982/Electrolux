@@ -8,7 +8,7 @@
 
         <tr style="width:100%">
 		<td>Orden</td>
-		<td> <input  type="text" id="txtOrden" name="txtOrden" class="k-textbox" value="" required/></td>
+		<td> <input  type="number" id="txtOrden" name="txtOrden" class="k-textbox" value="" required/></td>
 	</tr>
     	
      <tr style="width:100%">
@@ -28,6 +28,7 @@
     $(document).ready(function () {
         $("#btnAgregar").kendoButton({ icon: "plus", click: onClick });
         $("#btnCancelar").kendoButton({ icon: "plus", click: onClose });
+        $("#txtOrden").kendoNumericTextBox({ format: "#" });
 
         function onClick(e) {
             var validator = $("#check").kendoValidator().data("kendoValidator");

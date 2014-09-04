@@ -42,7 +42,7 @@
                         idMarca: { editable: false, nullable: true },
                         Marca: { validation: { required: true, pattern: "[a-zA-Z \s]{1,}"} },
                         orden: { validation: { required: false} },
-                        ultimaModificacion: { editable: true, nullable: true },
+                        ultimaModificacion: { editable: false, nullable: true },
                         imagen: { editable: true, nullable: true }
 
                     }
@@ -61,11 +61,11 @@
        
         var gridColumns = [
 			cmdGrid,
-			{ field: "idMarca", title: "ID Marca", width: "105px" },
-			{ field: "marca", title: "Marca", width: "170px" },
-			{ field: "orden", title: "Orden", width: "100px" },
-			{ field: "imagen", title: "Imagen", width: "180px" },
-            { field: "ultimaModificacion", title: "Ultima Modificacion", width: "180px" },
+			{ field: "idMarca", title: "ID", width: "40px" },
+			{ field: "marca", title: "Marca", width: "120px" },
+			{ field: "orden", title: "Orden", width: "50px" },
+			{ field: "imagen", title: "Imagen", width: "120px" },
+            { field: "ultimaModificacion", title: "Ultima Modificacion", width: "150px" },
 			];
 
 
@@ -73,6 +73,7 @@
             dataSource: ds,
             pageable: true,
             height: 550,
+            filterable: filtroGrid,
             columns: gridColumns,
             editable: {
                 mode: "inline",

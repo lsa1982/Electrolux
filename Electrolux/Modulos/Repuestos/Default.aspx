@@ -1,18 +1,10 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Repuestos.master" %>
-<%@ Register src="../../controlSeguridad.ascx" tagname="controlSeguridad" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
-	<form id="form1" runat="server">
 <div class="areaTrabajo" id="trabajo">
 <table style= "padding-bottom: 10px; width: 100%">
 	<tr>
 		<td colspan="2">
 			<span style=" font-size: 24px;">Mis Requerimientos</span>
-			<uc1:controlSeguridad ID="controlSeguridad1" runat="server" >
-				<SectorSeguridad>
-					asldfasldfhals
-				</SectorSeguridad>
-			</uc1:controlSeguridad>
-			
 		</td>
 		<td  style=" text-align:right; vertical-align: top;font-size: 10px;">
 			
@@ -49,7 +41,7 @@
   			else {
   				dsRepuestos.filter({});
   			}
-			
+
   		}
 
   		var dsEstado = [
@@ -96,7 +88,7 @@
 				{ command: { text: "Ver", click: onView }, title: " ", width: "60px" },
 				{ field: "idRequerimiento", title: "id", width: "40px" },
 				{ field: "estado", title: "E", template: '<span class="claseEstado claseEstado#: estado #">#: estado #</span>', width: "40px" },
-				{ field: "nombre", title: "Producto", width: "250px" },
+				{ field: "nombre", title: "Repuesto", width: "200px" },
 				{ field: "repuesto", title: "Repuesto", width: "200px" },
 				{ field: "tienda", title: "Tienda", width: "150px" },
 				{ field: "cantidad", title: "Cantidad", width: "80px" },
@@ -144,5 +136,4 @@
  		}
 
  </style>
-	</form>
 </asp:Content>
