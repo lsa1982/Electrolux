@@ -1,0 +1,74 @@
+﻿<form id="check">
+<table style="width:100%">
+	
+    <tr style="width:100%">
+		<td>ID Categoria</td>
+		<td> <input  type="text" id="txtidCategoria" name="txtidCategoria" class="k-textbox" value="(Defecto)"/></td>
+	</tr>
+
+        <tr style="width:100%">
+		<td>ID Linea</td>
+		<td> <input  type="text" id="txtidLinea" name="txtidLinea" class="k-textbox" value="(Defecto)"/></td>
+	</tr>
+    	
+     <tr style="width:100%">
+		<td>Nombre</td>
+		<td> <input  type="text" id="txtNombre" name="txtNombre" class="k-textbox" value="(Defecto)"/></td>
+	</tr>
+
+    <tr style="width:100%">
+		<td>Descripcion</td>
+		<td> <input  type="text" id="txtDescripcion" name="txtDescripcion" class="k-textbox" value="(Defecto)"/></td>
+	</tr>
+
+    <tr style="width:100%">
+		<td>Modelo</td>
+		<td> <input  type="text" id="txtModelo" name="txtModelo" class="k-textbox" value="(Defecto)"/></td>
+	</tr>
+
+    <tr style="width:100%">
+		<td>Codigo</td>
+		<td> <input  type="text" id="txtCodigo" name="txtCodigo" class="k-textbox" value="(Defecto)"/></td>
+	</tr>
+
+    <tr style="width:100%">
+		<td>Codigo Barra</td>
+		<td> <input  type="text" id="txtCodigoBarra" name="txtCodigoBarra" class="k-textbox" value="(Defecto)"/></td>
+	</tr>
+
+    <tr style="width:100%">
+		<td>Resumen</td>
+		<td> <input  type="text" id="txtResumen" name="txtResumen" class="k-textbox" value="(Defecto)"/></td>
+	</tr>
+
+		<td colspan="2" style="border-top-style: dashed ; border-top-color: Gray; border-top-width: 1px; padding-top: 10px">
+			<button id="btnAgregar" type="button" class="k-button">Agregar</button>&nbsp;
+			<button id="btnCancelar" type="button" class="k-button">Cancelar</button>
+		</td>
+	</tr>
+	
+</table>
+</form>
+<script>
+    $(document).ready(function () {
+        $("#btnAgregar").kendoButton({ icon: "plus", click: onClick });
+        $("#btnCancelar").kendoButton({ icon: "plus", click: onClose });
+
+        function onClick(e) {
+            var validator = $("#check").kendoValidator().data("kendoValidator");
+            enviaForm(validator, 'check', 'clsProducto', 'insertar', onSuccess);
+
+
+        }
+
+        function onSuccess() {
+            $("#winNewRequest").data("kendoWindow").close();
+            ds.read();
+        }
+        function onClose() {
+            $("#winNewRequest").data("kendoWindow").close();
+        }
+
+
+    });
+</script>
