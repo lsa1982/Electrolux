@@ -10,30 +10,16 @@
 		</td>
 		<td style="width: 20%;text-align: right">
 			<span style=" font-size: 12px; font-weight:bold; color: #0000D9">
-			Usuario Conectados: <% = 3%> <br/>
-			<% = now %>
+			<div id="txtUser"></div> <br/>
+			
 			</span>
 		</td>
 	</tr>
 </table>
 </div>
 <div class="areaHeader">
- 	<ul id="menuArea">
-		<li>
-			Categorias
-		</li>
-        <li>
-			Cadena
-		</li>
-		<li>
-			Tiendas
-		</li>
-		<li>
-			Productos
-		</li>
-		<li>
-			Marcas
-		</li>
+ 		<ul id="menuArea">
+		
 	</ul>
 </div>
 
@@ -42,51 +28,13 @@
 
     $(document).ready(function () {
 
-        function onSelect(e) {
-            var index = $(e.item).index();
-            window.location = this.options.dataSource[index].value;
-            //$("#trabajo").load("defaultRepuesto.html");
-
-        }
-
         $("#menuArea").kendoMenu({
             select: onSelect,
-            dataSource: [
-				{ text: "Categoria", value: "frmGridCategoria.aspx" },
-                { text: "Cadena", value: "frmGridCadena.aspx" },
-				{ text: "Tiendas", value: "frmGridTienda.aspx" },
-				{ text: "Productos", value: "frmGridProducto.aspx" },
-                { text: "Marcas", value: "frmGridMarca.aspx" }
-			]
+            dataSource: mItem
         });
 
     });
 </script>
-
-<style scoped>
-		
-		.areaHeader .k-menu{
-			background-color: #0B90A7;
-			background-image: none,-webkit-linear-gradient(top,rgba(255,255,255,.90) 0,rgba(255,255,255,0) 15%);
-			border-color: #0A8DA5;
-			border-width: 1px;
-			width: 100%;
-			margin-top: 5px;
-			margin-bottom: 5px;
-			color:white;
-			border-radius: 6px;
-			}
-			
-		.areaHeader  .k-link{
-			border-width: 1px;
-			color:white;
-			font-size: 14px;
-			font-weight:bold;
-			border-color: black;
-		}
-		
- </style>
- 
 
 </asp:Content>
 
