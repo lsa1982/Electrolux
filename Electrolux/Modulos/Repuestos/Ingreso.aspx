@@ -141,23 +141,13 @@
 		$("#btnAgregar").kendoButton({ click: onAdd, icon: "plus" });
 		function onAdd(e) {
 			if (cmbRepuesto.value != ""){
-				var dataItem = dsCarrito.get(cmbRepuesto.value);
-				if (typeof dataItem == "undefined"){
-					dsCarrito.add({
-						"idRepuesto" : cmbRepuesto.value , 
-						"idProducto": txtProducto.value,
-						"repuesto": $("#cmbRepuesto").data("kendoDropDownList").text(),
-						"producto": $("#txtProducto").data("kendoComboBox").text(),
-						"cantidad" : txtCantidad.value })
-				}else{
-					dataItem.set("cantidad", parseInt(txtCantidad.value) + parseInt( dataItem.cantidad));
-				}
+				dsCarrito.add({
+					"idRepuesto" : cmbRepuesto.value , 
+					"idProducto": txtProducto.value,
+					"repuesto": $("#cmbRepuesto").data("kendoDropDownList").text(),
+					"producto": $("#txtProducto").data("kendoComboBox").text(),
+					"cantidad" : txtCantidad.value })
 			}
-		}
-
-		$("#btnLimpiar").kendoButton({ click: onClear, icon: "plus" });
-		function onClear(e) {
-			dsCarrito.data([]);
 		}
 
 		$("#btnBuscar").kendoButton({ click: onClick, icon: "arrow-s" });

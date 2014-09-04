@@ -53,13 +53,13 @@ Public Class clsCadena
     Sub editar()
         Dim strCx As New StringConex
         Dim strSql As String
-        strSql = "UPDATE elx_core_cadena SET  cadena = '$1', razonSocial = '$2', rut = '$3', estado ='$4', imagen='$5' WHERE idCadena= '$6'"
-        strSql = Replace(strSql, "$6", Me.prGet("txtidCadena"))
-        strSql = Replace(strSql, "$1", Me.prGet("txtCadena"))
-        strSql = Replace(strSql, "$2", Me.prGet("txtRazonSocial"))
-        strSql = Replace(strSql, "$3", Me.prGet("txtRut"))
-        strSql = Replace(strSql, "$4", Me.prGet("txtEstado"))
-        strSql = Replace(strSql, "$5", Me.prGet("txtImagen"))
+        strSql = "UPDATE elx_core_cadena SET  cadena = '$1', razonSocial = '$2', rut = '$3', estado ='$4', imagen='$5' WHERE idCadena= $6"
+        strSql = Replace(strSql, "$6", Me.prForm("txtidCadena"))
+        strSql = Replace(strSql, "$1", Me.prForm("txtCadena"))
+        strSql = Replace(strSql, "$2", Me.prForm("txtRazonSocial"))
+        strSql = Replace(strSql, "$3", Me.prForm("txtRut"))
+        strSql = Replace(strSql, "$4", Me.prForm("txtEstado"))
+        strSql = Replace(strSql, "$5", Me.prForm("txtImagen"))
         strCx.ejecutaSql(strSql)
         If strCx.flagError Then
             rsp.estadoError(100, "Editar: No se pudo acceder a la base")

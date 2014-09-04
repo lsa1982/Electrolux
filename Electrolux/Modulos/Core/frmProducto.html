@@ -2,43 +2,52 @@
 <table style="width:100%">
 	
     <tr style="width:100%">
-		<td>ID Categoria</td>
-		<td> <input  type="text" id="txtidCategoria" name="txtidCategoria" class="k-textbox" value="(Defecto)"/></td>
+		<td style="width: 120px">
+				Categoria: 
+			</td>
+			<td>
+					<input id="cmbCategoria" name="txtidCategoria" style="width: 250px"  required="required" />
+			</td>
+	</tr>
+        
+        <tr style="width:100%">
+		<td style="width: 120px">
+				Marca: 
+			</td>
+			<td>
+					<input id="cmbMarca" name="txtidMarca" style="width: 250px"  required="required" />
+			</td>
 	</tr>
 
-        <tr style="width:100%">
-		<td>ID Linea</td>
-		<td> <input  type="text" id="txtidLinea" name="txtidLinea" class="k-textbox" value="(Defecto)"/></td>
-	</tr>
-    	
      <tr style="width:100%">
 		<td>Nombre</td>
-		<td> <input  type="text" id="txtNombre" name="txtNombre" class="k-textbox" value="(Defecto)"/></td>
+		<td> <input  type="text" id="txtNombre" name="txtNombre" class="k-textbox" value="" required="required"/></td>
 	</tr>
 
     <tr style="width:100%">
 		<td>Descripcion</td>
-		<td> <input  type="text" id="txtDescripcion" name="txtDescripcion" class="k-textbox" value="(Defecto)"/></td>
+		<td> <input  type="text" id="txtDescripcion" name="txtDescripcion" class="k-textbox" value=""  required="required"/></td>
 	</tr>
 
     <tr style="width:100%">
 		<td>Modelo</td>
-		<td> <input  type="text" id="txtModelo" name="txtModelo" class="k-textbox" value="(Defecto)"/></td>
+		<td> <input  type="text" id="txtModelo" name="txtModelo" class="k-textbox" value="" required="required"/></td>
 	</tr>
 
     <tr style="width:100%">
 		<td>Codigo</td>
-		<td> <input  type="text" id="txtCodigo" name="txtCodigo" class="k-textbox" value="(Defecto)"/></td>
+		<td> <input  type="number" id="txtCodigo" name="txtCodigo" class="k-textbox"  required="required"/></td>
+        
 	</tr>
 
     <tr style="width:100%">
 		<td>Codigo Barra</td>
-		<td> <input  type="text" id="txtCodigoBarra" name="txtCodigoBarra" class="k-textbox" value="(Defecto)"/></td>
+		<td> <input  type="number" id="txtCodigoBarra" name="txtCodigoBarra" class="k-textbox" value=""  required="required"/></td>
 	</tr>
 
     <tr style="width:100%">
 		<td>Resumen</td>
-		<td> <input  type="text" id="txtResumen" name="txtResumen" class="k-textbox" value="(Defecto)"/></td>
+		<td> <input  type="text" id="txtResumen" name="txtResumen" class="k-textbox" value=""  required="required"/></td>
 	</tr>
 
 		<td colspan="2" style="border-top-style: dashed ; border-top-color: Gray; border-top-width: 1px; padding-top: 10px">
@@ -51,14 +60,18 @@
 </form>
 <script>
     $(document).ready(function () {
+
+        $("#txtCodigo").kendoNumericTextBox({ format: "#" });
+        $("#txtCodigoBarra").kendoNumericTextBox({ format: "#" });
         $("#btnAgregar").kendoButton({ icon: "plus", click: onClick });
         $("#btnCancelar").kendoButton({ icon: "plus", click: onClose });
+         
 
         function onClick(e) {
             var validator = $("#check").kendoValidator().data("kendoValidator");
             enviaForm(validator, 'check', 'clsProducto', 'insertar', onSuccess);
-
-
+            $("#cmbCategoria").data("kendoComboBox").enable(true);
+            $("#cmbMarca").data("kendoComboBox").enable(true);
         }
 
         function onSuccess() {
@@ -68,6 +81,47 @@
         function onClose() {
             $("#winNewRequest").data("kendoWindow").close();
         }
+        
+        var cmbCliente = $("#cmbCategoria").kendoComboBox({
+            dataTextField: "categoria",
+            dataValueField: "idCategoria",
+            autoBind: false,
+            placeholder: "Seleccionar",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "post" }
+                },
+                sort: { field: "categoria", dir: "asc" },
+                schema: {
+                    errors: "msgState",
+                    data: "args",
+                    total: "totalFila"
+                }
+            }
+        });
+
+ 
+
+
+        var cmbCliente = $("#cmbMarca").kendoComboBox({
+            dataTextField: "marca",
+            dataValueField: "idMarca",
+            autoBind: false,
+            placeholder: "Seleccionar",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: { url: strInterOpAs("clsMarca", "lista", "Core"), dataType: "json", type: "post" }
+                },
+                sort: { field: "marca", dir: "asc" },
+                schema: {
+                    errors: "msgState",
+                    data: "args",
+                    total: "totalFila"
+                }
+            }
+        });
 
 
     });

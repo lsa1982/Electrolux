@@ -20,13 +20,16 @@
                     return { txtidProducto: options.models[0].idProducto,
                         "txtidCategoria": options.models[0].idCategoria,
                         "txtidLinea": options.models[0].idLinea,
+                        "txtidLMarca": options.models[0].idMarca,
                         "txtNombre": options.models[0].nombre,
                         "txtDescripcion": options.models[0].descripcion,
                         "txtModelo": options.models[0].modelo,
                         "txtCodigo": options.models[0].codigo,
                         "txtCodigoBarra": options.models[0].codigoBarra,
                         "txtResumen": options.models[0].resumen,
-                        "txtUltimaModificacion": options.models[0].ultimaModificacion
+                        "txtUltimaModificacion": options.models[0].ultimaModificacion,
+                        "txtMarca": options.models[0].marca,
+                        "txtCategoria": options.models[0].categoria
                     };
                 }
             }
@@ -43,13 +46,13 @@
             model: {
                 id: "idProducto",
                 fields: {
-                    idProdcuto: { editable: false, nullable: true },
-                    idCategoria: { editable: true, nullable: true },
-                    idLinea: { editable: true, nullable: true },
-                    nombre: { validation: { required: true, pattern: "[a-zA-Z \s]{1,}"} },
+                    idProducto: { editable: false, nullable: true },
+                    categoria: { editable: false, nullable: true },
+                    marca : { editable: false, nullable: true },
+                    nombre: { validation: { required: false} },
                     descripcion: { validation: { required: false} },
-                    modelo: { validation: { required: true, pattern: "[a-zA-Z \s]{1,}"} },
-                    codigo: { validation: { required: true, pattern: "[a-zA-Z \s]{1,}"} },
+                    modelo: { validation: { required: false} },
+                    codigo: { validation: { required: false} },
                     codigoBarra: { validation: { required: false} },
                     resumen: { validation: { required: false} },
                     ultimaModificacion: { editable: false, nullable: true }
@@ -71,16 +74,16 @@
       
         var gridColumns = [
 			cmdGrid,
-			{ field: "idProducto", title: "ID Producto", width: "105px" },
-			{ field: "idCategoria", title: "ID Categoria", width: "170px" },
-            { field: "idLinea", title: "ID Linea", width: "170px" },
+			{ field: "idProducto", title: "ID", width: "40px" },
+			{ field: "categoria", title: "Categoria", width: "120px" },
+            { field: "marca", title: "Marca", width: "100px" },
             { field: "nombre", title: "Nombre", width: "170px" },
-            { field: "descripcion", title: "Descripcion", width: "180px" },
-			{ field: "modelo", title: "Modelo", width: "180px" },
-            { field: "codigo", title: "Codigo", width: "180px" },
-            { field: "codigoBarra", title: "Codigo Barra", width: "180px" },
+            { field: "descripcion", title: "Descripcion", width: "120px" },
+			{ field: "modelo", title: "Modelo", width: "130px" },
+            { field: "codigo", title: "Codigo", width: "100px" },
+            { field: "codigoBarra", title: "Codigo Barra", width: "100px" },
 			{ field: "resumen", title: "Resumen", width: "120px" },
-            { field: "ultimaModificacion", title: "Ultima Modificacion", width: "280px" },
+            { field: "ultimaModificacion", title: "Ultima Modificacion", width: "150px" },
 			];
 
 
@@ -88,6 +91,7 @@
             dataSource: ds,
             pageable: true,
             height: 550,
+            filterable: filtroGrid,
             columns: gridColumns,
             editable: {
                 mode: "inline",

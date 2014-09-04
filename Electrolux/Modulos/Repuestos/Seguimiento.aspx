@@ -2,22 +2,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
 <div class="areaTrabajo" id="trabajo">
 	<span style=" font-size: 24px;">Seguimiento</span><br/>
-	
-	<table>
-		<tr>
-			<td>Ingrese número de requerimiento a buscar</td>
-			<td>	<input id="txtIdRequerimiento" type="text" /></td>
-			<td>	<button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
-		</tr>
-	</table>
-
-	<table style= "padding-top: 15px; width: 100%" id="layerSeguimiento">
-		<tr>
-			<td colspan="2"><span style=" font-size: 11px;">Detalle del requerimiento solicitado:</span></td>
-			
-		</tr>
-		
-		
+	<span style=" font-size: 11px;">Detalle del requerimiento solicitado:</span>
+	<table style= "padding-top: 15px; width: 100%">
 		<tr>
 			<td style=" width: 150px" >Producto</td>
 			<td ><div id="lblProducto"></div>  </td>
@@ -132,7 +118,9 @@
 			error: errorGrid,
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
-		
+		var vGet = getVarsUrl();
+
+		dsRepuestos.read({ "idRequerimiento": vGet.idRequerimiento });
 
 		var dsRequerimiento = new kendo.data.DataSource({
 			transport: {
@@ -163,8 +151,6 @@
 			]
 		});
 
-		// #################################################
-		// #### Main
 
 	});
 </script>

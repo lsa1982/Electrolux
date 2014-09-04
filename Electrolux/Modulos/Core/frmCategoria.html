@@ -8,7 +8,7 @@
 	
     <tr style="width:100%">
 		<td>Padre</td>
-		<td> <input  type="text" id="txtPadre" name="txtPadre" class="k-textbox" value="" required/></td>
+		<td> <input  type="number" id="txtPadre" name="txtPadre" class="k-textbox" value="" required/></td>
 	</tr>
 	
     <tr style="width:100%">
@@ -16,12 +16,12 @@
 		<td> <input  type="text" id="txtActivo" name="txtActivo" class="k-textbox" value="" required/></td>
 	</tr>
     	
-        <tr style="width:100%">
+    <tr style="width:100%">
 		<td>Orden</td>
-		<td> <input  type="text" id="txtOrden" name="txtOrden" class="k-textbox" value="" required/></td>
+		<td> <input  type="number" id="txtOrden" name="txtOrden" class="k-textbox" value="" required/></td>
 	</tr>
     	
-        <tr style="width:100%">
+     <tr style="width:100%">
 		<td>Tipo</td>
 		<td> <input  type="text" id="txtTipo" name="txtTipo" class="k-textbox" value="" required/></td>
 	</tr>
@@ -40,6 +40,10 @@
 </form>
 <script>
     $(document).ready(function () {
+
+        $("#txtPadre").kendoNumericTextBox({ format: "#" });
+        $("#txtOrden").kendoNumericTextBox({ format: "#" });
+
         $("#btnAgregar").kendoButton({ icon: "plus", click: onClick });
         $("#btnCancelar").kendoButton({ icon: "plus", click: onClose });
 

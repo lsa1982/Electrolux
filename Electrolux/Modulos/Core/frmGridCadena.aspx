@@ -39,15 +39,15 @@
             model: {
                 id: "idCadena",
                 fields: {
-                    idCadena: { editable: false, nullable: true },
-                    cadena: { validation: { required: true, pattern: "[a-zA-Z \s]{1,}"}}
-                },
+                idCadena: { editable: false, nullable: true },
+                cadena: { validation: { required: true, pattern: "[a-zA-Z \s]{1,}"}},
                 razonSocial: { validation: { required: true, pattern: "[a-zA-Z \s]{1,}"} },
                 rut: { validation: { required: false} },
                 estado: { validation: { required: false} },
                 ultimaModificacion: { editable: false, nullable: true },
                 imagen: { editable: false, nullable: true }
 
+                }
             }
         }
     });
@@ -63,11 +63,11 @@
 
         var gridColumns = [
 			cmdGrid,
-			{ field: "idCadena", title: "ID Cadena", width: "105px" },
-			{ field: "cadena", title: "Cadena", width: "170px" },
-			{ field: "razonSocial", title: "Razón Social", width: "130px" },
-			{ field: "rut", title: "Rut", width: "180px" },
-			{ field: "estado", title: "Estado", width: "180px" },
+			{ field: "idCadena", title: "ID", width: "40px" },
+			{ field: "cadena", title: "Cadena", width: "130px" },
+			{ field: "razonSocial", title: "Razón Social", width: "100px" },
+			{ field: "rut", title: "Rut", width: "120px" },
+			{ field: "estado", title: "Estado", width: "50px" },
 			{ field: "imagen", title: "Imagen", width: "120px" },
             { field: "ultimaModificacion", title: "Ultima Modificacion", width: "180px" }
 			];
@@ -77,6 +77,7 @@
             dataSource: ds,
             pageable: true,
             selectable: "single",
+            filterable: filtroGrid,
             height: 550,
             columns: gridColumns,
             editable: {
