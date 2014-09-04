@@ -3,42 +3,10 @@
 Imports System.IO.Compression
 Imports System.Text
 Imports System.IO
-Imports System.Net.Mail
+
 
 Public Class Repuesto
 	Inherits clsEntidad
-	Sub enviarMail()
-
-		'create the mail message
-		Dim mail As New MailMessage()
-
-		'set the addresses
-		mail.From = New MailAddress("levi.sanchez@vanda.cl", "Levi Sanchez")
-		mail.To.Add("lsa1982@gmail.com")
-
-		'set the content
-		mail.Subject = "This is an email"
-
-		'first we create the Plain Text part
-		Dim plainView As AlternateView = AlternateView.CreateAlternateViewFromString("This is my plain text content, viewable by those clients that don't support html", Nothing, "text/plain")
-		'then we create the Html part
-		Dim htmlView As AlternateView = AlternateView.CreateAlternateViewFromString("<b>this is bold text, and viewable by those mail clients that support html</b>", Nothing, "text/html")
-		mail.AlternateViews.Add(plainView)
-		mail.AlternateViews.Add(htmlView)
-
-
-		'send the message
-		Dim smtp As New SmtpClient("mail.vanda.cl", 26)	'specify the mail server address
-		smtp.Credentials = New System.Net.NetworkCredential("levi.sanchez@vanda.cl", "levi.sanchez")
-		smtp.Send(mail)
-
-		'If Then
-		'	respuesta.args = "'msg': 'ok'"
-		'Else
-		'	respuesta.args = "'msg': 'ERROR'"
-		'End If
-
-	End Sub
 
 	Sub insertar()
 
