@@ -1,0 +1,218 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Site.master.vb" Inherits="Electrolux.Site" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head id="Head1" runat="server">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Coordinador de Tareas</title>
+	<link href="~/Kendo/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+	<link href="~/Kendo/styles/kendo.silver.min.css" rel="stylesheet" type="text/css" />
+	<script src="<% = resolveClientUrl("Kendo/js/jquery.min.js") %>" type="text/javascript"></script>
+	<script src="<% = resolveClientUrl("Kendo/js/kendo.web.min.js") %>" type="text/javascript"></script>
+	<script src="<% = resolveClientUrl("Kendo/XHR.js")%>" type="text/javascript"></script>  
+</head>
+<body>
+	<div id="window">Espere Mientras se actualizan los datos</div>
+	 <div id="mensaje">One Big Orange Square.</div>
+	<div class="header">
+		<table width="100%">
+			<tr>
+				<td><img src="<% = resolveClientUrl("Styles/images/logoSoloWhite.png")%>" style="height: 34px; width: 34px" />
+				</td>
+				<td width="100%">
+					<ul id="menu">
+						
+					</ul>
+				</td>
+				<td><img id="menuLogin" src="<% = resolveClientUrl("Styles/images/user.fw.png")%>" style="height: 34px; width: 34px;"/></td>
+			</tr>
+		</table>
+		
+		
+	</div>
+	<div class="main">
+		<asp:ContentPlaceHolder ID="MainContent" runat="server" />
+		
+	</div>
+	
+	
+	<script>
+		var assem = '<% = pathAssem %>';
+		var mItem = [ <% = mItem%>];
+		var mRol = '<% = mRol %>';
+		var mFecha = '<% = now() %>';
+		var mUsuario = '<% = mUsuario %>';
+		
+		function onSelect(e) {
+			var index = $(e.item).index();
+			window.location = this.options.dataSource[index].value;
+		}
+
+		$(document).ready(function () {
+			
+			var mItemMain = [ <% = mItemMain %>];
+		
+			$("#menuLogin").kendoTooltip({
+				//filter: "a",
+				
+				content: kendo.template($("#template").html()),
+				width: 150,
+				height: 150,
+				position:"bottom",
+				animation: {
+					close: {effects: "fade:out",duration: 500},
+					open: {effects: "fade:in",duration: 200}
+				}
+			});
+			$("#menu").kendoMenu({ 
+				width: "100px" , 
+				select: onSelect,
+				dataSource: mItemMain
+
+			});
+
+			$("#window").kendoWindow({
+				width: "600px",
+				position: {
+					top: "300px",
+					left: "400px"
+				},
+				title: "Esperando",
+				actions: ["Close"],
+				visible: false,
+				modal: true
+			});
+			$("#txtUser").html("Rol: " + mRol + "<br/>" + mUsuario + "<br/>" + mFecha);
+			$("#mensaje").hide();
+			$("#mensaje").click(function (e) {
+				$("#mensaje").hide(500);
+			});
+
+			
+		});
+		function CerrarSesion(){
+			callScript(strInterOpAs("Sesion", "SesionOut", "CommonClass"));
+		}
+		
+		
+	</script>
+
+	 <script id="template" type="text/x-kendo-template">
+		Configuración<br/>
+		<br/>
+		<button id="btnLogOut" type="button" class="k-button" onClick="CerrarSesion()" >Logout </button>
+	</script>
+
+	<style>
+		
+		
+		#mensaje {
+            width: 100%;
+            height: 20px;
+            border-width: 0px;
+            padding: 0px;
+            float: right ;
+            background-color: gold;
+            color: darkRed;
+            border-style: solid;
+            border-color: darkOrange;
+            -webkit-border-radius: 1px;
+            -ms-border-radius: 1px;
+            -moz-border-radius: 1px;
+            text-align: center;
+        }
+		.header {
+			background-color: #333333;
+			color: White;
+			height: 40px;
+			padding-left: 10%;
+			padding-right: 10%;
+		}
+		.main{
+			padding-left: 10%;
+			padding-right: 10%;
+			margin-top: 5px;
+			}
+			
+		
+		.areaTrabajo{
+			background-color: #FFFFFF;
+			border-radius: 6px;
+			border: 1px solid #DDDDDD;
+			}
+		
+		.areaTrabajoRMid{
+			background-color: #FFFFFF;
+			border-radius: 6px;
+			border: 1px solid #DDDDDD;
+			width: 50%;
+			}
+		
+		
+		.header .k-menu{
+			background-color: #333333;
+			background-image: none;
+			border-color: #333333;
+			border-width: 0px;
+			width: 100%;
+			}
+			
+		.header  .k-menu .k-item, .k-widget.k-menu-horizontal>.k-item{
+			border-width: 0px;
+			color:White;
+			}
+			
+		.header  .k-menu .k-state-hover{
+			background-color: Blue;
+			color:White;
+			font-weight: bold;
+			}
+		
+		.k-webkit {
+			display: inline;
+			font-family: Verdana;
+			background-color: #EEEEEE;
+			}
+		body {
+			margin: 0px;
+			}
+		
+		.k-grid { 
+			font-size: 11px;
+			border-left-width: 0px;
+			border-right-width: 0px;
+			border-top-width: 0px;
+		}
+		
+		.k-grid tbody .k-button{
+			min-width: 20px;
+			}
+		.k-grid .k-button{
+			background-color: #0B90A7;
+			border-color: #0A8DA5;
+			color: white;
+			}
+		
+		.areaHeader .k-menu{
+			background-color: #0B90A7;
+			background-image: none,-webkit-linear-gradient(top,rgba(255,255,255,.90) 0,rgba(255,255,255,0) 15%);
+			border-color: #0A8DA5;
+			border-width: 1px;
+			width: 100%;
+			margin-top: 5px;
+			margin-bottom: 5px;
+			color:white;
+			border-radius: 6px;
+			}
+			
+		.areaHeader  .k-link{
+			border-width: 1px;
+			color:white;
+			font-size: 14px;
+			font-weight:bold;
+			border-color: black;
+		}
+		
+	</style>
+</body>
+</html>
