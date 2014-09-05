@@ -48,6 +48,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EASendMail40">
       <HintPath>.\EASendMail40.dll</HintPath>

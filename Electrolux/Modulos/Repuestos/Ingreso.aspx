@@ -319,11 +319,11 @@
   			editable: {  confirmation: false, destroy: true, update: false},
   			columns: [
 				{ command: ["destroy"], title: " ", width: "80px" },
-				{ field: "idRepuesto", title: "id" },
+				{ field: "idRepuesto", title: "id", width: "30px" },
 				{ field: "idProducto", title: "id" , width: "1px"},
-				{ field: "producto", title: "Producto"},
-				{ field: "repuesto", title: "Repuesto"},
-				{ field: "cantidad", title: "Cantidad" },
+				{ field: "producto", title: "Producto", width: "300px"},
+				{ field: "repuesto", title: "Repuesto", width: "300px"},
+				{ field: "cantidad", title: "Cantidad" , width: "80px"},
 				{ field: "", title: "" }
 			]
   		});

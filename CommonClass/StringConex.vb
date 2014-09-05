@@ -26,9 +26,9 @@ Public Class StringConex
 				Try
 					Me.sqlcon.Close()
 				Catch ex As Exception
-
+					Me.flagError = True
+					Me.msgError = ex.Message
 				End Try
-
 			End If
 		End If
 	End Sub
@@ -40,6 +40,7 @@ Public Class StringConex
 		Debug.Print(strSql)
 		Try
 			openConex()
+			escribeLog("SQL", "OK Sql: " & strSql)
 			dr = sqlcmd.ExecuteReader()
 			dt.Load(dr)
 			retornaDataRow = dt.Rows(0)
@@ -59,6 +60,7 @@ Public Class StringConex
 		Debug.Print(strSql)
 		Try
 			openConex()
+			escribeLog("SQL", "OK Sql: " & strSql)
 			dr = sqlcmd.ExecuteReader()
 			dt.Load(dr)
 			retornaDataTable = dt
@@ -78,6 +80,7 @@ Public Class StringConex
 		End If
 		Try
 			openConex()
+			escribeLog("SQL", "OK Sql: " & strSql)
 			Me.sqlcmd.CommandText = strSql
 			retornaDato = Me.sqlcmd.ExecuteScalar()
 		Catch ex As Exception
@@ -95,6 +98,7 @@ Public Class StringConex
 		End If
 		Try
 			openConex()
+			escribeLog("SQL", "OK Sql: " & strSql)
 			Me.sqlcmd.CommandText = strSql
 			retornaDatoStr = Me.sqlcmd.ExecuteScalar
 		Catch ex As Exception
@@ -105,17 +109,16 @@ Public Class StringConex
 		Me.closeConex()
 	End Function
 	Sub ejecutaSql(ByVal strSql As String)
-		escribeLog("SQL", strSql)
+
 		If flagTransaccion And flagError Then
-			Debug.Print("Fallo Tx ")
+			escribeLog("SQL", "Fallo Tx: " & strSql)
 		Else
 			openConex()
 
 			Me.sqlcmd.CommandText = strSql
 			Try
 				filasAfectadas = Me.sqlcmd.ExecuteNonQuery
-				Debug.Print("OK Sql: ")
-
+				escribeLog("SQL", "OK Sql: " & strSql)
 				'  If Not Me.flagTransaccion Then Me.closeConex()
 			Catch ex As Exception
 				Me.flagError = True
@@ -155,6 +158,7 @@ Public Class StringConex
 
 		Dim strWr As New StreamWriter(AppDomain.CurrentDomain.BaseDirectory & "\Log\LogDb.txt", True)
 		Dim strLog As String
+		Debug.Print(strSql)
 		strLog = "'fecha' : '$1', 'Operacion':'$2', 'SQL': '$3' "
 		strLog = Replace(strLog, "'", """")
 		strLog = Replace(strLog, "$1", Now())

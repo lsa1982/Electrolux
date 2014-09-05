@@ -3,7 +3,12 @@
 	al1.fechaInicio,
 	al1.fechaEsperada,
 	al1.fechaFin,
-	al1.estado,
+	case 
+		when al1.estado = 1 and al1.fechaEsperada <= now() then 3
+		when al1.estado = 1 and al1.fechaEsperada > now() then 1
+	else
+		al1.estado
+	end estado,
 	al2.actividad,
 	al3.rol
 FROM 
