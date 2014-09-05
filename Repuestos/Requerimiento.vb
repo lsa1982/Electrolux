@@ -21,7 +21,7 @@ Public Class Requerimiento
 				Dim tipoFlujo As String
 				Dim idFlujo As String
 
-				tipoFlujo = strCx.retornaDatoStr("select tipo from elx_core_categoria where idCategoria in (select idCategoria from elx_rep_respuesto where idRepuesto = " & registro(0) & ")")
+				tipoFlujo = strCx.retornaDatoStr("select tipo from elx_core_categoria where idCategoria in (select idCategoria from elx_rep_repuesto where idRepuesto = " & registro(0) & ")")
 
 				If tipoFlujo = "Repuesto menor" Then
 					idFlujo = 1
@@ -96,8 +96,10 @@ Public Class Requerimiento
 	Sub avanzarActividad(Optional ByVal strCx As StringConex = Nothing, Optional ByVal idRequerimiento As Integer = 0, Optional ByVal idFinalizacion As Integer = 0)
 
 		Dim strSql As String
+		Dim flagCx As Boolean = False
 
 		If IsNothing(strCx) Then
+			flagCx = True
 			strCx = New StringConex
 			strCx.iniciaTransaccion()
 		End If
@@ -160,7 +162,7 @@ Public Class Requerimiento
 		If strCx.flagError Then
 			rsp.estadoError(100, "Insertar: No se pudo acceder a la base", strCx.msgError)
 		Else
-			strCx.finTransaccion()
+			If flagCx Then strCx.finTransaccion()
 			rsp.args = "{ ""OK"": ""OK""}"
 		End If
 	End Sub
@@ -170,7 +172,7 @@ Public Class Requerimiento
 		Dim strSql As String
 		Dim dr As DataRow
 
-		dr = strCx.retornaDataRow("select duracion, medida from elx_wf_actividad where orden = 1 and idFlujo = " & idFlujo)
+		dr = strCx.retornaDataRow("select duracion, medida, idActividad from elx_wf_actividad where orden = 1 and idFlujo = " & idFlujo)
 		Dim itx As DateInterval
 		If dr("medida") = "dd" Then
 			itx = DateInterval.Day
