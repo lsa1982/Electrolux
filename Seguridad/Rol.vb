@@ -4,6 +4,9 @@
 	Public ActiveMenu As Menu
 	Public ActiveModulo As Modulo
 	Public idUsuario As Integer
+
+	Public _email As String
+	Public _nombre As String
 	Sub New()
 		modulo = New Hashtable
 	End Sub
@@ -16,7 +19,7 @@
 
 		Dim mnuSeguimiento As Menu
 		Dim mnuRequerimiento As Menu
-        Dim mnuCategoria As Menu
+		Dim mnuCategoria As Menu
 
 		modulo.Clear()
 		idUsuario = vUser
@@ -33,7 +36,7 @@
         mnuCategoria = New Menu("Categoria", "frmGridCategoria.aspx", "")
 
 		If vRol = "1" Then
-            _name = "Administrado   r"
+			_name = "Administrador"
 			mRepuesto.AddMenu(mnuRequerimiento)
 			mRepuesto.AddMenu(New Menu("Ingreso", "Ingreso.aspx", ""))
             mRepuesto.AddMenu(mnuSeguimiento)
@@ -82,6 +85,25 @@
 			Return _name
 		End Get
 	End Property
+
+	Public Property Email() As String
+		Get
+			Return _email
+		End Get
+		Set(ByVal value As String)
+			_email = value
+		End Set
+	End Property
+
+	Public Property Nombre() As String
+		Get
+			Return _nombre
+		End Get
+		Set(ByVal value As String)
+			_nombre = value
+		End Set
+	End Property
+
 	Public Overrides Function ToString() As String
 		Return Convert.ToString(_name)
 	End Function

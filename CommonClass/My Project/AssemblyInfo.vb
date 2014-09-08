@@ -8,14 +8,14 @@ Imports System.Runtime.InteropServices
 
 ' Revisar los valores de los atributos del ensamblado
 
-<Assembly: AssemblyTitle("DataBaseClass")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("...")> 
-<Assembly: AssemblyProduct("DataBaseClass")> 
-<Assembly: AssemblyCopyright("Copyright © ... 2014")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("CommonClass")> 
+<Assembly: AssemblyDescription("Funciones comunes de plataforma de desarrollo")> 
+<Assembly: AssemblyCompany("Sistema de Servicios Vanda Ltda")> 
+<Assembly: AssemblyProduct("Electrolux - Cordinador de Tareas")> 
+<Assembly: AssemblyCopyright("Deslicenciado")> 
+<Assembly: AssemblyTrademark("Deslicenciado")> 
 
-<Assembly: ComVisible(False)>
+<Assembly: ComVisible(False)> 
 
 'El siguiente GUID sirve como identificador de typelib si este proyecto se expone a COM
 <Assembly: Guid("f3de3b14-3bfe-4753-97d0-a968593465f3")> 

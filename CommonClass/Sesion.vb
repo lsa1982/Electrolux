@@ -9,7 +9,6 @@ Imports Elx.CommonClass
 Public Class Sesion
 	Inherits clsEntidad
 
-
 	Dim strCx As StringConex
 	Public Sub New()
 		strCx = New StringConex
@@ -19,7 +18,6 @@ Public Class Sesion
 		FormsAuthentication.SignOut()
 		rsp.pagina = HttpContext.Current.Request.ApplicationPath & "/Login.aspx"
 		rsp.args = "{ ""SesionOut"": ""OK""}"
-
 	End Sub
 
 	Public Sub SesionIn()
@@ -31,7 +29,7 @@ Public Class Sesion
 		Dim strCx As New StringConex
 		Dim dt As DataTable
 
-		dt = strCx.retornaDataTable("select idUsuario, password, idRol, nombre, apellido, cargo from elx_hr_personal where usuario  = '" & prForm("txtUser") & "'")
+		dt = strCx.retornaDataTable("select idUsuario, password, idRol, nombre, apellido, cargo, email from elx_hr_personal where usuario  = '" & prForm("txtUser") & "'")
 
 		If dt.Rows.Count > 0 Then
 			If validaUsuario(prForm("txtUser"), prForm("txtPass"), dt.Rows(0).Item("password")) Then
@@ -53,6 +51,15 @@ Public Class Sesion
 
 					ck = New HttpCookie("nombre", dt.Rows(0).Item("nombre") & " " & dt.Rows(0).Item("apellido"))
 					HttpContext.Current.Response.Cookies.Add(ck)
+
+					If Not IsDBNull(dt.Rows(0).Item("email")) Then
+						ck = New HttpCookie("email", dt.Rows(0).Item("email"))
+					Else
+						ck = New HttpCookie("email", "")
+					End If
+
+					HttpContext.Current.Response.Cookies.Add(ck)
+					ck.Expires = DateTime.Now.AddMinutes(30)
 
 					strRedirect = prGet("ReturnUrl")
 					If strRedirect = "" Then

@@ -2,8 +2,23 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
 <div class="areaTrabajo" id="trabajo">
 	<span style=" font-size: 24px;">Seguimiento</span><br/>
-	<span style=" font-size: 11px;">Detalle del requerimiento solicitado:</span>
-	<table style= "padding-top: 15px; width: 100%">
+	<table>
+		<tr>
+			<td>Ingrese número de requerimiento a buscar</td>
+			<td><input id="txtIdRequerimiento" type="text" /></td>
+			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
+		</tr>
+	</table>
+
+	
+	<table style= "padding-top: 15px; width: 100%" id="layerSeguimiento">
+		<tr>
+			<td colspan="2"><span style=" font-size: 11px;">Detalle del requerimiento solicitado:</span></td>
+		</tr>
+		<tr>
+			<td style=" width: 150px" >Emisor</td>
+			<td ><div id="lblEmisor"></div>  </td>
+		</tr>
 		<tr>
 			<td style=" width: 150px" >Producto</td>
 			<td ><div id="lblProducto"></div>  </td>
@@ -45,39 +60,51 @@
 			<td>	<button id="btnAvanzar" type="button" class="k-button">Avanzar </button></td>
 		</tr>
 
+		<tr>
+			<td colspan="2"><div id="grid"></div></td>
+		</tr>
 	</table>
 </div>
-<div id="grid"></div>
 
-</div>
+
+
+
 <script>
 	$(document).ready(function () {
 
-
-		$("#btnAvanzar").kendoButton({ click: onClick, icon: "arrow-u" });
+		$("#btnBuscar").kendoButton({ click: onFind, icon: "arrow-u" });
+		function onFind(e) {
+			dsRepuestos.read({ "idRequerimiento": txtIdRequerimiento.value });
+			$("#layerSeguimiento").show(500);
+		}
 
 		function onRefresh(e) {
 			dsRepuestos.read({ "idRequerimiento": vGet.idRequerimiento });
 		}
+
+		$("#btnAvanzar").kendoButton({ click: onClick, icon: "arrow-u" });
 		function onClick(e) {
 			var pUrl = [];
 			pUrl.push("idRequerimiento=" + vGet.idRequerimiento);
 			pUrl.push("idFinalizacion=" + cmbFinalizacion.value);
 			var x = pUrl.join("&");
 			callScript(strInterOp("Requerimiento", "avanzarActividad"), '&' + x, onRefresh);
-			
 		}
 
-		function cargaDatos(data) {
+		function cargaDatos(data, idRequerimiento) {
+			var vEstado = $.map(dsEstado, function (val) {
+				return val.idEstado == data[0].estado ? val : null;
+			});
+			$("#lblEmisor").html("<strong>" + data[0].usuario + "</strong>");
 			$("#lblProducto").html("<strong>" + data[0].nombre + "</strong>");
 			$("#lblRepuesto").html("<strong>" + data[0].codigo + ' - ' + data[0].repuesto + "</strong>");
 			$("#lblTienda").html("<strong>" + data[0].tienda + "</strong>");
 			$("#lblIngreso").html("<strong>" + data[0].fechaInicio + "</strong>");
 			$("#lblCompromiso").html("<strong>" + data[0].fechaCompromiso + "</strong>");
 			$("#lblCantidad").html("<strong>" + data[0].cantidad + "</strong>");
-			$("#lblEstado").html("<strong>" + data[0].estado + "</strong>");
+			$("#lblEstado").html("<strong>" + vEstado[0].estado + "</strong>");
 			$("#lblActividad").html("<strong>" + data[0].actividad + "</strong>");
-			dsRequerimiento.read({ "idRequerimiento": vGet.idRequerimiento });
+			dsRequerimiento.read({ "idRequerimiento": idRequerimiento });
 			var cmbFin = $("#cmbFinalizacion").data("kendoDropDownList");
 			if (data[0].estado == 2) {
 				$("#btnAvanzar").hide();
@@ -85,11 +112,9 @@
 			}
 			else {
 
-				cmbFin.dataSource.read({ "idRequerimiento": vGet.idRequerimiento });
+				cmbFin.dataSource.read({ "idRequerimiento": idRequerimiento });
 			}
-
 		}
-
 
 		$("#cmbFinalizacion").kendoDropDownList({
 			dataTextField: "finalizacion",
@@ -111,16 +136,14 @@
 			},
 			change: function (e) {
 				var data = this.data();
-				cargaDatos(data);
+				cargaDatos(data, data[0].idRequerimiento);
 			},
 			batch: true,
 			resizable: true,
 			error: errorGrid,
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
-		var vGet = getVarsUrl();
 
-		dsRepuestos.read({ "idRequerimiento": vGet.idRequerimiento });
 
 		var dsRequerimiento = new kendo.data.DataSource({
 			transport: {
@@ -142,20 +165,33 @@
 			autoBind: false,
 			columns: [
 				{ field: "idRequerimiento", title: "id", width: "40px" },
-				{ field: "estado", title: "E", template: '<span class="claseEstado claseEstado#: estado #">#: estado #</span>', width: "40px" },
+				{ field: "estado", title: "E", template: '<span class="claseEstado claseEstado#: estado #">&nbsp;</span>', width: "40px" },
 				{ field: "actividad", title: "actividad", width: "200px" },
 				{ field: "fechaInicio", title: "Inicio", width: "200px" },
+				{ field: "fechaEsperada", title: "Compromiso", width: "200px" },
 				{ field: "fechaFin", title: "Fin", width: "200px" },
 				{ field: "rol", title: "rol", width: "200px" },
 				{ field: "", title: "" }
 			]
 		});
+		// ############################################
+		// ### Ejecución inicial					###
+		// ############################################
+		$("#layerSeguimiento").hide();
+		var vGet = getVarsUrl();
+
+		if (typeof vGet.idRequerimiento != "undefined") {
+			dsRepuestos.read({ "idRequerimiento": vGet.idRequerimiento });
+			$("#layerSeguimiento").show(500);
+		}
+		
 
 
 	});
 </script>
 
-</div>
+
+
 <style>
 	.claseEstado {
  		padding: 5px;
@@ -172,7 +208,9 @@
  	.claseEstado2 {
  		background-color: green;
  		}
- 	
+ 	.claseEstado3 {
+ 		background-color: Red;
+ 		}
  	.areaTrabajo table td{
  		font-size: 11px;
  		border-bottom: 1px dashed #EEEEEE;

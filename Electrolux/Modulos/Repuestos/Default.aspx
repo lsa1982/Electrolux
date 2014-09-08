@@ -44,12 +44,7 @@
 
   		}
 
-  		var dsEstado = [
-			{ "idEstado": 0, "estado": "Todos" },
-			{ "idEstado": 1, "estado": "Pendientes" },
-			{ "idEstado": 2, "estado": "Finalizados" },
-			{ "idEstado": 3, "estado": "Atrasados" }
-		];
+  		
 
   		$("#cmbEstado").kendoDropDownList({
   			dataTextField: "estado",
@@ -87,7 +82,7 @@
 				 
 				{ command: { text: "Ver", click: onView }, title: " ", width: "60px" },
 				{ field: "idRequerimiento", title: "id", width: "40px" },
-				{ field: "estado", title: "E", template: '<span class="claseEstado claseEstado#: estado #">#: estado #</span>', width: "40px" },
+				{ field: "estado", title: "E", template: '<span class="claseEstado claseEstado#: estado #">&nbsp;</span>', width: "40px" },
 				{ field: "nombre", title: "Repuesto", width: "200px" },
 				{ field: "repuesto", title: "Repuesto", width: "200px" },
 				{ field: "tienda", title: "Tienda", width: "150px" },
