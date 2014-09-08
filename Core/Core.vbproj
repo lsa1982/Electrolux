@@ -66,10 +66,10 @@
   <ItemGroup>
     <Compile Include="clsCadena.vb" />
     <Compile Include="clsCategoria.vb" />
-    <Compile Include="clsLinea.vb" />
     <Compile Include="clsMarca.vb" />
     <Compile Include="clsProducto.vb" />
     <Compile Include="clsTienda.vb" />
+    <Compile Include="clsUbicacion.vb" />
     <Compile Include="Linea.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
