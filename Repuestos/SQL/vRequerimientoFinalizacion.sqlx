@@ -1,0 +1,12 @@
+﻿Select 
+	al3.idFinalizacion,
+	al3.finalizacion
+FROM 
+	elx_rep_estados al1,
+	elx_wf_actividadFinalizacion al2,
+	elx_wf_finalizacion al3
+WHERE
+	al1.idActividad = al2.idActividad and
+	al2.idFinalizacion = al3.idFinalizacion and
+	al1.activo = 1
+
