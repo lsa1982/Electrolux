@@ -33,15 +33,15 @@
         mnuCategoria = New Menu("Categoria", "frmGridCategoria.aspx", "")
 
 		If vRol = "1" Then
-			_name = "Administrador"
+            _name = "Administrado   r"
 			mRepuesto.AddMenu(mnuRequerimiento)
 			mRepuesto.AddMenu(New Menu("Ingreso", "Ingreso.aspx", ""))
             mRepuesto.AddMenu(mnuSeguimiento)
             mRepuesto.AddMenu(New Menu("Repuestos", "frmGridRepuestos.aspx", ""))
 
-            mCore.AddMenu(New Menu("Cadena", "frmGridMarca.aspx", ""))
-            mCore.AddMenu(New Menu("Cadena", "frmGridProducto.aspx", ""))
-            mCore.AddMenu(New Menu("Cadena", "frmGridTienda.aspx", ""))
+            mCore.AddMenu(New Menu("Marca", "frmGridMarca.aspx", ""))
+            mCore.AddMenu(New Menu("Productos", "frmGridProducto.aspx", ""))
+            mCore.AddMenu(New Menu("Tiendas", "frmGridTienda.aspx", ""))
             mCore.AddMenu(New Menu("Cadena", "frmGridCadena.aspx", ""))
 
             mCore.AddMenu(mnuCategoria)
