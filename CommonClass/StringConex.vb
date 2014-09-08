@@ -1,6 +1,7 @@
 ﻿Imports System.Data.Odbc
 Imports System.Data
 Imports System.IO
+Imports System.Configuration
 
 Public Class StringConex
 	Private flagTransaccion As Boolean = False
@@ -9,7 +10,7 @@ Public Class StringConex
 	Public sqlcmd As New OdbcCommand
 	Private tx As OdbcTransaction
 	Private sqlcon As New OdbcConnection
-	Private strConex As String = "dsn=elx"
+	Private strConex As String = "dsn=" & ConfigurationSettings.AppSettings("dsn")
 	Public filasAfectadas As Integer
 	Public Sub New()
 		Me.sqlcon.ConnectionString = Me.strConex

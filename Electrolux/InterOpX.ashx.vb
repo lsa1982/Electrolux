@@ -5,7 +5,7 @@ Imports System.Runtime.Remoting
 Imports System.Net
 Imports System.IO
 Imports Elx.CommonClass
-Imports Elx.Repuestos
+
 
 Public Class InterOpX
 	Implements IHttpHandler
