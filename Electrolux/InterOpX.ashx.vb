@@ -29,9 +29,10 @@ Public Class InterOpX
 			o.prForm = context.Request.Form
 			o.prGet = context.Request.QueryString
 			o.prFile = context.Request.Files
-			'If HttpContext.Current.User.Identity.IsAuthenticated Then
-			If Not IsNothing(context.Request.Cookies("usuario")) Then
+			If HttpContext.Current.User.Identity.IsAuthenticated Then
 				o.Rol.SetRol(context.Request.Cookies("rol").Value, context.Request.Cookies("usuario").Value)
+				o.Rol.email = context.Request.Cookies("email").Value
+				o.Rol.Nombre = context.Request.Cookies("nombre").Value
 			End If
 			'o.usuarioRemoto = System.Net.Dns.GetHostEntry(context.Request.UserHostAddress).HostName
 			CallByName(o, context.Request.QueryString("operacion"), Microsoft.VisualBasic.CallType.Method, Nothing)
@@ -41,7 +42,6 @@ Public Class InterOpX
 		Catch ex As Exception
 			rsp = New xhrResponse("", "")
 			rsp.estadoError(100, ex.Message)
-			'context.Response.StatusCode = HttpStatusCode.InternalServerError
 			context.Response.Write(rsp.serializarXhr())
 
 		End Try

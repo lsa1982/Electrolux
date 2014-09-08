@@ -166,8 +166,6 @@ Public Class Requerimiento
 			rsp.args = "{ ""OK"": ""OK""}"
 		End If
 	End Sub
-	
-
 	Sub iniciarFlujo(ByVal idFlujo As Integer, ByVal strCx As StringConex, ByVal idRequerimiento As Integer)
 		Dim strSql As String
 		Dim dr As DataRow
@@ -215,7 +213,7 @@ Public Class Requerimiento
 			dt = DataTableSql("vRequerimiento", " and al1.idRequerimiento = " & idReq)
 			vBody = vBody & "<tr style='width:100%'><td colspan='2' style='border-top-style: dashed ; border-top-color: #CCCCCC; border-top-width: 1px; padding-top: 10px'></td></tr>"
 			vBody = vBody & "<tr><td colspan='2'>"
-			vBody = vBody & "Asignado a : <strong>" & dt.Rows(0)("usuario") & "</strong><br>"
+			vBody = vBody & "Asignado a : <strong>" & Rol.Nombre & "</strong><br>"
 			vBody = vBody & "Tienda : <strong>" & dt.Rows(0)("tienda") & "</strong><br>"
 			vBody = vBody & "Producto : <strong>" & dt.Rows(0)("nombre") & "</strong><br>"
 			vBody = vBody & "Repuesto : <strong>" & dt.Rows(0)("Repuesto") & "</strong><br>"
@@ -229,20 +227,26 @@ Public Class Requerimiento
 			vBody = vBody & "</div></td></tr>"
 			vBody = vBody & "<tr><td colspan='2'>"
 			vBody = vBody & "<div style='font-size:13px;padding-left:5px;padding-right:10px'>"
-			vBody = vBody & "<a href='http://be762102de2c4ef:81/Electrolux/modulos/repuestos/seguimiento.aspx?idRequerimiento=" & idReq & "' style='text-decoration:none;font-weight:bold;color:#003366' target='_blank'>Flujo Respuestos Pequeños</a></div>"
-			vBody = vBody & "<div style='padding-left:5px;font-size:11px;color:#666;padding-right:10px'>" & dt.Rows(0)("actividad") & "<br><span style='text-align:center;color:#0F0;font-size:10px'> 7 días&nbsp;más</span></div>"
+			vBody = vBody & "<a href='http://be762102de2c4ef:81/Electrolux/modulos/repuestos/seguimiento.aspx?idRequerimiento=" & idReq & "' style='text-decoration:none;font-weight:bold;color:#003366' target='_blank'>Flujo de Respuestos</a></div>"
+			vBody = vBody & "<div style='padding-left:5px;font-size:11px;color:#666;padding-right:10px'> Su ID de Requerimiento es el siguiente: " & idReq & "<br><span style='text-align:center;color:#0F0;font-size:10px'> " & DateDiff(DateInterval.Day, DateAdd(DateInterval.Day, -1, Now), CDate(dt.Rows(0)("fechaCompromiso"))) & " días&nbsp;más</span></div>"
 			vBody = vBody & "</td></tr>"
 
 		Next
 
 
 		s.Template("mailPrincipal", "Ingreso de Requerimiento", Me.Rol.Name & " - " & Format(Now, "D"), vBody)
-		s.To = "lsa1982@gmail.com"
+		s.To = Rol.Email
 		If s.Send() Then
 			respuesta.args = "'msg': 'ok'"
 		Else
 			respuesta.args = "'msg': 'ERROR'"
 		End If
+	End Sub
+	Sub prueba()
+		Dim idMail As New ArrayList
+		idMail.Add(22)
+		idMail.Add(23)
+		enviarMail(idMail)
 	End Sub
 
 End Class

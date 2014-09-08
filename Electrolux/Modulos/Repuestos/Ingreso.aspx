@@ -100,6 +100,9 @@
 				}
 			  }
   		});
+	function onEnd(e){
+		window.location.href = appDir + 'Modulos/Repuestos/Default.aspx';
+	}
 
 	function onRequest(e) {
   			var v =dsCarrito.data();
@@ -115,7 +118,7 @@
 			pUrl.push("comentario=" + txtComentario.value);
 			pUrl.push("detalle=" + detalle);
 			var x = pUrl.join("&");
-			callScript(strInterOp("Requerimiento", "Insertar"), '&' + x);
+			callScript(strInterOp("Requerimiento", "Insertar"), '&' + x, onEnd);
 			$("#winNewRequest").data("kendoWindow").close();
 	}
 
