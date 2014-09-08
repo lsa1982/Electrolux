@@ -1,7 +1,7 @@
 ﻿Imports Elx.CommonClass
 
 
-Public Class clsLinea
+Public Class clsUbicacion
     Inherits clsEntidad
 
     Sub lista()
