@@ -41,10 +41,10 @@ Public Class clsUbicacion
         Dim strCx As New StringConex
         Dim strSql As String
         strSql = "INSERT INTO elx_core_ubicacion (usuario, geo_x, geo_y,fecha_hora ) VALUES ('$1','$2','$4','$4')"
-        strSql = Replace(strSql, "$1", Me.prForm("txtUsuario"))
-        strSql = Replace(strSql, "$2", Me.prForm("txtGeo_x"))
-        strSql = Replace(strSql, "$3", Me.prForm("txtGeo_y"))
-        strSql = Replace(strSql, "$4", Me.prForm("txtFecha_hora"))
+        strSql = Replace(strSql, "$1", Me.prGet("txtUsuario"))
+        strSql = Replace(strSql, "$2", Me.prGet("txtGeo_x"))
+        strSql = Replace(strSql, "$3", Me.prGet("txtGeo_y"))
+        strSql = Replace(strSql, "$4", Me.prGet("txtFecha_hora"))
         strCx.ejecutaSql(strSql)
         If strCx.flagError Then
             rsp.estadoError(100, strCx.msgError)
