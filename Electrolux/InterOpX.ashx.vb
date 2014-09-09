@@ -23,7 +23,7 @@ Public Class InterOpX
 		context.Response.AddHeader("HTTP_ACCEPT_ENCODING", "gzip")
 
 		Try
-
+			escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), "Elx." & context.Request.QueryString("assem") & "." & context.Request.QueryString("clase"), "Inicio")
 			handle = Activator.CreateInstance("Elx." & context.Request.QueryString("assem"), "Elx." & context.Request.QueryString("assem") & "." & context.Request.QueryString("clase"))
 			o = handle.Unwrap()
 			o.prForm = context.Request.Form
@@ -33,19 +33,20 @@ Public Class InterOpX
 				o.Rol.SetRol(context.Request.Cookies("rol").Value, context.Request.Cookies("usuario").Value)
 				o.Rol.email = context.Request.Cookies("email").Value
 				o.Rol.Nombre = context.Request.Cookies("nombre").Value
-
+				escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), "Elx." & context.Request.QueryString("assem") & "." & context.Request.QueryString("clase"), "Autentificado :" & context.Request.Cookies("usuario").Value)
 			End If
 			'o.usuarioRemoto = System.Net.Dns.GetHostEntry(context.Request.UserHostAddress).HostName
 			CallByName(o, context.Request.QueryString("operacion"), Microsoft.VisualBasic.CallType.Method, Nothing)
+			escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), "Elx." & context.Request.QueryString("assem") & "." & context.Request.QueryString("clase"), "Ejecucion")
 			rsp = CType(o.respuesta, xhrResponse)
+			escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), "Elx." & context.Request.QueryString("assem") & "." & context.Request.QueryString("clase"), "Respuesta")
 			context.Response.Write(rsp.serializarXhr())
 
 		Catch ex As Exception
-
+			escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), "Elx." & context.Request.QueryString("assem") & "." & context.Request.QueryString("clase"), "ERROR:" & ex.Message)
 			rsp = New xhrResponse("", "")
 			rsp.estadoError(100, ex.Message)
 			context.Response.Write(rsp.serializarXhr())
-
 		End Try
 
 	End Sub
@@ -55,5 +56,19 @@ Public Class InterOpX
 			Return False
 		End Get
 	End Property
+
+	Sub escribeLog(ByVal vIpAdress As String, ByVal vParam As String, ByVal vOperacion As String)
+
+		Dim strWr As New StreamWriter(AppDomain.CurrentDomain.BaseDirectory & "\Log\LogInterOp.txt", True)
+		Dim strLog As String
+		strLog = "[$1][$2][$3] $4 }"
+		strLog = Replace(strLog, "'", """")
+		strLog = Replace(strLog, "$1", Now())
+		strLog = Replace(strLog, "$2", vIpAdress)
+		strLog = Replace(strLog, "$3", vParam)
+		strLog = Replace(strLog, "$4", vOperacion)
+		strWr.WriteLine(strLog)
+		strWr.Close()
+	End Sub
 
 End Class
