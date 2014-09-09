@@ -267,30 +267,27 @@
 		// ####################################
 		// ### Busca Producto				###
 		// ####################################
+		function onOpen() {
+			console.log("event: open");
+			dsProducto.read();
+		};
 
-  		$("#txtProducto").kendoComboBox({
-  			dataTextField: "nombre",
-			dataValueField: "idProducto",
-  			filter: "contains",
-			minLength: 4,
-			autoBind: false,
-  			dataSource: {
-  				type: "json",
+		var dsProducto = new kendo.data.DataSource({
   				serverFiltering: true,
-  				transport: {
+				transport: {
   					read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: "post" },
   					parameterMap: function (options, operation) {
-  						if ((operation == "read")&&(options.filter != undefined)) {
-  							var dataSend = {};
-  							dataSend["value"] = options.filter.filters[0].value;
-  							if (cmbMarca.value != "") {
-  								dataSend["idMarca"] = cmbMarca.value;
-  							}
-  							if (cmbCategoria.value != "") {
-  								dataSend["idCategoria"] = cmbCategoria.value;
-  							}
-  							return dataSend;
+						var dataSend = {};
+						if (cmbMarca.value != "") {
+  							dataSend["idMarca"] = cmbMarca.value;
   						}
+						if (cmbCategoria.value != "") {
+  							dataSend["idCategoria"] = cmbCategoria.value;
+  						}
+  						if (options.filter != undefined) {
+  							dataSend["value"] = txtProducto.value;
+  						}
+						return dataSend;
 						
   					}
   				},
@@ -299,7 +296,16 @@
   					data: "args",
   					total: "totalFila"
   				}
-  			}
+  			});
+
+  		$("#txtProducto").kendoComboBox({
+  			dataTextField: "nombre",
+			dataValueField: "idProducto",
+  			filter: "contains",
+			minLength: 4,
+			autoBind: false,
+			open: onOpen,
+  			dataSource: dsProducto
   		});
 
 		$("#cmbRepuesto").kendoDropDownList({

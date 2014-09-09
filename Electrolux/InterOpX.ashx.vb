@@ -33,6 +33,7 @@ Public Class InterOpX
 				o.Rol.SetRol(context.Request.Cookies("rol").Value, context.Request.Cookies("usuario").Value)
 				o.Rol.email = context.Request.Cookies("email").Value
 				o.Rol.Nombre = context.Request.Cookies("nombre").Value
+
 			End If
 			'o.usuarioRemoto = System.Net.Dns.GetHostEntry(context.Request.UserHostAddress).HostName
 			CallByName(o, context.Request.QueryString("operacion"), Microsoft.VisualBasic.CallType.Method, Nothing)
@@ -40,6 +41,7 @@ Public Class InterOpX
 			context.Response.Write(rsp.serializarXhr())
 
 		Catch ex As Exception
+
 			rsp = New xhrResponse("", "")
 			rsp.estadoError(100, ex.Message)
 			context.Response.Write(rsp.serializarXhr())

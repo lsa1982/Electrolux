@@ -31,7 +31,7 @@ Public Class Sesion
 
 		dt = strCx.retornaDataTable("select idUsuario, password, idRol, nombre, apellido, cargo, email from elx_hr_personal where usuario  = '" & prForm("txtUser") & "'")
 
-		If dt.Rows.Count > 0 Then
+		If Not IsNothing(dt) Then
 			If validaUsuario(prForm("txtUser"), prForm("txtPass"), dt.Rows(0).Item("password")) Then
 				If dt.Rows(0).Item("idRol") > 0 Then
 					tkt = New FormsAuthenticationTicket(1, "User", DateTime.Now, DateTime.Now.AddMinutes(30), True, "your custom data")

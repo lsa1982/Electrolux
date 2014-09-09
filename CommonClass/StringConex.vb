@@ -15,10 +15,12 @@ Public Class StringConex
 	Public Sub New()
 		Me.sqlcon.ConnectionString = Me.strConex
 		Me.sqlcmd.Connection = sqlcon
+		sqlcon.ConnectionTimeout = 15
 	End Sub
 	Public Sub openConex()
 		If Me.sqlcon.State = ConnectionState.Closed Then
 			Me.sqlcon.Open()
+
 		End If
 	End Sub
 	Public Sub closeConex()
