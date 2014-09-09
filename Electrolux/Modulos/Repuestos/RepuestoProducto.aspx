@@ -44,10 +44,10 @@
 			$("#lblRepuesto").html("<strong>" + data[0].repuesto + "</strong>");
 			$("#lblImagen").html("<strong>" + data[0].imagen + "</strong>");
 			$("#lblCantidad").html("<strong>" + data[0].cantidad + "</strong>");
-			//dsProducto.read({ "idRepuesto": vGet.idRepuesto });
+			dsProducto.read({ "idRepuesto": vGet.idRepuesto });
 		}
 
-		var dsProducto = new kendo.data.DataSource({
+		var dsRepuesto = new kendo.data.DataSource({
 			transport: {
 				read: { url: strInterOp("Repuesto", "lista"), dataType: "json", type: 'POST' }
 			},
@@ -63,11 +63,11 @@
 
 		var vGet = getVarsUrl();
 
-		dsProducto.read({ "idRepuesto": vGet.idRepuesto });
+		dsRepuesto.read({ "idRepuesto": vGet.idRepuesto });
 
 		var dsProducto = new kendo.data.DataSource({
 			transport: {
-				read: { url: strInterOp("Repuesto", "ProductoCompatibles"), dataType: "json", type: 'POST' }
+				read: { url: strInterOp("Repuesto", "listaRepuestoProducto"), dataType: "json", type: 'POST' }
 			},
 			batch: true,
 			resizable: true,
@@ -85,10 +85,10 @@
 			autoBind: false,
 			columns: [
 				{ field: "idProducto", title: "id", width: "40px" },
-				{ field: "nombre", title: "actividad", width: "200px" },
-				{ field: "marca", title: "actividad", width: "200px" },
-				{ field: "linea", title: "actividad", width: "200px" },
-				{ field: "categoria", title: "actividad", width: "200px" },
+				{ field: "codigo", title: "Codigo", width: "200px" },
+				{ field: "nombre", title: "Producto", width: "200px" },
+				{ field: "marca", title: "Marca", width: "200px" },
+				{ field: "categoria", title: "Categoria", width: "200px" },
 				{ field: "", title: "" }
 			]
 		});

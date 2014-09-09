@@ -16,36 +16,45 @@ Public Class InterOpX
 		Dim handle As ObjectHandle
 		Dim rsp As xhrResponse
 		Dim operacionAssem As String
+		Dim ipAssem As String
 
 		assem = [Assembly].GetExecutingAssembly().GetName().Name
 		context.Response.ContentType = "application/json"
 		context.Response.AddHeader("Access-Control-Allow-Origin", "*")
 		context.Response.AddHeader("HTTP_ACCEPT_ENCODING", "gzip")
 		operacionAssem = "Elx." & context.Request.QueryString("assem") & "." & context.Request.QueryString("clase") & "." & context.Request.QueryString("operacion")
+		ipAssem = context.Request.ServerVariables("REMOTE_ADDR").ToString()
 
 		Try
 
-			escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), operacionAssem, "Inicio")
+			escribeLog(ipAssem, operacionAssem, "Inicio")
 			handle = Activator.CreateInstance("Elx." & context.Request.QueryString("assem"), "Elx." & context.Request.QueryString("assem") & "." & context.Request.QueryString("clase"))
 			o = handle.Unwrap()
 			o.prForm = context.Request.Form
 			o.prGet = context.Request.QueryString
 			o.prFile = context.Request.Files
 			If HttpContext.Current.User.Identity.IsAuthenticated Then
-				o.Rol.SetRol(context.Request.Cookies("rol").Value, context.Request.Cookies("usuario").Value)
-				o.Rol.email = context.Request.Cookies("email").Value
-				o.Rol.Nombre = context.Request.Cookies("nombre").Value
-				escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), operacionAssem, "Autentificado :" & context.Request.Cookies("usuario").Value)
+				If IsNothing(context.Request.Cookies("rol")) Or IsNothing(context.Request.Cookies("email")) Or IsNothing(context.Request.Cookies("nombre")) Or IsNothing(context.Request.Cookies("usuario")) Then
+					FormsAuthentication.SignOut()
+					context.Response.Write(HttpContext.Current.Request.ApplicationPath & "/Login.aspx")
+				Else
+					o.Rol.SetRol(context.Request.Cookies("rol").Value, context.Request.Cookies("usuario").Value)
+					o.Rol.email = context.Request.Cookies("email").Value
+					o.Rol.Nombre = context.Request.Cookies("nombre").Value
+					escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), operacionAssem, "Autentificado :" & context.Request.Cookies("usuario").Value)
+				End If
+
+				
 			End If
 			'o.usuarioRemoto = System.Net.Dns.GetHostEntry(context.Request.UserHostAddress).HostName
 			CallByName(o, context.Request.QueryString("operacion"), Microsoft.VisualBasic.CallType.Method, Nothing)
-			escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), operacionAssem, "Ejecucion")
+			escribeLog(ipAssem, operacionAssem, "Ejecucion")
 			rsp = CType(o.respuesta, xhrResponse)
-			escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), operacionAssem, "Respuesta: " & o.respuesta)
+			escribeLog(ipAssem, operacionAssem, "Respuesta: " & rsp.serializarXhr())
 			context.Response.Write(rsp.serializarXhr())
 
 		Catch ex As Exception
-			escribeLog(context.Request.ServerVariables("REMOTE_ADDR").ToString(), operacionAssem, "ERROR:" & ex.Message)
+			escribeLog(ipAssem, operacionAssem, "ERROR:" & ex.Message)
 			rsp = New xhrResponse("", "")
 			rsp.estadoError(100, ex.Message)
 			context.Response.Write(rsp.serializarXhr())

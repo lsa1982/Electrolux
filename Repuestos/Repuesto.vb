@@ -15,7 +15,7 @@ Public Class Repuesto
 		Dim strCx As New StringConex
 		Dim dt As DataTable
 		Dim strSql As String
-		strSql = "SELECT SQL_CALC_FOUND_ROWS  * FROM ELX_rep_Repuesto"
+		strSql = "SELECT SQL_CALC_FOUND_ROWS  idRepuesto, idCategoria ,codigo ,repuesto, imagen, cantidad FROM ELX_rep_Repuesto"
 
 		If Not prForm("idRepuesto") = "" Then
 			strSql = strSql & " where idRepuesto =" & prForm("idRepuesto")
@@ -29,13 +29,12 @@ Public Class Repuesto
 			strSql = strSql & " limit " & prForm("skip") & ", " & prForm("take")
 		End If
 
-		Me.respuesta.totalFila = 1000
 		strCx.iniciaTransaccion()
 		dt = strCx.retornaDataTable(strSql)
 		Me.respuesta.totalFila = strCx.retornaDato("SELECT FOUND_ROWS()")
 		strCx.closeConex()
 		If strCx.flagError Then
-			rsp.estadoError(100, "Lista: No se pudo acceder a la base")
+			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
 		Else
 			rsp.args = Me.retornaTablaSerializada(dt)
 		End If
@@ -51,20 +50,15 @@ Public Class Repuesto
 		End If
 	End Sub
 
-	Sub Sincronizacion()
-		escribeLog(prForm("envio"))
-
+	Sub listaRepuestoProducto()
+		If prForm("idRepuesto") <> "" Then
+			listaSql("vRepuestoProducto", " and al1.idRepuesto = " & prForm("idRepuesto"))
+		ElseIf prForm("filter[filters][0][value]") <> "" Then
+			listaSql("vRepuestoProducto", " and al1.idRepuesto = " & prForm("filter[filters][0][value]") & " limit 0,30")
+		Else
+			listaSql("vRepuestoProducto", " limit 0,30")
+		End If
 	End Sub
-	Public Shared Sub escribeLog(ByVal strOperacion As String)
 
-		Dim strWr As New StreamWriter(AppDomain.CurrentDomain.BaseDirectory & "\Log\LogSync.txt", True)
-		Dim strLog As String
-		strLog = "$1: $2"
-		strLog = Replace(strLog, "$1", Now())
-		strLog = Replace(strLog, "$2", strOperacion)
-		strWr.WriteLine(strLog)
-		strWr.Close()
-
-	End Sub
 
 End Class

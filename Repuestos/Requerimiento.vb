@@ -192,7 +192,6 @@ Public Class Requerimiento
 		strCx.ejecutaSql(strSql)
 
 	End Sub
-
 	Sub enviarMail(ByVal aRequerimiento As ArrayList)
 		Dim s As New Mail
 		Dim vBody As String
@@ -247,6 +246,24 @@ Public Class Requerimiento
 		idMail.Add(22)
 		idMail.Add(23)
 		enviarMail(idMail)
+	End Sub
+
+	Sub eliminar()
+		Dim strCx As New StringConex
+		Dim strSql As String
+		strCx.iniciaTransaccion()
+		strSql = "DELETE FROM  elx_rep_requerimiento WHERE idRequerimiento =  $1"
+		strSql = Replace(strSql, "$1", Me.prForm("idRequerimiento"))
+		strCx.ejecutaSql(strSql)
+		strSql = "DELETE FROM  elx_rep_estados WHERE idRequerimiento =  $1"
+		strSql = Replace(strSql, "$1", Me.prForm("idRequerimiento"))
+		strCx.ejecutaSql(strSql)
+
+		If strCx.flagError Then
+			rsp.estadoError(100, "Eliminar: No se pudo acceder a la base", strCx.msgError)
+		Else
+			strCx.finTransaccion()
+		End If
 	End Sub
 
 End Class

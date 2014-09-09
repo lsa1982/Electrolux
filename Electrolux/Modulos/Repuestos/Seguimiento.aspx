@@ -13,7 +13,10 @@
 	
 	<table style= "padding-top: 15px; width: 100%" id="layerSeguimiento">
 		<tr>
-			<td colspan="2"><span style=" font-size: 11px;">Detalle del requerimiento solicitado:</span></td>
+			<td colspan="2">
+				<span style=" font-size: 11px;">Detalle del requerimiento solicitado:</span>
+				<div style="float: right;margin-right: 10px"><button id="btnDelete" type="button" class="k-button">Eliminar</button></div> 
+			</td>
 		</tr>
 		<tr>
 			<td style=" width: 150px" >Emisor</td>
@@ -68,9 +71,16 @@
 
 
 
-
 <script>
 	$(document).ready(function () {
+		var idRequerimiento = 0;
+
+		$("#btnDelete").kendoButton({ click: onDelete, icon: "close" });
+		function onDelete(e) {
+			var req = dsRepuestos.at(0);
+			dsRepuestos.remove(req);
+			dsRepuestos.sync();
+		}
 
 		$("#btnBuscar").kendoButton({ click: onFind, icon: "arrow-u" });
 		function onFind(e) {
@@ -79,13 +89,13 @@
 		}
 
 		function onRefresh(e) {
-			dsRepuestos.read({ "idRequerimiento": vGet.idRequerimiento });
+			dsRepuestos.read({ "idRequerimiento": idRequerimiento });
 		}
 
 		$("#btnAvanzar").kendoButton({ click: onClick, icon: "arrow-u" });
 		function onClick(e) {
 			var pUrl = [];
-			pUrl.push("idRequerimiento=" + vGet.idRequerimiento);
+			pUrl.push("idRequerimiento=" + idRequerimiento);
 			pUrl.push("idFinalizacion=" + cmbFinalizacion.value);
 			var x = pUrl.join("&");
 			callScript(strInterOp("Requerimiento", "avanzarActividad"), '&' + x, onRefresh);
@@ -111,7 +121,7 @@
 				cmbFin.enable(false);
 			}
 			else {
-
+				$("#layerSeguimiento").show(500);
 				cmbFin.dataSource.read({ "idRequerimiento": idRequerimiento });
 			}
 		}
@@ -132,16 +142,30 @@
 
 		var dsRepuestos = new kendo.data.DataSource({
 			transport: {
-				read: { url: strInterOp("Requerimiento", "lista"), dataType: "json", type: 'POST' }
+				read: { url: strInterOp("Requerimiento", "lista"), dataType: "json", type: 'POST' },
+				destroy: { url: strInterOp("Requerimiento", "eliminar"), dataType: "json", type: 'POST' },
+				parameterMap: function (data, type) {
+					if (type == "destroy") {
+						return { idRequerimiento: data.models[0].idRequerimiento }
+					}
+					if (type == "read") {
+						return { idRequerimiento: data.idRequerimiento }
+					}
+				}
 			},
 			change: function (e) {
-				var data = this.data();
-				cargaDatos(data, data[0].idRequerimiento);
+				if (e.action != "remove") {
+					if (this._total > 0){
+						var data = this.data();
+						cargaDatos(data, data[0].idRequerimiento);
+					}
+				}
 			},
 			batch: true,
 			resizable: true,
 			error: errorGrid,
-			schema: { errors: "msgState", data: "args", total: "totalFila" }
+			
+			schema: { errors: "msgState", data: "args", total: "totalFila",model: {id: "idRequerimiento"} }
 		});
 
 
@@ -158,19 +182,20 @@
 		$("#grid").kendoGrid({
 			dataSource: dsRequerimiento,
 			pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
-			height: 450,
+			height: 350,
 			sortable: true,
 			filterable: filtroGrid,
 			resizable: true,
 			autoBind: false,
+			scrollable: true,
 			columns: [
 				{ field: "idRequerimiento", title: "id", width: "40px" },
-				{ field: "estado", title: "E", template: '<span class="claseEstado claseEstado#: estado #">&nbsp;</span>', width: "40px" },
-				{ field: "actividad", title: "actividad", width: "200px" },
-				{ field: "fechaInicio", title: "Inicio", width: "200px" },
-				{ field: "fechaEsperada", title: "Compromiso", width: "200px" },
-				{ field: "fechaFin", title: "Fin", width: "200px" },
-				{ field: "rol", title: "rol", width: "200px" },
+				{ field: "estado", title: "E", template: '<span class="claseEstado claseEstado#: estado #">&nbsp;</span>', width: "35px" },
+				{ field: "actividad", title: "actividad", width: "180px" },
+				{ field: "fechaInicio", title: "Inicio", width: "170px" },
+				{ field: "fechaEsperada", title: "Compromiso", width: "170px" },
+				{ field: "fechaFin", title: "Fin", width: "170px" },
+				{ field: "rol", title: "rol", width: "120px" },
 				{ field: "", title: "" }
 			]
 		});
@@ -181,16 +206,11 @@
 		var vGet = getVarsUrl();
 
 		if (typeof vGet.idRequerimiento != "undefined") {
+			idRequerimiento = vGet.idRequerimiento;
 			dsRepuestos.read({ "idRequerimiento": vGet.idRequerimiento });
-			$("#layerSeguimiento").show(500);
 		}
-		
-
-
 	});
 </script>
-
-
 
 <style>
 	.claseEstado {

@@ -37,14 +37,13 @@
 				{ field: "imagen", title: "Imagen", width: "100px" },
 				{ field: "", title: "" }
 			]
-  		});
+		});
 
-  		function onView(e) {
-  			e.preventDefault();
-  			var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-  			window.location = 'RepuestoProducto.aspx?idRepuesto=' + dataItem.idRepuesto;
-
-  		}
+		function onView(e) {
+			e.preventDefault();
+			var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+			window.location = 'RepuestoProducto.aspx?idRepuesto=' + dataItem.idRepuesto;
+		}
 	});
 	
 </script>
