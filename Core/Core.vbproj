@@ -64,6 +64,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsUsuario.vb" />
     <Compile Include="clsCadena.vb" />
     <Compile Include="clsCategoria.vb" />
     <Compile Include="clsMarca.vb" />
@@ -111,6 +112,7 @@
     <EmbeddedResource Include="SQL\vTiendas.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="SQL\vUsuarios.sqlx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonClass\CommonClass.vbproj">
