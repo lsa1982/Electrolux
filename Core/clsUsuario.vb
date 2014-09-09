@@ -68,7 +68,7 @@ Public Class clsUsuario
         Dim strCx As New StringConex
         Dim strSql As String
         strSql = "DELETE FROM elx_hr_personal WHERE idUsuario = $1"
-        strSql = Replace(strSql, "$1", Me.prGet("txtidUsuario"))
+		strSql = Replace(strSql, "$1", Me.prForm("txtidUsuario"))
         strCx.ejecutaSql(strSql)
         If strCx.flagError Then
             rsp.estadoError(100, "Eliminar: No se pudo acceder a la base")
