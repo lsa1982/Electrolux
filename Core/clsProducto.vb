@@ -17,12 +17,14 @@ Public Class clsProducto
 
         If Not prForm("value") = "" Then
             vFiltro = " and nombre like '%" & Me.prForm("value") & "%'"
-            If Not prForm("idMarca") = "" Then vFiltro = vFiltro & " idMarca = " & Me.prForm("idMarca")
-            If Not prForm("idCategoria") = "" Then vFiltro = vFiltro & " idCategoria = " & Me.prForm("idCategoria")
-            vFiltro = vFiltro & " limit 0 , 30"
-        End If
-        listaSql("vProductos", vFiltro)
-    End Sub
+
+		End If
+		If Not prForm("idMarca") = "" Then vFiltro = vFiltro & "and  al1.idMarca = " & Me.prForm("idMarca")
+		If Not prForm("idCategoria") = "" Then vFiltro = vFiltro & " and  al1.idCategoria = " & Me.prForm("idCategoria")
+		vFiltro = vFiltro & " limit 0 , 30"
+
+		listaSql("vProductos", vFiltro)
+	End Sub
 
     Sub insertar()
         Dim strCx As New StringConex

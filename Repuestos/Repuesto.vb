@@ -44,8 +44,10 @@ Public Class Repuesto
 	Sub listaProductoRepuesto()
 		If prForm("idProducto") <> "" Then
 			listaSql("vProductoRepuesto", " and al1.idProducto = " & prForm("idProducto"))
+		ElseIf prForm("filter[filters][0][value]") <> "" Then
+			listaSql("vProductoRepuesto", " and al1.idProducto = " & prForm("filter[filters][0][value]") & " limit 0,30")
 		Else
-			listaSql("vProductoRepuesto")
+			listaSql("vProductoRepuesto", " limit 0,30")
 		End If
 	End Sub
 
