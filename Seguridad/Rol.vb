@@ -46,6 +46,8 @@
             mCore.AddMenu(New Menu("Productos", "frmGridProducto.aspx", ""))
             mCore.AddMenu(New Menu("Tiendas", "frmGridTienda.aspx", ""))
             mCore.AddMenu(New Menu("Cadena", "frmGridCadena.aspx", ""))
+            mCore.AddMenu(New Menu("Usuarios", "frmGridUsuario.aspx", ""))
+
 
             mCore.AddMenu(mnuCategoria)
 

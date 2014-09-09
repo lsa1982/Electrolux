@@ -112,7 +112,9 @@
     <EmbeddedResource Include="SQL\vTiendas.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="SQL\vUsuarios.sqlx" />
+    <EmbeddedResource Include="SQL\vUsuarios.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonClass\CommonClass.vbproj">

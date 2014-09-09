@@ -53,11 +53,11 @@ Public Class clsUsuario
         strSql = Replace(strSql, "$3", Me.prForm("txtApellido"))
         strSql = Replace(strSql, "$4", Me.prForm("txtCargo"))
         strSql = Replace(strSql, "$5", Me.prForm("txtAntiguedad"))
-        strSql = Replace(strSql, "$5", Me.prForm("txtFechaNacimiento"))
-        strSql = Replace(strSql, "$5", Me.prForm("txtFono"))
-        strSql = Replace(strSql, "$5", Me.prForm("txtEmail"))
-        strSql = Replace(strSql, "$5", Me.prForm("txtUsuario"))
-        strSql = Replace(strSql, "$5", Me.prForm("txtPassword"))
+        strSql = Replace(strSql, "$6", Me.prForm("txtFechaNacimiento"))
+        strSql = Replace(strSql, "$7", Me.prForm("txtFono"))
+        strSql = Replace(strSql, "$8", Me.prForm("txtEmail"))
+        strSql = Replace(strSql, "$9", Me.prForm("txtUsuario"))
+        strSql = Replace(strSql, "$10", Me.prForm("txtPassword"))
         strCx.ejecutaSql(strSql)
         If strCx.flagError Then
             rsp.estadoError(100, "Editar: No se pudo acceder a la base")
@@ -67,7 +67,7 @@ Public Class clsUsuario
     Sub eliminar()
         Dim strCx As New StringConex
         Dim strSql As String
-        strSql = "DELETE FROM  elx_hr_personal WHERE idUsuario =  $1"
+        strSql = "DELETE FROM elx_hr_personal WHERE idUsuario = $1"
         strSql = Replace(strSql, "$1", Me.prGet("txtidUsuario"))
         strCx.ejecutaSql(strSql)
         If strCx.flagError Then
