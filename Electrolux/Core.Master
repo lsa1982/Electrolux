@@ -1,0 +1,41 @@
+﻿<%@ Master Language="VB"   MasterPageFile="~/Site.Master" AutoEventWireup="false"  %>
+<asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+<div class="areaTrabajo">
+<table >
+	<tr>
+		<td><img src="<% = resolveClientUrl("Styles/images/Core.png") %>" /></td>
+		<td style="vertical-align: top; padding-top:10px; width: 80%">
+			<span style=" font-size: 24px; font-weight:bold">Administración</span><br />
+			<span style=" font-size: 16px; ">Formulario de ingreso de requerimientos</span>
+		</td>
+		<td style="width: 20%;text-align: right">
+			<span style=" font-size: 12px; font-weight:bold; color: #0000D9">
+			<div id="txtUser"></div> <br/>
+			
+			</span>
+		</td>
+	</tr>
+</table>
+</div>
+<div class="areaHeader">
+ 		<ul id="menuArea">
+		
+	</ul>
+</div>
+
+	<asp:ContentPlaceHolder ID="DetailContent" runat="server" />
+<script>
+
+    $(document).ready(function () {
+
+        $("#menuArea").kendoMenu({
+            select: onSelect,
+            dataSource: mItem
+        });
+
+    });
+</script>
+
+</asp:Content>
+
+

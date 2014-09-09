@@ -1,0 +1,46 @@
+﻿<span style=" font-size: 24px; ">Confirmación de Requerimiento</span><br/>
+<span style=" font-size: 11px;">Se ingresará un requerimiento con los siguientes datos:</span><br/>
+<table style="width:100% ; font-size: 12px;border:3px">
+	<tr style="width:100%">
+		<td colspan="2" style="border-top-style: dashed ; border-top-color: #CCCCCC; border-top-width: 1px; padding-top: 10px"></td>
+	</tr>
+</table>
+<span style=" font-size: 11px;">Tienda: </span><div id="txtRepTienda" name="txtRepTienda">&nbsp;</div>
+<span style=" font-size: 11px;">Detalle: </span>
+<span style=" font-weight: bold; font-size: 11px">
+	<div id="tablaCarrito" name="tablaCarrito">&nbsp;</div><br/>
+</span>
+<table style="width:100% ; font-size: 12px;border:3px">
+	<tr style="width:100%">
+		<td colspan="2" style="border-top-style: dashed ; border-top-color: #CCCCCC; border-top-width: 1px; padding-top: 10px"></td>
+	</tr>
+</table>
+Comentario
+<textarea id="txtComentario" name="txtComentario" class="k-textbox" value="(Defecto)" style="width:100%;"/>
+
+<table style="width:100% ; font-size: 12px;border:3px">
+	<tr style="width:100%">
+		<td colspan="2" style="border-top-style: dashed ; border-top-color: #CCCCCC; border-top-width: 1px; padding-top: 10px">
+			<button id="btnSolicitar" type="button" class="k-button">Enviar</button>&nbsp;
+			<button id="btnCancelar" type="button" class="k-button">Cancelar</button>
+		</td>
+	</tr>
+</table>
+<script>
+	$(document).ready(function () {
+		$("#btnSolicitar").kendoButton({ icon: "plus", click: onClick });
+		$("#btnCancelar").kendoButton({ icon: "plus", click: onClose });
+
+		function onClick(e) {
+			onRequest();
+		}
+
+		function onClose() {
+			$("#winNewRequest").data("kendoWindow").close();
+		}
+
+
+
+
+	});
+</script>
