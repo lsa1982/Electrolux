@@ -17,6 +17,13 @@ Sub lista()
         If Not prForm("filter[filters][0][field]") = "" Then
             vFiltro = " and al1.idCadena = " & Me.prForm("filter[filters][0][value]")
         End If
+
+        If Not prForm("skip") = "" Then
+            vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
+        Else
+            vFiltro = vFiltro & " limit 0 , 30"
+        End If
+
         listaSql("vTiendas", vFiltro)
     End Sub
 

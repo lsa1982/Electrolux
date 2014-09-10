@@ -4,9 +4,8 @@
 Public Class clsProducto
     Inherits clsEntidad
 
-    Sub lista()
+     Sub lista()
         Dim vFiltro As String = ""
-
         If Not prForm("txtidProducto") = "" Then
             vFiltro = " and al1.idProducto = " & prForm("idProducto")
         End If
@@ -17,20 +16,19 @@ Public Class clsProducto
 
         If Not prForm("value") = "" Then
             vFiltro = " and nombre like '%" & Me.prForm("value") & "%'"
+        End If
 
-		End If
-		If Not prForm("idMarca") = "" Then vFiltro = vFiltro & "and  al1.idMarca = " & Me.prForm("idMarca")
-		If Not prForm("idCategoria") = "" Then vFiltro = vFiltro & " and  al1.idCategoria = " & Me.prForm("idCategoria")
+        If Not prForm("idMarca") = "" Then vFiltro = vFiltro & "and al1.idMarca = " & Me.prForm("idMarca")
+        If Not prForm("idCategoria") = "" Then vFiltro = vFiltro & " and al1.idCategoria = " & Me.prForm("idCategoria")
 
-		If Not prForm("skip") = "" Then
-			vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
-		Else
-			vFiltro = vFiltro & " limit 0 , 30"
-		End If
+        If Not prForm("skip") = "" Then
+            vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
+        Else
+            vFiltro = vFiltro & " limit 0 , 30"
+        End If
 
-		listaSql("vProductos", vFiltro)
-
-	End Sub
+        listaSql("vProductos", vFiltro)
+    End Sub
 
     Sub insertar()
         Dim strCx As New StringConex

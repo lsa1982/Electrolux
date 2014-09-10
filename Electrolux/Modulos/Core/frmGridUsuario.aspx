@@ -26,7 +26,10 @@
                         "txtEmail": options.models[0].email,
                         "txtUsuario": options.models[0].email,
                         "txtROL": options.models[0].ROL
-                    }
+                    };
+                }
+                else {
+                    return options;
                 }
             }
         },

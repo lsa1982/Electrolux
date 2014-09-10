@@ -27,7 +27,7 @@
 		mRepuesto = New Modulo("Repuestos", "../Repuestos/default.aspx")
         mCore = New Modulo("Core", "../Core/frmGridCategoria.aspx")
 		mDashBoard = New Modulo("DashBoard", "")
-		mCoordinador = New Modulo("Coordinador", "")
+        mCoordinador = New Modulo("Coordinador", "../Coordinador/frmGridActividad.aspx")
 
 		mnuSeguimiento = New Menu("Seguimiento", "Seguimiento.aspx", "")
 		mnuSeguimiento.AddSeccion(New Seccion("AvanzaActividad"))
@@ -47,6 +47,9 @@
             mCore.AddMenu(New Menu("Tiendas", "frmGridTienda.aspx", ""))
             mCore.AddMenu(New Menu("Cadena", "frmGridCadena.aspx", ""))
             mCore.AddMenu(New Menu("Usuarios", "frmGridUsuario.aspx", ""))
+
+            mCoordinador.AddMenu(New Menu("Actividad", "frmGridActividad.aspx", ""))
+
 
 
             mCore.AddMenu(mnuCategoria)
