@@ -1,0 +1,20 @@
+# .gitignore
+
+
+*.log
+*.user
+Electrolux.vbproj
+Electrolux.suo
+CommonClass/bin
+CommonClass/obj
+Core/bin
+Core/obj
+Electrolux/bin
+Electrolux/obj
+Electrolux/Log
+Repuestos/bin
+Repuestos/obj
+Seguridad/bin
+Seguridad/obj
+Coordinador/bin
+Coordinador/obj

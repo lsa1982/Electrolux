@@ -1,0 +1,114 @@
+﻿<form id="check">
+<table style="width:100%">
+	
+    <tr style="width:100%">
+		<td style="width: 100px">
+				Cadena: 
+			</td>
+			<td>
+					<input id="cmbCadena" name="txtidCadena" style="width: 250px" requeired />
+			</td> 
+     </tr>        
+    <tr style="width:100%">
+		<td style="width: 120px">
+				Categoria: 
+			</td>
+			<td>
+					<input id="cmbCategoria" name="txtidCategoria" style="width: 250px"  required="required" />
+			</td>
+	</tr>    
+            	
+     <tr style="width:100%">
+		<td>Tienda</td>
+		<td> <input  type="text" id="txtTienda" name="txtTienda" class="k-textbox" value="" required/></td>
+	</tr>
+
+    <tr style="width:100%">
+		<td>Status</td>
+		<td> <input  type="text" id="txtStatus" name="txtStatus" class="k-textbox" value="" required/></td>
+	</tr>
+
+    <tr style="width:100%">
+		<td>Geo x</td>
+		<td> <input  type="number" id="txtGeo_x" name="txtGeo_x" class="k-textbox" value="" required/></td>
+	</tr>
+
+      <tr style="width:100%">
+		<td>Geo y</td>
+		<td> <input  type="number" id="txtGeo_y" name="txtGeo_y" class="k-textbox" value="" required/></td>
+	</tr>
+
+		<td colspan="2" style="border-top-style: dashed ; border-top-color: Gray; border-top-width: 1px; padding-top: 10px">
+			<button id="btnAgregar" type="button" class="k-button">Agregar</button>&nbsp;
+			<button id="btnCancelar" type="button" class="k-button">Cancelar</button>
+		</td>
+	</tr>
+
+</table>
+</form>
+<script>
+
+    $(document).ready(function () {
+
+        $("#btnAgregar").kendoButton({ icon: "plus", click: onClick });
+        $("#btnCancelar").kendoButton({ icon: "plus", click: onClose });
+        $("#txtGeo_x").kendoNumericTextBox({ format: "#" });
+        $("#txtGeo_y").kendoNumericTextBox({ format: "#" });
+
+        function onClick(e) {
+            var validator = $("#check").kendoValidator().data("kendoValidator");
+            enviaForm(validator, 'check', 'clsTienda', 'insertar', onSuccess);
+            $("#cmbCadena").data("kendoComboBox").enable(true);
+            $("#cmbCategoria").data("kendoComboBox").enable(true);
+        }
+
+        function onSuccess() {
+            $("#winNewRequest").data("kendoWindow").close();
+            ds.read();
+        };
+
+        function onClose() {
+            $("#winNewRequest").data("kendoWindow").close();
+        }
+
+        var cmbCliente = $("#cmbCadena").kendoComboBox({
+            dataTextField: "cadena",
+            dataValueField: "idCadena",
+            autoBind: false,
+            placeholder: "Seleccionar",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: { url: strInterOpAs("clsCadena", "lista", "Core"), dataType: "json", type: "post" }
+                },
+                sort: { field: "cadena", dir: "asc" },
+                schema: {
+                    errors: "msgState",
+                    data: "args",
+                    total: "totalFila"
+                }
+            }
+        });
+
+        var cmbCliente = $("#cmbCategoria").kendoComboBox({
+            dataTextField: "categoria",
+            dataValueField: "idCategoria",
+            autoBind: false,
+            placeholder: "Seleccionar",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "post" }
+                },
+                sort: { field: "categoria", dir: "asc" },
+                schema: {
+                    errors: "msgState",
+                    data: "args",
+                    total: "totalFila"
+                }
+            }
+        });
+
+
+    });
+</script>

@@ -1,0 +1,21 @@
+﻿Select
+    SQL_CALC_FOUND_ROWS  al1.idProducto,
+    al1.idCategoria,
+    al1.idMarca,
+    al1.nombre,
+    al1.descripcion,
+    al1.modelo,
+    al1.codigo,
+    al1.codigoBarra,
+    al1.resumen,
+    al1.ultimaModificacion,
+    CONCAT(   idProducto ,' - ', nombre ) fullNombre,
+    al2.marca,
+    al3.categoria
+FROM
+    elx_core_Producto al1,
+    elx_core_categoria al3,
+    elx_core_marca al2
+WHERE
+    al1.idCategoria = al3.idCategoria and
+    al1.idMarca = al2.idMarca

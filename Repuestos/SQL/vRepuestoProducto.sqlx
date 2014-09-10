@@ -1,0 +1,18 @@
+﻿SELECT 
+	al1.idProducto, 
+	al1.idRepuesto, 
+	al2.codigo, 
+	al2.nombre, 
+	al3.categoria, 
+	al3.tipo, 
+	al5.marca
+	al2.codigo
+FROM 
+	elx_rep_productoRepuesto al1, 
+	elx_core_producto al2, 
+	elx_core_categoria al3, 
+	elx_core_marca al5
+WHERE 
+	al1.idProducto = al2.idProducto
+	AND al2.idCategoria = al3.idCategoria
+	AND al2.idMarca = al5.idMarca
