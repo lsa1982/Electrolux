@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div id="window">Espere Mientras se actualizan los datos</div>
-	 <div id="mensaje">One Big Orange Square.</div>
+	 <div id="mensaje"> Ha ocurrido un error inesperado, favor de reitentar o contactar a su proveedor.</div>
 	<div class="header">
 		<table width="100%">
 			<tr>
@@ -104,14 +104,15 @@
 	</script>
 
 	<style>
-		
-		
+
 		#mensaje {
+			position: fixed;
+			z-index: 2000;
+			top: 0;
             width: 100%;
             height: 20px;
             border-width: 0px;
             padding: 0px;
-            float: right ;
             background-color: gold;
             color: darkRed;
             border-style: solid;
@@ -120,6 +121,7 @@
             -ms-border-radius: 1px;
             -moz-border-radius: 1px;
             text-align: center;
+            font-size:11px
         }
 		.header {
 			background-color: #333333;

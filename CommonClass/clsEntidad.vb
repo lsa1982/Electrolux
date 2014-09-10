@@ -97,11 +97,15 @@ Public MustInherit Class clsEntidad
 		Dim dt As DataTable
 		Dim strSql As String
 		strSql = sqlText(vistaSql) & vistaParam
+		strCx.iniciaTransaccion()
 		dt = strCx.retornaDataTable(strSql)
+
+
 
 		If strCx.flagError Then
 			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
 		Else
+			respuesta.totalFila = strCx.retornaDato("SELECT FOUND_ROWS()")
 			rsp.args = Me.retornaTablaSerializada(dt)
 			Debug.Print(rsp.args)
 		End If

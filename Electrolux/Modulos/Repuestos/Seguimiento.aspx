@@ -77,9 +77,13 @@
 
 		$("#btnDelete").kendoButton({ click: onDelete, icon: "close" });
 		function onDelete(e) {
-			var req = dsRepuestos.at(0);
-			dsRepuestos.remove(req);
-			dsRepuestos.sync();
+			var r = confirm("Esta seguro de eliminar este requerimiento");
+			if (r == true) {
+				var req = dsRepuestos.at(0);
+				dsRepuestos.remove(req);
+				dsRepuestos.sync();
+			} 
+			
 		}
 
 		$("#btnBuscar").kendoButton({ click: onFind, icon: "arrow-u" });

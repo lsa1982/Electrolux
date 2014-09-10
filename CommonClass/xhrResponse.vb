@@ -37,7 +37,11 @@ Public Class xhrResponse
 		Me.errorCode = codigoError
 		Me.errorState = True
 		Me.msgState = msgError
-		Me.args = argsError
+		argsError = Replace(argsError, vbCr, " ")
+		argsError = Replace(argsError, vbLf, " ")
+		argsError = Replace(argsError, vbTab, " ")
+		argsError = Replace(argsError, """", "°")
+		Me.args = "{ ""techError"": """ & argsError & """ }"
 	End Sub
 
 End Class

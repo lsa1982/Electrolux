@@ -5,7 +5,7 @@
 	al2.nombre, 
 	al3.categoria, 
 	al3.tipo, 
-	al5.marca
+	al5.marca,
 	al2.codigo
 FROM 
 	elx_rep_productoRepuesto al1, 
