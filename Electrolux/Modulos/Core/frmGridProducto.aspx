@@ -9,58 +9,61 @@
 <div id="winNewRequest">Espere Mientras se actualizan los datos</div>
 <script>
 
-    var ds = new kendo.data.DataSource({
-        transport: {
-            read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: "POST" },
-            destroy: { url: strInterOpAs("clsProducto", "eliminar", "Core"), dataType: "json" },
-            update: { url: strInterOpAs("clsProducto", "editar", "Core"), dataType: "json", type: "POST" },
-            create: { url: strInterOpAs("clsProducto", "insertar", "Core"), dataType: "json", type: "POST" },
-            parameterMap: function (options, operation) {
-                if (operation !== "read" && options.models) {
-                    return { txtidProducto: options.models[0].idProducto,
-                        "txtidCategoria": options.models[0].idCategoria,
-                        "txtidLinea": options.models[0].idLinea,
-                        "txtidLMarca": options.models[0].idMarca,
-                        "txtNombre": options.models[0].nombre,
-                        "txtDescripcion": options.models[0].descripcion,
-                        "txtModelo": options.models[0].modelo,
-                        "txtCodigo": options.models[0].codigo,
-                        "txtCodigoBarra": options.models[0].codigoBarra,
-                        "txtResumen": options.models[0].resumen,
-                        "txtUltimaModificacion": options.models[0].ultimaModificacion,
-                        "txtMarca": options.models[0].marca,
-                        "txtCategoria": options.models[0].categoria
-                    };
-                }
-            }
-        },
-        batch: true,
-        resizable: true,
-        error: errorGrid,
-        serverPaging: true,
-        pageSize: 100,
-        schema: {
-            errors: "msgState",
-            data: "args",
-            total: "totalFila",
-            model: {
-                id: "idProducto",
-                fields: {
-                    idProducto: { editable: false, nullable: true },
-                    categoria: { editable: false, nullable: true },
-                    marca : { editable: false, nullable: true },
-                    nombre: { validation: { required: false} },
-                    descripcion: { validation: { required: false} },
-                    modelo: { validation: { required: false} },
-                    codigo: { validation: { required: false} },
-                    codigoBarra: { validation: { required: false} },
-                    resumen: { validation: { required: false} },
-                    ultimaModificacion: { editable: false, nullable: true }
+	var ds = new kendo.data.DataSource({
+		transport: {
+			read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: "POST" },
+			destroy: { url: strInterOpAs("clsProducto", "eliminar", "Core"), dataType: "json" },
+			update: { url: strInterOpAs("clsProducto", "editar", "Core"), dataType: "json", type: "POST" },
+			create: { url: strInterOpAs("clsProducto", "insertar", "Core"), dataType: "json", type: "POST" },
+			parameterMap: function (options, operation) {
+				if (operation !== "read" && options.models) {
+					return { txtidProducto: options.models[0].idProducto,
+						"txtidCategoria": options.models[0].idCategoria,
+						"txtidLinea": options.models[0].idLinea,
+						"txtidLMarca": options.models[0].idMarca,
+						"txtNombre": options.models[0].nombre,
+						"txtDescripcion": options.models[0].descripcion,
+						"txtModelo": options.models[0].modelo,
+						"txtCodigo": options.models[0].codigo,
+						"txtCodigoBarra": options.models[0].codigoBarra,
+						"txtResumen": options.models[0].resumen,
+						"txtUltimaModificacion": options.models[0].ultimaModificacion,
+						"txtMarca": options.models[0].marca,
+						"txtCategoria": options.models[0].categoria
+					};
+				}
+				else {
+					return options;
+				}
+			}
+		},
+		batch: true,
+		resizable: true,
+		error: errorGrid,
+		serverPaging: true,
+		pageSize: 50,
+		schema: {
+			errors: "msgState",
+			data: "args",
+			total: "totalFila",
+			model: {
+				id: "idProducto",
+				fields: {
+					idProducto: { editable: false, nullable: true },
+					categoria: { editable: false, nullable: true },
+					marca: { editable: false, nullable: true },
+					nombre: { validation: { required: false} },
+					descripcion: { validation: { required: false} },
+					modelo: { validation: { required: false} },
+					codigo: { validation: { required: false} },
+					codigoBarra: { validation: { required: false} },
+					resumen: { validation: { required: false} },
+					ultimaModificacion: { editable: false, nullable: true }
 
-                }
-            }
-        }
-    });
+				}
+			}
+		}
+	});
 
 
     $(document).ready(function () {

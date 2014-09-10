@@ -21,9 +21,15 @@ Public Class clsProducto
 		End If
 		If Not prForm("idMarca") = "" Then vFiltro = vFiltro & "and  al1.idMarca = " & Me.prForm("idMarca")
 		If Not prForm("idCategoria") = "" Then vFiltro = vFiltro & " and  al1.idCategoria = " & Me.prForm("idCategoria")
-		vFiltro = vFiltro & " limit 0 , 30"
+
+		If Not prForm("skip") = "" Then
+			vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
+		Else
+			vFiltro = vFiltro & " limit 0 , 30"
+		End If
 
 		listaSql("vProductos", vFiltro)
+
 	End Sub
 
     Sub insertar()
