@@ -155,7 +155,7 @@
 			},
 			change: function (e) {
 				if (e.action != "remove") {
-					if (this._total > 0){
+					if (this._data.length > 0) {
 						var data = this.data();
 						cargaDatos(data, data[0].idRequerimiento);
 					}
