@@ -14,7 +14,7 @@
             create: { url: strInterOpAs("clsActividad", "insertar", "Coordinador"), dataType: "json", type: "POST" },
             parameterMap: function (options, operation) {
                 if (operation !== "read" && options.models) {
-                    return { txtidActividad: options.models[0].idUsuario,
+                    return { "txtidActividad": options.models[0].idUsuario,
                         "txtidRol": options.models[0].idRol,
                         "txtidFlujo": options.models[0].idFlujo,
                         "txtActividad": options.models[0].actividad,
@@ -42,6 +42,8 @@
                 id: "idActividad",
                 fields: {
                     idRol: { editable: false, nullable: true },
+                    ROL: { editable: false, nullable: true },
+                    Flujo: { editable: false, nullable: true },
                     idFlujo: { editable: false, nullable: true },
                     actividad: { validation: { required: false} },
                     duracion: { validation: { required: false} },
@@ -52,6 +54,7 @@
             }
         }
     });
+
     $(document).ready(function () {
         $("#button").kendoButton({ icon: "plus", click: function (e) {
             $("#winNewRequest").data("kendoWindow").center().open();
@@ -59,7 +62,7 @@
         });
         var gridColumns = [
                 cmdGrid,
-                { field: "idUsuario", title: "ID", width: "40px" },
+                { field: "idActividad", title: "ID", width: "40px" },
                 { field: "ROL", title: "Rol", width: "120px" },
                 { field: "Flujo", title: "Flujo", width: "120px" },
                 { field: "actividad", title: "Actividad", width: "100px" },
@@ -84,11 +87,11 @@
         });
         $("#winNewRequest").kendoWindow({
             width: "400px",
-            title: "Ingreso Nuevo Usuario",
+            title: "Ingreso Nueva Actividad",
             actions: ["Close"],
             visible: false,
             modal: true,
-            content: "frmUsuario.html"
+            content: "frmActividad.html"
         });
     });
 </script>

@@ -8,46 +8,36 @@
 			<td>
 					<input id="cmbRol" name="txtidRol" style="width: 250px" requeired />
 			</td> 
-     </tr>        
-      	
-     <tr style="width:100%">
-		<td>Nombre</td>
-		<td> <input  type="text" id="txtNombre" name="txtNombre" class="k-textbox" value="" required/></td>
-	</tr>
+     </tr>  
+     
+       <tr style="width:100%">
+		<td style="width: 100px">
+				Flujo: 
+			</td>
+			<td>
+					<input id="cmbFlujo" name="txtidFlujo" style="width: 250px" requeired />
+			</td> 
+     </tr>             
 
     <tr style="width:100%">
-		<td>Apellido</td>
-		<td> <input  type="text" id="txtApellido" name="txtApellido" class="k-textbox" value="" required/></td>
+		<td>Actividad</td>
+		<td> <input  type="text" id="txtActividad" name="txtActividad" class="k-textbox" value="" required/></td>
 	</tr>
 
-    <tr style="width:100%">
-		<td>Cargo</td>
-		<td> <input  type="text" id="txtCargo" name="txtCargo" class="k-textbox" value="" required/></td>
+    
+     <tr style="width:100%">
+		<td>Duracion</td>
+		<td> <input  type="number" id="txtDuracion" name="txtDuracion" class="k-textbox" value="" required/></td>
 	</tr>
 
-      <tr style="width:100%">
-		<td>Antiguedad</td>
-		<td> <input  type="date" id="txtAntiguedad" name="txtAntiguedad" class="k-textbox" value="" required/></td>
-	</tr>
      <tr style="width:100%">
-		<td>Fecha Nacimiento</td>
-		<td> <input  type="date" id="txtFechaNacimiento" name="txtFechaNacimiento" class="k-textbox" value="" required/></td>
+		<td>Medida</td>
+		<td> <input  type="text" id="txtMedida" name="txtMedida" class="k-textbox" value="" required/></td>
 	</tr>
+
      <tr style="width:100%">
-		<td>Fono</td>
-		<td> <input  type="number" id="txtFono" name="txtFono" class="k-textbox" value="" required/></td>
-	</tr>
-    <tr style="width:100%">
-		<td>Email</td>
-		<td> <input  type="email" id="txtEmail" name="txtEmail" class="k-textbox" value="" required/></td>
-	</tr>
-    <tr style="width:100%">
-		<td>Usuario</td>
-		<td> <input  type="text" id="txtUsuario" name="txtUsuario" class="k-textbox" value="" required/></td>
-	</tr>
-     <tr style="width:100%">
-		<td>Password</td>
-		<td> <input  type="text" id="txtPassword" name="txtPassword" class="k-textbox" value="" required/></td>
+		<td>Orden</td>
+		<td> <input  type="number" id="txtOrden" name="txtOrden" class="k-textbox" value="" required/></td>
 	</tr>
 
 		<td colspan="2" style="border-top-style: dashed ; border-top-color: Gray; border-top-width: 1px; padding-top: 10px">
@@ -64,17 +54,15 @@
 
         $("#btnAgregar").kendoButton({ icon: "plus", click: onClick });
         $("#btnCancelar").kendoButton({ icon: "plus", click: onClose });
-        $("#txtFono").kendoNumericTextBox({ format: "#" });
-        $("#txtAntiguedad").kendoDatePicker();
-        $("#txtFechaNacimiento").kendoDatePicker();
-        $("#txtEmail").kendoValidator();
-
+        $("#txtDuracion").kendoNumericTextBox({ format: "#" });
+        $("#txtOrden").kendoNumericTextBox({ format: "#" });
 
         function onClick(e) {
             var validator = $("#check").kendoValidator().data("kendoValidator");
-            enviaForm(validator, 'check', 'clsUsuario', 'insertar', onSuccess);
+            enviaForm(validator, 'check', 'clsActividad', 'insertar', onSuccess);
             $("#cmbRol").data("kendoComboBox").enable(true);
-       
+            $("#cmbFlujo").data("kendoComboBox").enable(true);
+
         }
 
         function onSuccess() {
@@ -105,6 +93,24 @@
             }
         });
 
+        var cmbFlujo = $("#cmbFlujo").kendoComboBox({
+            dataTextField: "Flujo",
+            dataValueField: "idFlujo",
+            autoBind: false,
+            placeholder: "Seleccionar",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: { url: strInterOpAs("clsFlujo", "lista", "Coordinador"), dataType: "json", type: "post" }
+                },
+                sort: { field: "Flujo", dir: "asc" },
+                schema: {
+                    errors: "msgState",
+                    data: "args",
+                    total: "totalFila"
+                }
+            }
+        });
 
 
     });

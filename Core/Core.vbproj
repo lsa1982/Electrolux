@@ -64,6 +64,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsRol.vb" />
     <Compile Include="clsUsuario.vb" />
     <Compile Include="clsCadena.vb" />
     <Compile Include="clsCategoria.vb" />
