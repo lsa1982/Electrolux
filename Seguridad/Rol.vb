@@ -48,6 +48,7 @@
             mCore.AddMenu(New Menu("Cadena", "frmGridCadena.aspx", ""))
             mCore.AddMenu(New Menu("Usuarios", "frmGridUsuario.aspx", ""))
 
+            mCoordinador.AddMenu(New Menu("Flujos", "frmGridFlujo.aspx", ""))
             mCoordinador.AddMenu(New Menu("Actividad", "frmGridActividad.aspx", ""))
 
 

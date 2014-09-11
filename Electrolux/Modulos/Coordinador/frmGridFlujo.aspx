@@ -1,26 +1,25 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Core.Master" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
 <div class="msgPagina">
-<button id="button" type="button">Agregar Nueva Actividad</button>
+<button id="button" type="button">Agregar Nuevo Flujo</button>
 </div>
 <div id="grid" style="height: 380px"></div>
 <div id="winNewRequest">Espere Mientras se actualizan los datos</div>
 <script>
     var ds = new kendo.data.DataSource({
         transport: {
-            read: { url: strInterOpAs("clsActividad", "lista", "Coordinador"), dataType: "json", type: "POST" },
-            destroy: { url: strInterOpAs("clsActividad", "eliminar", "Coordinador"), dataType: "json", type: "POST" },
-            update: { url: strInterOpAs("clsActividad", "editar", "Coordinador"), dataType: "json", type: "POST" },
-            create: { url: strInterOpAs("clsActividad", "insertar", "Coordinador"), dataType: "json", type: "POST" },
+            read: { url: strInterOpAs("clsFlujo", "lista", "Coordinador"), dataType: "json", type: "POST" },
+            destroy: { url: strInterOpAs("clsFlujo", "eliminar", "Coordinador"), dataType: "json", type: "POST" },
+            update: { url: strInterOpAs("clsFlujo", "editar", "Coordinador"), dataType: "json", type: "POST" },
+            create: { url: strInterOpAs("clsFlujo", "insertar", "Coordinador"), dataType: "json", type: "POST" },
             parameterMap: function (options, operation) {
                 if (operation !== "read" && options.models) {
-                    return { "txtidActividad": options.models[0].idActividad,
-                        "txtidRol": options.models[0].idRol,
-                        "txtidFlujo": options.models[0].idFlujo,
-                        "txtActividad": options.models[0].actividad,
+                    return { "txtidFlujo": options.models[0].idFlujo,
+                        "txtFlujo": options.models[0].Flujo,
+                        "txtGrupo": options.models[0].Grupo,
                         "txtDuracion": options.models[0].duracion,
-                        "txtMedida": options.models[0].medida,
-                        "txtOrden": options.models[0].orden
+                        "txtMedida": options.models[0].medida
+                        
                     };
                 }
                 else {
@@ -39,17 +38,14 @@
             data: "args",
             total: "totalFila",
             model: {
-                id: "idActividad",
+                id: "idFlujo",
                 fields: {
-                    idActividad: { editable: false, nullable: true },
-                    idRol: { editable: false, nullable: true },
-                    ROL: { editable: false, nullable: true },
-                    Flujo: { editable: false, nullable: true },
                     idFlujo: { editable: false, nullable: true },
-                    actividad: { validation: { required: false} },
+                    Flujo: { validation: { required: false} },
+                    Grupo: { validation: { required: false} },
                     duracion: { validation: { required: false} },
-                    medida: { validation: { required: false} },
-                    orden: { validation: { required: false} }
+                    medida: { validation: { required: false} }
+                   
 
                 }
             }
@@ -63,13 +59,11 @@
         });
         var gridColumns = [
                 cmdGrid,
-                { field: "idActividad", title: "ID", width: "40px" },
-                { field: "ROL", title: "Rol", width: "120px" },
+                { field: "idFLujo", title: "ID", width: "40px" },
                 { field: "Flujo", title: "Flujo", width: "120px" },
-                { field: "actividad", title: "Actividad", width: "100px" },
+                { field: "Grupo", title: "Grupo", width: "120px" },
                 { field: "duracion", title: "Duracion", width: "80px" },
-                { field: "medida", title: "Medida", width: "100px" },
-                { field: "orden", title: "Orden", width: "150px" }
+                { field: "medida", title: "Medida", width: "100px" }
                 ];
 
         $("#grid").kendoGrid({
@@ -88,7 +82,7 @@
         });
         $("#winNewRequest").kendoWindow({
             width: "400px",
-            title: "Ingreso Nueva Actividad",
+            title: "Ingreso Nuevo Flujo",
             actions: ["Close"],
             visible: false,
             modal: true,
