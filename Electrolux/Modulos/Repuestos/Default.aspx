@@ -82,13 +82,12 @@
 				 
 				{ command: { text: "Ver", click: onView }, title: " ", width: "60px" },
 				{ field: "idRequerimiento", title: "id", width: "40px" },
-				{ field: "estado", title: "E", template: '<span class="claseEstado claseEstado#: estado #">&nbsp;</span>', width: "40px" },
-				{ field: "nombre", title: "Repuesto", width: "200px" },
-				{ field: "repuesto", title: "Repuesto", width: "200px" },
 				{ field: "tienda", title: "Tienda", width: "150px" },
+				{ field: "nombre", title: "Producto", width: "200px", template: '#: marca # - #: nombre #' },
+				{ field: "repuesto", title: "Repuesto", width: "200px" },
 				{ field: "cantidad", title: "Cantidad", width: "80px" },
-				{ field: "fechaInicio", title: "Inicio", width: "80px" },
-				{ field: "fechaCompromiso", title: "Compromiso", width: "80px" },
+				{ field: "fechaInicio", title: "Fecha Inicio", width: "110px", template: '<span class="claseEstado claseEstado4">#: fechaInicio #</span>' },
+				{ field: "fechaCompromiso", title: "Fecha Plazo", width: "110px", template: '<span class="claseEstado claseEstado#: estado #">#: fechaCompromiso #</span>' },
 				{ field: "actividad", title: "Actividad", width: "120px" },
 				{ field: "usuario", title: "emisor", width: "80px" },
 				{ field: "cadena", title: "Cadena", width: "80px" },
@@ -115,9 +114,14 @@
  		}
  	.claseEstado1 {
  		background-color: yellow;
+ 		color: #666;
  		}
  	.claseEstado2 {
  		background-color: green;
+ 		}
+ 	
+ 	.claseEstado4 {
+ 		background-color: #00a2e8;
  		}
  	
  	#btnNuevo{

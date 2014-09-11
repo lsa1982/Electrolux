@@ -152,9 +152,10 @@
 						"repuesto": $("#cmbRepuesto").data("kendoDropDownList").text(),
 						"producto": $("#txtProducto").data("kendoComboBox").text(),
 						"cantidad" : txtCantidad.value })
-				}else{
-					dataItem.set("cantidad", parseInt(txtCantidad.value) + parseInt( dataItem.cantidad));
 				}
+				//else{
+				//	dataItem.set("cantidad", parseInt(txtCantidad.value) + parseInt( dataItem.cantidad));
+				//}
 			}
 		}
 
