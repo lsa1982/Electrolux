@@ -43,7 +43,7 @@ Public Class clsActividad
         Dim strCx As New StringConex
         Dim strSql As String
         strSql = "UPDATE elx_wf_actividad SET   actividad = '$3', duracion = '$4', medida = '$5', orden = '$6' WHERE idActividad = '$7'"
-        strSql = Replace(strSql, "$7", Me.prGet("txtidActividad"))
+        strSql = Replace(strSql, "$7", Me.prForm("txtidActividad"))
         strSql = Replace(strSql, "$3", Me.prForm("txtActividad"))
         strSql = Replace(strSql, "$4", Me.prForm("txtDuracion"))
         strSql = Replace(strSql, "$5", Me.prForm("txtMedida"))
@@ -58,7 +58,7 @@ Public Class clsActividad
         Dim strCx As New StringConex
         Dim strSql As String
         strSql = "DELETE FROM elx_wf_actividad WHERE idActividad = '$1'"
-        strSql = Replace(strSql, "$1", Me.prGet("txtidActividad"))
+        strSql = Replace(strSql, "$1", Me.prForm("txtidActividad"))
         strCx.ejecutaSql(strSql)
         If strCx.flagError Then
             rsp.estadoError(100, "Eliminar: No se pudo acceder a la base")

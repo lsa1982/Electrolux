@@ -14,7 +14,7 @@
             create: { url: strInterOpAs("clsActividad", "insertar", "Coordinador"), dataType: "json", type: "POST" },
             parameterMap: function (options, operation) {
                 if (operation !== "read" && options.models) {
-                    return { "txtidActividad": options.models[0].idUsuario,
+                    return { "txtidActividad": options.models[0].idActividad,
                         "txtidRol": options.models[0].idRol,
                         "txtidFlujo": options.models[0].idFlujo,
                         "txtActividad": options.models[0].actividad,
