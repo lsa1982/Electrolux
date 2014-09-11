@@ -10,21 +10,28 @@ Public Class clsCategoria
         Dim strSql As String
 
 
-        strSql = "SELECT * FROM elx_core_categoria"
+		strSql = "SELECT * FROM elx_core_categoria WHERE 1 "
         If Not prForm("txtidCategoria") = "" Then
-            strSql = strSql & " WHERE idCategoria = " & Me.prGet("txtidCategoria")
-            strCx.ejecutaSql(strSql)
-        End If
+			strSql = strSql & " and idCategoria = " & Me.prGet("txtidCategoria")
+		End If
 
         If Not prGet("txtidCategoria") = "" Then
-            strSql = strSql & " WHERE idCategoria = " & Me.prGet("txtidCategoria")
-            strCx.ejecutaSql(strSql)
-        End If
+			strSql = strSql & " and idCategoria = " & Me.prGet("txtidCategoria")
+		End If
 
+		If Not prForm("tipo") = "" Then
+			strSql = strSql & " and tipo = '" & Me.prForm("tipo") & "'"
+		End If
+
+		If Not prForm("clase") = "" Then
+			strSql = strSql & " and clase = '" & Me.prForm("clase") & "'"
+		End If
+
+		strCx.ejecutaSql(strSql)
         dt = strCx.retornaDataTable(strSql)
 
         If strCx.flagError Then
-            rsp.estadoError(100, "Lista: No se pudo acceder a la base")
+			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
         Else
             rsp.totalFila = dt.Rows.Count
             rsp.args = Me.retornaTablaSerializada(dt)

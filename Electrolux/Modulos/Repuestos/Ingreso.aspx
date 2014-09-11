@@ -234,7 +234,13 @@
   			dataSource: {
          			type: "json",
          			transport: {
-         				read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "post" }
+         				read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "POST" },
+						parameterMap: function (options, operation) {
+							var dataSend = {};
+							dataSend["tipo"] = "Linea Blanca";
+							dataSend["clase"] = "Producto";
+							return dataSend;
+	  					}
          			},
 					sort: { field: "categoria", dir: "asc"},
          			schema: {
