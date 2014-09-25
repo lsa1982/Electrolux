@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsActividad.vb" />
+    <Compile Include="clsActividad2.vb" />
     <Compile Include="clsFlujo.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -101,6 +102,9 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <EmbeddedResource Include="SQL\vActividad.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQL\vFlujo.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
