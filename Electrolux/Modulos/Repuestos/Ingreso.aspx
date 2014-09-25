@@ -151,7 +151,8 @@
 						"idProducto": txtProducto.value,
 						"repuesto": $("#cmbRepuesto").data("kendoDropDownList").text(),
 						"producto": $("#txtProducto").data("kendoComboBox").text(),
-						"cantidad" : txtCantidad.value })
+						"cantidad" : txtCantidad.value });
+					onLimpiar();
 				}
 				//else{
 				//	dataItem.set("cantidad", parseInt(txtCantidad.value) + parseInt( dataItem.cantidad));
@@ -161,7 +162,15 @@
 
 		$("#btnLimpiar").kendoButton({ click: onClear, icon: "plus" });
 		function onClear(e) {
-			dsCarrito.data([]);
+			onLimpiar();
+		}
+		
+		function onLimpiar() {
+			$("#cmbRepuesto").data("kendoDropDownList").text("");
+			$("#txtProducto").data("kendoComboBox").text("");
+			$("#cmbCategoria").data("kendoComboBox").text("");
+			$("#cmbMarca").data("kendoComboBox").text("");
+			$("#cmbRepuesto").data("kendoDropDownList").text("");
 		}
 
 		$("#btnBuscar").kendoButton({ click: onClick, icon: "arrow-s" });
@@ -177,7 +186,6 @@
 		$("#btnVolver").kendoButton({ click: onClickVolver, icon: "arrow-u" });
 		function onClickVolver(e) {
 			$("#findProducto").hide(500);
-			
 			$("#cmbCliente").data("kendoComboBox").enable(true);
 			$("#cmbTienda").data("kendoDropDownList").enable(true);
 			$("#btnBuscar").data("kendoButton").enable(true);

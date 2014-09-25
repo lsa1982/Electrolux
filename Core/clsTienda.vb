@@ -21,7 +21,7 @@ Sub lista()
         If Not prForm("skip") = "" Then
             vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
         Else
-            vFiltro = vFiltro & " limit 0 , 30"
+			vFiltro = vFiltro & " limit 0 , 50"
         End If
 
         listaSql("vTiendas", vFiltro)

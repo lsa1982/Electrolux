@@ -39,7 +39,7 @@ Public Class Requerimiento
 					itx = DateInterval.Hour
 				End If
 				strSql = "INSERT INTO ELX_REP_REQUERIMIENTO VALUES (null, '$1', '$2', '$3', '$4','$5','$6','$7', '$8', '$9', '$A', '$B') "
-				strSql = Replace(strSql, "$1", "1")
+				strSql = Replace(strSql, "$1", Me.Rol.idUsuario)
 				strSql = Replace(strSql, "$2", Me.prForm("idTienda"))
 				strSql = Replace(strSql, "$3", registro(0))	' Repuesto
 				strSql = Replace(strSql, "$4", registro(1))	' Producto
@@ -75,7 +75,7 @@ Public Class Requerimiento
 		If prForm("idRequerimiento") <> "" Then
 			vFiltro = " and al1.idRequerimiento = " & prForm("idRequerimiento")
 		End If
-
+		vFiltro = " and al1.idUsuario = " & Rol.idUsuario
 		vFiltro = Rol.aplicaFiltro("Tienda", vFiltro, "al1.idTienda")
 		listaSql("vRequerimiento", vFiltro)
 	End Sub
@@ -226,7 +226,7 @@ Public Class Requerimiento
 			vBody = vBody & "</div></td></tr>"
 			vBody = vBody & "<tr><td colspan='2'>"
 			vBody = vBody & "<div style='font-size:13px;padding-left:5px;padding-right:10px'>"
-			vBody = vBody & "<a href='http://be762102de2c4ef:81/Electrolux/modulos/repuestos/seguimiento.aspx?idRequerimiento=" & idReq & "' style='text-decoration:none;font-weight:bold;color:#003366' target='_blank'>Flujo de Respuestos</a></div>"
+			vBody = vBody & "<a href=" & s.HttpServer & "'Electrolux/modulos/repuestos/seguimiento.aspx?idRequerimiento=" & idReq & "' style='text-decoration:none;font-weight:bold;color:#003366' target='_blank'>Flujo de Respuestos</a></div>"
 			vBody = vBody & "<div style='padding-left:5px;font-size:11px;color:#666;padding-right:10px'> Su ID de Requerimiento es el siguiente: " & idReq & "<br><span style='text-align:center;color:#0F0;font-size:10px'> " & DateDiff(DateInterval.Day, DateAdd(DateInterval.Day, -1, Now), CDate(dt.Rows(0)("fechaCompromiso"))) & " días&nbsp;más</span></div>"
 			vBody = vBody & "</td></tr>"
 
@@ -247,7 +247,6 @@ Public Class Requerimiento
 		idMail.Add(23)
 		enviarMail(idMail)
 	End Sub
-
 	Sub eliminar()
 		Dim strCx As New StringConex
 		Dim strSql As String

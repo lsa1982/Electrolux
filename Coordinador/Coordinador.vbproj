@@ -67,6 +67,7 @@
     <Compile Include="clsActividad.vb" />
     <Compile Include="clsActividad2.vb" />
     <Compile Include="clsFlujo.vb" />
+    <Compile Include="clsMatrizResponsabilidad.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
