@@ -1,22 +1,22 @@
 ﻿Imports System.IO
-Imports System.Reflection
+'Imports System.Reflection
 
 
-Public Class clsLog
-	Inherits clsEntidad
+Public Module clsLog
+	'Inherits clsEntidad
 
-	Sub lista()
-		Dim strRr As New StreamReader(AppDomain.CurrentDomain.BaseDirectory & "\Excel\Log.txt")
-		Dim strLog As String
-		strLog = strRr.ReadToEnd()
-		strLog = Replace(strLog, vbCr, ",")
-		strLog = Mid(strLog, 1, Len(strLog) - 2)
-		rsp.args = "[" & Replace(strLog, "\", "\\") & "]"
-		strRr.Close()
-		rsp.totalFila = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory & "\Excel\Log.txt").Length
-	End Sub
+	'Sub lista()
+	'	Dim strRr As New StreamReader(AppDomain.CurrentDomain.BaseDirectory & "\Excel\Log.txt")
+	'	Dim strLog As String
+	'	strLog = strRr.ReadToEnd()
+	'	strLog = Replace(strLog, vbCr, ",")
+	'	strLog = Mid(strLog, 1, Len(strLog) - 2)
+	'	rsp.args = "[" & Replace(strLog, "\", "\\") & "]"
+	'	strRr.Close()
+	'	rsp.totalFila = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory & "\Excel\Log.txt").Length
+	'End Sub
 
-	Public Shared Sub escribeLog(ByVal strOperacion As String, ByVal strMantenedor As String, ByVal strActividad As String, ByVal strDetalle As String)
+	Public Sub escribeLog(ByVal strOperacion As String, ByVal strMantenedor As String, ByVal strActividad As String, ByVal strDetalle As String)
 
 		Dim strWr As New StreamWriter(AppDomain.CurrentDomain.BaseDirectory & "\Excel\Log.txt", True)
 		Dim strLog As String
@@ -33,4 +33,4 @@ Public Class clsLog
 
 	End Sub
 
-End Class
+End Module

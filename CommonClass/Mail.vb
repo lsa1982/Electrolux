@@ -1,6 +1,6 @@
 ﻿Imports EASendMail
 Imports System.IO
-
+Imports System.Configuration
 
 Public Class Mail
 	Private oMail As SmtpMail
@@ -11,6 +11,7 @@ Public Class Mail
 	Private _html As Boolean = False
 	Private _titulo As String
 	Private _subTitulo As String
+	Private _httpServer As String = ConfigurationSettings.AppSettings("httpServer")
 
 	Public Sub New()
 		oMail = New SmtpMail("TryIt")
@@ -19,7 +20,12 @@ Public Class Mail
 
 #Region "Propiedades"
 
+	Public ReadOnly Property HttpServer As String
+		Get
+			Return _httpServer
+		End Get
 
+	End Property
 	Public Property Body As String
 		Get
 			Return Me._body
@@ -44,7 +50,6 @@ Public Class Mail
 			_subject = value
 		End Set
 	End Property
-
 	Public Property Html As Boolean
 		Get
 			Return Me._html
@@ -65,7 +70,7 @@ Public Class Mail
 		oServer.ConnectType = SmtpConnectType.ConnectDirectSSL
 		' CONFIGURACION DEL MENSAJE
 		oMail.To = _to	'Cuenta de Correo al que se le quiere enviar el e-mail
-		oMail.From = "levi.sanchez@vanda.cl"
+		oMail.From = "noreply@vanda.cl"
 		oMail.Subject = _subject	'Sujeto del e-mail
 		oMail.HtmlBody = _body 'contenido del mail
 		oMail.ReturnPath = "levi.sanchez@vanda.cl"
@@ -104,7 +109,6 @@ Public Class Mail
 			_body = ""
 		End If
 	End Sub
-
 	Public Sub AgregarImagen(ByVal vImagen As String, ByVal cid As String)
 		Dim oAttachment As Attachment
 		oAttachment = oMail.AddAttachment(vImagen)
