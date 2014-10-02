@@ -3,7 +3,8 @@
 <div class="msgPagina">
 <button id="button" type="button">Agregar Nueva Actividad</button>
 </div>
-<div id="grid" style="height: 380px"></div>
+<div id="grid" style="height: 200px"></div>
+
 <div id="winNewRequest">Espere Mientras se actualizan los datos</div>
 <script>
     var ds = new kendo.data.DataSource({
@@ -28,7 +29,6 @@
                 }
             }
         },
-        batch: true,
         resizable: true,
         error: errorGrid,
         serverPaging: true,
@@ -39,17 +39,16 @@
             data: "args",
             total: "totalFila",
             model: {
-                id: "idActividad",
                 fields: {
-                    idActividad: { editable: false, nullable: true },
-                    idRol: { editable: false, nullable: true },
-                    ROL: { editable: false, nullable: true },
-                    Flujo: { editable: false, nullable: true },
-                    idFlujo: { editable: false, nullable: true },
-                    actividad: { validation: { required: false} },
-                    duracion: { validation: { required: false} },
-                    medida: { validation: { required: false} },
-                    orden: { validation: { required: false} }
+                    idActividad: { type:"number" },
+                    idRol: { type:"number" },
+                    ROL: { type:"string" },
+                    Flujo: { type:"string" },
+                    idFlujo: { type:"number" },
+                    actividad: { type:"string" },
+                    duracion: { type:"number" },
+                    medida: { type:"string" },
+                    orden: { type:"number" },
 
                 }
             }
@@ -62,7 +61,6 @@
         }
         });
         var gridColumns = [
-                cmdGrid,
                 { field: "idActividad", title: "ID", width: "40px" },
                 { field: "ROL", title: "Rol", width: "120px" },
                 { field: "Flujo", title: "Flujo", width: "120px" },
@@ -75,17 +73,13 @@
         $("#grid").kendoGrid({
             pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
             dataSource: ds,
+            height: 550,
             sortable: true,
-            filterable: filtroGrid,
-            selectable: "multiple",
-            resizable: true,
-            height: 450,
-            columns: gridColumns,
-            editable: {
-                mode: "inline",
-                confirmation: "¿Está seguro que desea borrar el registro?"
-            }
+            pageable: true,
+            columns:gridColumns,
+        
         });
+
         $("#winNewRequest").kendoWindow({
             width: "400px",
             title: "Ingreso Nueva Actividad",
