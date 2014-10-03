@@ -92,16 +92,17 @@ Public MustInherit Class clsEntidad
 			sqlText = ""
 		End If
 	End Function
-	Sub listaSql(ByVal vistaSql As String, Optional ByVal vistaParam As String = "")
+	Sub listaSql(ByVal vistaSql As String, Optional ByVal vistaParam As String = "", Optional ByVal archivoSql As Boolean = True)
 		Dim strCx As New StringConex
 		Dim dt As DataTable
 		Dim strSql As String
-		strSql = sqlText(vistaSql) & vistaParam
+		If archivoSql Then
+			strSql = sqlText(vistaSql) & vistaParam
+		Else
+			strSql = vistaSql & vistaParam
+		End If
 		strCx.iniciaTransaccion()
 		dt = strCx.retornaDataTable(strSql)
-
-
-
 		If strCx.flagError Then
 			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
 		Else
@@ -110,6 +111,8 @@ Public MustInherit Class clsEntidad
 			Debug.Print(rsp.args)
 		End If
 	End Sub
+
+
 
 	Function DataTableSql(ByVal vistaSql As String, Optional ByVal vistaParam As String = "") As DataTable
 		Dim strCx As New StringConex

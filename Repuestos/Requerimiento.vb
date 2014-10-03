@@ -75,7 +75,7 @@ Public Class Requerimiento
 		If prForm("idRequerimiento") <> "" Then
 			vFiltro = " and al1.idRequerimiento = " & prForm("idRequerimiento")
 		End If
-		vFiltro = " and al1.idUsuario = " & Rol.idUsuario
+		vFiltro = vFiltro & " and al1.idUsuario = " & Rol.idUsuario
 		vFiltro = Rol.aplicaFiltro("Tienda", vFiltro, "al1.idTienda")
 		listaSql("vRequerimiento", vFiltro)
 	End Sub
@@ -247,6 +247,24 @@ Public Class Requerimiento
 		idMail.Add(23)
 		enviarMail(idMail)
 	End Sub
+	Sub anular()
+		Dim strCx As New StringConex
+		Dim strSql As String
+		strCx.iniciaTransaccion()
+		strSql = "update elx_rep_requerimiento set estado = 4 WHERE idRequerimiento =  $1"
+		strSql = Replace(strSql, "$1", Me.prForm("idRequerimiento"))
+		strCx.ejecutaSql(strSql)
+		strSql = "update elx_rep_estados set estado = 4 WHERE idRequerimiento =  $1 and activo = 1"
+		strSql = Replace(strSql, "$1", Me.prForm("idRequerimiento"))
+		strCx.ejecutaSql(strSql)
+
+		If strCx.flagError Then
+			rsp.estadoError(100, "Anular: No se pudo acceder a la base", strCx.msgError)
+		Else
+			rsp.args = " {""result"": ""OK""}"
+			strCx.finTransaccion()
+		End If
+	End Sub
 	Sub eliminar()
 		Dim strCx As New StringConex
 		Dim strSql As String
@@ -261,6 +279,7 @@ Public Class Requerimiento
 		If strCx.flagError Then
 			rsp.estadoError(100, "Eliminar: No se pudo acceder a la base", strCx.msgError)
 		Else
+			rsp.args = " {""result"": ""OK""}"
 			strCx.finTransaccion()
 		End If
 	End Sub

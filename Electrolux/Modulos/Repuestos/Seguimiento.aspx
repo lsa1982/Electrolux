@@ -9,13 +9,15 @@
 			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
 		</tr>
 	</table>
-
 	
 	<table style= "padding-top: 15px; width: 100%" id="layerSeguimiento">
 		<tr>
 			<td colspan="2">
 				<span style=" font-size: 11px;">Detalle del requerimiento solicitado:</span>
-				<div style="float: right;margin-right: 10px"><button id="btnDelete" type="button" class="k-button">Eliminar</button></div> 
+				<div style="float: right;margin-right: 10px">
+					<button id="btnMensaje" type="button" class="k-button">Mensajes</button>
+					<button id="btnProrroga" type="button" class="k-button">Prorroga</button>
+				</div> 
 			</td>
 		</tr>
 		<tr>
@@ -40,7 +42,7 @@
 		</tr>
 		<tr>
 			<td >Fecha Compromiso</td>
-			<td ><div id="lblCompromiso"></div></td>
+			<td ><div id="lblCompromiso"></div> </td>
 		</tr>
 		<tr>
 			<td >Cantidad</td>
@@ -51,42 +53,294 @@
 			<td ><div id="lblEstado"></div></td>
 		</tr>
 		<tr>
+			<td ></td>
+			<td >
+				<button id="btnDelete" type="button" class="k-button-red">Eliminar</button>
+				<button id="btnAnular" type="button" class="k-button-red">Anular</button>
+			</td>
+		</tr>
+		
+
+		
+		<!-- Capa de Actividades -->
+		<tr>
+			<td colspan="2"><div id="layerActividad" style=" font-size: 24px;">Actividades</div></td>
+		</tr>
+		<tr>
 			<td>Actividad Actual</td>
 			<td><div id="lblActividad"></div></td>
 		</tr>
-		<tr>
-			<td>Finalizacion</td>
-			<td>	<input id="cmbFinalizacion" style="width: 300px" /></td>
-		</tr>
+		
 		<tr>
 			<td></td>
-			<td>	<button id="btnAvanzar" type="button" class="k-button">Avanzar </button></td>
+			<td>	<button id="btnAvanzar" type="button" class="k-button-red">Finalizar</button></td>
 		</tr>
 
 		<tr>
 			<td colspan="2"><div id="grid"></div></td>
 		</tr>
+		<!-- Capa de Prorroga -->
+		<tr>
+			<td colspan="2"><div id="layerProrroga" style=" font-size: 24px; float:left">Prorrogas</div> <button id="btnVolver1" type="button" class="k-button" style="float:right">Volver </button></td>
+		</tr>
+		<tr>
+			<td colspan="2">Historial de las modificaciones de las fechas de compromiso.<br>&nbsp;</td>
+			
+		</tr>
+		<tr>
+			<td style="vertical-align: baseline">Detalles de prorrogas: </td>
+			<td><div id="frmProrroga"></div></td>
+		</tr>
+		<tr>
+			
+			<td > </td>
+			<td><button id="btnNewProrroga" type="button" class="k-button-red">Nueva Prorroga</button></td>
+		</tr>
+		<!-- Capa de Mensajes -->
+		<tr>
+			<td colspan="2"><div id="layerMensaje" style=" font-size: 24px;float:left">Mensajes</div><button id="btnVolver2" type="button" class="k-button" style="float:right">Volver </button></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<div class="divMensaje">
+				<span style="font-weight: bold"> lsanchez : laskdfhalsd</span><br>
+				Enviado el  Martes 09 de Septiembre, 2014 a las 02:00:32 <br>
+				
+				</div>
+			</td>
+		</tr>
 	</table>
 </div>
 
-
+<div id="winProrroga" class="winSeguimiento">
+	 <table>
+		 <tr>
+			<td colspan="2">Ingrese Motivo y nuevo plazo de postergacion</td>
+		 </tr>
+		 <tr>
+			<td style="width:100px">Motivo</td>
+			<td><input id="cmbMotivo" style="width: 300px" value="" /></td>
+		 </tr>
+		 <tr>
+			<td>Nueva Fecha</td>
+			<td><input id="lblFechaNueva" style="width: 300px" value="" /></td>
+		 </tr>
+		 <tr>
+			<td style="vertical-align: baseline">Comentario</td>
+			<td><textarea id="txtComentario" name="txtComentario" class="k-textbox" style="width:100%;" ></textarea></td>
+		 </tr>
+		 <tr>
+			<td></td>
+			<td><button id="btnSendPostegar" type="button" class="k-button">Postegar </button></td>
+		 </tr>
+	 </table>
+</div>
+<div id="winFinalizacion" class="winSeguimiento">
+	 <table>
+		 <tr>
+			<td colspan="2">Ingrese la finalizacion de la actividad</td>
+		 </tr>
+		<tr>
+			<td style="width:100px">Finalizacion</td>
+			<td><input id="cmbFinalizacion" style="width: 300px" /></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="checkbox" id="chkDocumento" class="k-checkbox" /> Agregar Documento </td>
+		</tr>
+		<tr id="lblDoc1" style="display:none">
+			<td>Documento</td>
+			<td><input id="cmbTipoDocumento" style="width: 300px"/></td>
+		</tr>
+		<tr id="lblDoc2" style="display:none">
+			<td>Nro Referencia</td>
+			<td><input id="txtNroDocumento" style="width: 300px" class="k-textbox"  /></td>
+		</tr>
+		<tr id="lblDoc3" style="display:none">
+			<td>Valor</td>
+			<td><input id="txtValor" style="width: 300px" /></td>
+			</tr>
+		
+		<tr>
+			<td style="vertical-align: baseline">Comentario</td>
+			<td><textarea id="txtComentarioDoc" name="txtComentario" class="k-textbox" style="width:100%;" ></textarea></td>
+		 </tr>
+		 <tr>
+			<td></td>
+			<td><button id="btnSendFinalizar" type="button" class="k-button">Finalizar </button></td>
+		 </tr>
+	 </table>
+</div>
 
 <script>
 	$(document).ready(function () {
 		var idRequerimiento = 0;
+		// ####################################################
+		// ## Windows Finalizacion							###
+		// ####################################################
+		$('#chkDocumento').change(function () {
+			if ($(this).is(":checked"))
+				$("#lblDoc1, #lblDoc2, #lblDoc3").show();
+			else
+				$("#lblDoc1, #lblDoc2, #lblDoc3").hide();
+		});
 
-		$("#btnDelete").kendoButton({ click: onDelete, icon: "close" });
+		$("#txtValor").kendoNumericTextBox({ step: 1000, min: 0 });
+		$("#winFinalizacion").kendoWindow({
+			width: "430px",
+			title: "Finalizar Actividad",
+			actions: ["Close"],
+			visible: false,
+			modal: true
+		});
+
+		$("#cmbFinalizacion").kendoDropDownList({
+			dataTextField: "finalizacion",
+			dataValueField: "idFinalizacion",
+			autoBind: false,
+			dataSource: {
+				type: "json",
+				transport: { read: { url: strInterOp("Requerimiento", "listaFinalizacion"), type: "post"} },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		$("#cmbTipoDocumento").kendoComboBox({
+			dataTextField: "tipoDocumento",
+			dataValueField: "idTipoDocumento",
+			autoBind: false,
+			placeholder: "Seleccione Documento",
+			dataSource: {
+				type: "json",
+				transport: { read: { url: strInterOp("TipoDocumento", "lista"), type: "post"} },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		$("#btnSendFinalizar").kendoButton({ click: onSendFinalizar, icon: "plus" });
+		function onSendFinalizar(e) {
+			var pUrl = [];
+			pUrl.push("idRequerimiento=" + idRequerimiento);
+			pUrl.push("idFinalizacion=" + cmbFinalizacion.value);
+			if ($('#chkDocumento').is(":checked")) {
+				pUrl.push("idDocumento=" + cmbFinalizacion.value);
+				pUrl.push("idTipoDocumento=" + $("#cmbTipoDocumento").data("kendoComboBox").value());
+				pUrl.push("TipoDocumento=" + $("#cmbTipoDocumento").data("kendoComboBox").text());
+				pUrl.push("valor=" + cmbFinalizacion.value);
+			}
+			else {
+				pUrl.push("idDocumento=1");
+				pUrl.push("idTipoDocumento=1");
+				pUrl.push("valor=0");
+			}
+
+
+
+			var x = pUrl.join("&");
+			//callScript(strInterOp("Requerimiento", "avanzarActividad"), '&' + x, onRefresh);
+			console.log(x);
+		}
+
+
+
+		// ####################################################
+		// ## Windows Prorroga								###
+		// ####################################################
+		$("#btnSendPostegar").kendoButton({ click: onSendPostegar, icon: "close" });
+		function onSendPostegar(e) {
+			var pUrl = [];
+			pUrl.push("idRequerimiento=" + idRequerimiento);
+			pUrl.push("idMotivo=" + cmbMotivo.value);
+			pUrl.push("fechaNueva=" + lblFechaNueva.value);
+			pUrl.push("fechaAntigua=" + $("#lblCompromiso").text());
+			pUrl.push("comentario=" + txtComentario.value);
+
+			var x = pUrl.join("&");
+			callScript(strInterOp("Prorroga", "insertar"), '&' + x,
+				function (e) {
+					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+					$("#winProrroga").data("kendoWindow").close();
+					$("body, html").animate({ scrollTop: $("#layerProrroga").offset().top }, 600);
+				}
+			);
+		}
+
+		$("#lblFechaNueva").kendoDatePicker({ format: "yyyy-MM-dd" }).data("kendoDatePicker");
+
+		$("#cmbMotivo").kendoComboBox({
+			dataTextField: "motivo",
+			dataValueField: "idMotivo",
+			autoBind: false,
+			placeholder: "Seleccion un motivo...",
+			dataSource: {
+				type: "json",
+				transport: {
+					read: { url: strInterOp("Motivo", "lista"), type: "post" }
+				},
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		$("#winProrroga").kendoWindow({
+			width: "450px",
+			title: "Postegar plazo",
+			actions: ["Close"],
+			visible: false,
+			modal: true
+		});
+
+		// ####################################################
+		// ## Botones										###
+		// ####################################################
+
+		$("#btnVolver1").kendoButton({ click: onVolver, icon: "arrow-n" });
+		$("#btnVolver2").kendoButton({ click: onVolver, icon: "arrow-n" });
+		function onVolver(e) {
+			$("body, html").animate({ scrollTop: 0 }, 600);
+		}
+
+		$("#btnMensaje").kendoButton({ click: onMensaje, icon: "arrow-s" });
+		function onMensaje(e) {
+			$("body, html").animate({ scrollTop: $("#layerMensaje").offset().top }, 600);
+		}
+
+		$("#btnNewProrroga").kendoButton({ click: onNewProrroga, icon: "tick" });
+		function onNewProrroga(e) {
+			$("#winProrroga").data("kendoWindow").center();
+			$("#winProrroga").data("kendoWindow").open();
+		}
+
+		$("#btnProrroga").kendoButton({ click: onPostegar, icon: "arrow-s" });
+		function onPostegar(e) {
+			$("body, html").animate({ scrollTop: $("#layerProrroga").offset().top }, 600);
+		}
+
+		$("#btnAnular").kendoButton({ click: onAnular });
+		function onAnular(e) {
+			var r = confirm("Esta seguro de anular este requerimiento");
+			if (r == true) {
+				var req = dsRepuestos.at(0);
+				callScript(strInterOp("Requerimiento", "anular"), '&idRequerimiento=' + req.id,
+				function (e) {
+					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+				}
+			);
+			}
+		}
+
+		$("#btnDelete").kendoButton({ click: onDelete });
 		function onDelete(e) {
 			var r = confirm("Esta seguro de eliminar este requerimiento");
 			if (r == true) {
 				var req = dsRepuestos.at(0);
-				dsRepuestos.remove(req);
-				dsRepuestos.sync();
-			} 
-			
+				callScript(strInterOp("Requerimiento", "eliminar"), '&idRequerimiento=' + req.id,
+				function (e) {
+					window.location.href = "Default.aspx";
+				});
+			}
 		}
 
-		$("#btnBuscar").kendoButton({ click: onFind, icon: "arrow-u" });
+		$("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
 		function onFind(e) {
 			dsRepuestos.read({ "idRequerimiento": txtIdRequerimiento.value });
 			$("#layerSeguimiento").show(500);
@@ -98,12 +352,12 @@
 
 		$("#btnAvanzar").kendoButton({ click: onClick, icon: "arrow-u" });
 		function onClick(e) {
-			var pUrl = [];
-			pUrl.push("idRequerimiento=" + idRequerimiento);
-			pUrl.push("idFinalizacion=" + cmbFinalizacion.value);
-			var x = pUrl.join("&");
-			callScript(strInterOp("Requerimiento", "avanzarActividad"), '&' + x, onRefresh);
+			$("#winFinalizacion").data("kendoWindow").center();
+			$("#winFinalizacion").data("kendoWindow").open();
 		}
+		// ####################################################
+		// ## Carga Datos									###
+		// ####################################################
 
 		function cargaDatos(data, idRequerimiento) {
 			var vEstado = $.map(dsEstado, function (val) {
@@ -119,30 +373,24 @@
 			$("#lblEstado").html("<strong>" + vEstado[0].estado + "</strong>");
 			$("#lblActividad").html("<strong>" + data[0].actividad + "</strong>");
 			dsRequerimiento.read({ "idRequerimiento": idRequerimiento });
-			var cmbFin = $("#cmbFinalizacion").data("kendoDropDownList");
+			dsProrroga.read({ "idRequerimiento": idRequerimiento });
+
 			if (data[0].estado == 2) {
 				$("#btnAvanzar").hide();
 				cmbFin.enable(false);
 			}
 			else {
-				$("#layerSeguimiento").show(500);
-				cmbFin.dataSource.read({ "idRequerimiento": idRequerimiento });
+
+				$("#cmbFinalizacion").data("kendoDropDownList").dataSource.read({ "idRequerimiento": idRequerimiento });
+				$("#cmbTipoDocumento").data("kendoComboBox").dataSource.read();
+
 			}
+			$("#layerSeguimiento").show(500);
 		}
 
-		$("#cmbFinalizacion").kendoDropDownList({
-			dataTextField: "finalizacion",
-			dataValueField: "idFinalizacion",
-			autoBind: false,
-			dataSource: {
-				type: "json",
-				transport: {
-					read: { url: strInterOp("Requerimiento", "listaFinalizacion"), type: "post" }
-				},
-				schema: { errors: "msgState", data: "args", total: "totalFila" }
-			}
-		});
-
+		// ####################################################
+		// ## Datasource									###
+		// ####################################################
 
 		var dsRepuestos = new kendo.data.DataSource({
 			transport: {
@@ -168,8 +416,7 @@
 			batch: true,
 			resizable: true,
 			error: errorGrid,
-			
-			schema: { errors: "msgState", data: "args", total: "totalFila",model: {id: "idRequerimiento"} }
+			schema: { errors: "msgState", data: "args", total: "totalFila", model: { id: "idRequerimiento"} }
 		});
 
 
@@ -183,10 +430,46 @@
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
 
+		var dsProrroga = new kendo.data.DataSource({
+			transport: { read: { url: strInterOp("Prorroga", "lista"), dataType: "json", type: 'POST'} },
+			batch: true,
+			resizable: true,
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila" },
+			change: function (e) {
+				var strDivProrroga = "";
+				if (this._data.length > 0) {
+					var data = this.data();
+					var strDiv = "<div class='divProrroga'><span style='font-weight: bold; color: #0B90A7 '> Ingresado el $1 <br>Por $2";
+					strDiv = strDiv + "</span><br><hr/>Motivo:<strong> $3</strong><br>Fecha Anterior:<strong> $4</strong><br>";
+					strDiv = strDiv + "Fecha Nueva: <strong>$5</strong><br>Comentario: <strong>$6</strong></div>";
+
+					for (i = 0; i < this._data.length; i++) {
+						strDivData = strDiv;
+						strDivData = strDivData.replace("$1", data[i].fechaModificacion);
+						strDivData = strDivData.replace("$2", data[i].usuario);
+						strDivData = strDivData.replace("$3", data[i].motivo);
+						strDivData = strDivData.replace("$4", data[i].fechaAntigua);
+						strDivData = strDivData.replace("$5", data[i].fechaNueva);
+						strDivData = strDivData.replace("$6", data[i].comentario);
+						strDivProrroga = strDivProrroga + strDivData;
+					}
+				}
+				else {
+					strDivProrroga = "<strong>No existen prorrogas para este requerimiento</strong>";
+				}
+				$("#frmProrroga").html(strDivProrroga);
+			}
+		});
+
+		// ############################################
+		// ### Grid									###
+		// ############################################
+
 		$("#grid").kendoGrid({
 			dataSource: dsRequerimiento,
 			pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
-			height: 350,
+			height: 250,
 			sortable: true,
 			filterable: filtroGrid,
 			resizable: true,
@@ -207,6 +490,7 @@
 		// ### Ejecución inicial					###
 		// ############################################
 		$("#layerSeguimiento").hide();
+
 		var vGet = getVarsUrl();
 
 		if (typeof vGet.idRequerimiento != "undefined") {
@@ -215,32 +499,72 @@
 		}
 	});
 </script>
-
 <style>
 	.claseEstado {
- 		padding: 5px;
- 		font-weight: bold;
- 		color: White;
- 		border-radius: 6px;
- 		}
- 	.claseEstado0 {
- 		background-color: Red;
- 		}
- 	.claseEstado1 {
- 		background-color: yellow;
- 		}
- 	.claseEstado2 {
- 		background-color: green;
- 		}
- 	.claseEstado3 {
- 		background-color: Red;
- 		}
- 	.areaTrabajo table td{
- 		font-size: 11px;
- 		border-bottom: 1px dashed #EEEEEE;
- 		padding-bottom:5px;
- 		
- 		}
- 	
+		padding: 5px;
+		font-weight: bold;
+		color: White;
+		border-radius: 6px;
+		}
+	.claseEstado0 {
+		background-color: Red;
+		}
+	.claseEstado1 {
+		background-color: yellow;
+		}
+	.claseEstado2 {
+		background-color: green;
+		}
+	.claseEstado3 {
+		background-color: Red;
+		}
+		
+	.claseEstado4 {
+		background-color: Orange;
+		}
+	.areaTrabajo table td{
+		font-size: 11px;
+		border-bottom: 1px dashed #EEEEEE;
+		padding-bottom:5px;
+		
+		}
+	
+	.k-button-red{
+		padding: 3px;
+		font-size: 14px;
+		background-color: #0B90A7 ;
+		color: White;
+		border: 0px;
+		min-width: 100px
+		
+	}
+		
+	.winSeguimiento{
+		font-size: 11px;
+		border-bottom: 1px dashed #EEEEEE;
+		padding-bottom:5px;
+	}
+	
+	.divProrroga{
+		 border: 1px solid #AAA; 
+		 width: 260px; 
+		 float: left;
+		 margin-right:15px;
+		 margin-bottom:15px;
+		 -webkit-border-radius: 3px;
+		 padding: 5px;
+		 box-shadow: 0 0 3px #DDD;
+		 min-height: 150px;
+		}
+	
+	.divMensaje{
+		 border: 1px solid #AAA; 
+		 width: 95%; 
+		 background-color: #EEE;
+		 -webkit-border-radius: 3px;
+		 padding: 15px;
+		 box-shadow: 0 0 3px #DDD
+		}
+
 </style>
 </asp:Content>
