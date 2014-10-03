@@ -1,0 +1,17 @@
+﻿SELECT 
+	AL1.idActividadFinalizacion,
+	AL1.idActividad,
+	AL2.actividad,
+	AL1.idFinalizacion,
+	AL3.finalizacion,
+	AL1.idActividadSiguiente
+FROM
+	ELX_WF_ACTIVIDADFINALIZACION AL1,
+	ELX_WF_ACTIVIDAD AL2,
+	ELX_WF_FINALIZACION AL3
+WHERE
+	AL1.idActividad 	= AL2.idActividad AND
+	AL1.idFinalizacion 	= AL3.idFinalizacion
+
+
+	

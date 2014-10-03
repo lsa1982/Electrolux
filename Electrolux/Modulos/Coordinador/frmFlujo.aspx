@@ -6,56 +6,167 @@
 		<tr>
 			<td colspan="2">
 				<span style=" font-size: 11px;">Detalle del requerimiento solicitado:</span>
-			</td>
-		</tr>
-		<tr>
-			
+
+            </td>
 		</tr>
 	</table>
-	<canvas id="gitGraph"></canvas>
+    
 </div>
+<canvas id="gitGraph"></canvas>
+
+<div id="grid" style="height: 200px"></div>
 
 <script src="<% = resolveClientUrl("~/Kendo/gitgraph.js") %>" type="text/javascript"></script>
+
 <script>
-	$(document).ready(function () {
-		function onClick(c) {
-			if (c instanceof Object) {
-				alert(c.message);
-			}
-		}
+    $(document).ready(function () {
+        var wfMatriz = [];
+        function onClick(c) {
+            if (c instanceof Object) {
+                alert(c.message);
+            }
+        }
+        function onRefresh(e) {
+            wfMatriz = e
+            var index;
+            for (index = 0; index < wfMatriz.length; ++index) {
+                gitGraph.creaNodo(wfMatriz[index]);
+            };
+        };
 
-		var gitGraph = new GitGraph({ click: onClick });
-		var wfMatriz =
-			[
-				{ "idActividadFinalizacion": "1", "idActividad": "1", "actividad": "Recepcion SD", "idFinalizacion": "1", "finalizacion": "Automatico", "idActividadSiguiente": "2" },
-				{ "idActividadFinalizacion": "2", "idActividad": "2", "actividad": "Consulta Stock", "idFinalizacion": "2", "finalizacion": "Recepcionado", "idActividadSiguiente": "3" },
-				{ "idActividadFinalizacion": "3", "idActividad": "3", "actividad": "Despacho", "idFinalizacion": "3", "finalizacion": "En Stock", "idActividadSiguiente": "4" },
-				{ "idActividadFinalizacion": "6", "idActividad": "3", "actividad": "Solicitud a SPV", "idFinalizacion": "6", "finalizacion": "Sin Stock", "idActividadSiguiente": "6" },
-				{ "idActividadFinalizacion": "6", "idActividad": "6", "actividad": "XXX", "idFinalizacion": "6", "finalizacion": "XXX", "idActividadSiguiente": "4" },
-				{ "idActividadFinalizacion": "4", "idActividad": "4", "actividad": "YYYY", "idFinalizacion": "4", "finalizacion": "Despachado", "idActividadSiguiente": "5" },
-				{ "idActividadFinalizacion": "4", "idActividad": "6", "actividad": "YYYY", "idFinalizacion": "4", "finalizacion": "Despachado", "idActividadSiguiente": "3" },
-				{ "idActividadFinalizacion": "4", "idActividad": "3", "actividad": "YYYY", "idFinalizacion": "4", "finalizacion": "Despachado", "idActividadSiguiente": "1" },
-				{ "idActividadFinalizacion": "4", "idActividad": "6", "actividad": "YYYY", "idFinalizacion": "4", "finalizacion": "Despachado", "idActividadSiguiente": "2" }
-			];
-		var index;
-		for (index = 0; index < wfMatriz.length; ++index) {
-			gitGraph.creaNodo(wfMatriz[index]);
-		}
-		gitGraph.render();
+        callScript(strInterOp("clsGrafo", "lista"), '', onRefresh);
 
-		
+        var gitGraph = new GitGraph({ click: onClick });
 
-	});
+
+
+        var dsFlujos = new kendo.data.DataSource({
+            transport: {
+                read: { url: strInterOp("", "lista"), dataType: "json", type: 'POST' },
+                destroy: { url: strInterOp("Requerimiento", "eliminar"), dataType: "json", type: 'POST' },
+                parameterMap: function (data, type) {
+                    if (type == "destroy") {
+                        return { idRequerimiento: data.models[0].idRequerimiento }
+                    }
+                    if (type == "read") {
+                        return { idRequerimiento: data.idRequerimiento }
+                    }
+                }
+            },
+            change: function (e) {
+                if (e.action != "remove") {
+                    if (this._data.length > 0) {
+                        var data = this.data();
+                        cargaDatos(data, data[0].idRequerimiento);
+                    }
+                }
+            },
+            batch: true,
+            resizable: true,
+            error: errorGrid,
+
+            schema: { errors: "msgState", data: "args", total: "totalFila", model: { id: "idRequerimiento"} }
+        });
+
+    });
+
+
+var ds = new kendo.data.DataSource({
+        transport: {
+            read: { url: strInterOpAs("clsActividad", "lista", "Coordinador"), dataType: "json", type: "POST" },
+            destroy: { url: strInterOpAs("clsActividad", "eliminar", "Coordinador"), dataType: "json", type: "POST" },
+            update: { url: strInterOpAs("clsActividad", "editar", "Coordinador"), dataType: "json", type: "POST" },
+            create: { url: strInterOpAs("clsActividad", "insertar", "Coordinador"), dataType: "json", type: "POST" },
+            parameterMap: function (options, operation) {
+                if (operation !== "read" && options.models) {
+                    return { "txtidActividad": options.models[0].idActividad,
+                        "txtidRol": options.models[0].idRol,
+                        "txtidFlujo": options.models[0].idFlujo,
+                        "txtActividad": options.models[0].actividad,
+                        "txtDuracion": options.models[0].duracion,
+                        "txtMedida": options.models[0].medida,
+                        "txtOrden": options.models[0].orden
+                    };
+                }
+                else {
+                    return options;
+                }
+            }
+        },
+        batch: true,
+        resizable: true,
+        error: errorGrid,
+        serverPaging: true,
+        serverFiltering: true,
+        pageSize: 30,
+        schema: {
+            errors: "msgState",
+            data: "args",
+            total: "totalFila",
+            model: {
+                fields: {
+                    idActividad: { type:"number" },
+                    idRol: { type:"number" },
+                    ROL: { type:"string" },
+                    Flujo: { type:"string" },
+                    idFlujo: { type:"number" },
+                    actividad: { type:"string" },
+                    duracion: { type:"number" },
+                    medida: { type:"string" },
+                    orden: { type:"number" },
+
+                }
+            }
+        }
+    });
+
+var gridColumns = [
+                { field: "idActividad", title: "ID", width: "40px" },
+                { field: "ROL", title: "Rol", width: "110px" },
+                { field: "Flujo", title: "Flujo", width: "120px" },
+                { field: "actividad", title: "Actividad", width: "100px" },
+                { field: "duracion", title: "Duracion", width: "80px" },
+                { field: "medida", title: "Medida", width: "80px" },
+                { field: "orden", title: "Orden", width: "80px" }
+                ];
+
+        $("#grid").kendoGrid({
+            dataSource: ds,
+            sortable: true,
+            resizable: true,
+            height: 220,
+            columns: gridColumns,
+        
+        });
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 <style>
 	
  	.areaTrabajo table td{
+ 		overflow:hidden;
  		font-size: 11px;
  		border-bottom: 1px dashed #EEEEEE;
  		padding-bottom:5px;
  		
  		}
+ 		
+ 		#grid{
+ 		width:62%;
+ 		float:right;
+ 		}
+ 		
  	
 </style>
 </asp:Content>
