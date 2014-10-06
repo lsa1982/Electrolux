@@ -1,0 +1,17 @@
+﻿Select
+	al1.idActividad,
+	al1.idRol,
+	al1.idFlujo,
+	al1.actividad,
+	al1.duracion,
+	al1.medida,
+	al1.orden,
+	al2.ROL,
+	al3.Flujo
+From
+	elx_wf_actividad al1,
+	elx_hr_rol al2,
+	elx_wf_flujo al3
+Where
+	al1.idRol = al2.IDROL and
+	al1.idFlujo = al3.idFlujo
