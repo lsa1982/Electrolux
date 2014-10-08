@@ -108,7 +108,8 @@
 		function cargaDatos(data, idRequerimiento) {
 			var vEstado = $.map(dsEstado, function (val) {
 				return val.idEstado == data[0].estado ? val : null;
-			});
+            });
+
 			$("#lblEmisor").html("<strong>" + data[0].usuario + "</strong>");
 			$("#lblProducto").html("<strong>" + data[0].nombre + "</strong>");
 			$("#lblRepuesto").html("<strong>" + data[0].codigo + ' - ' + data[0].repuesto + "</strong>");
