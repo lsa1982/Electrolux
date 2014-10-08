@@ -194,7 +194,7 @@
 		// ### Combos						###
 		// ####################################
 
-		var cmbCliente = $("#cmbCliente").kendoComboBox({
+		$("#cmbCliente").kendoComboBox({
 			dataTextField: "cadena",
 			dataValueField: "idCadena",
 			placeholder: "Seleccione Cadena",
@@ -212,24 +212,42 @@
 			}
 		});
 
+		function onOpenTienda(e) {
+			console.log("event: open");
+			dsTienda.read();
+		};
+
+		var dsTienda = new kendo.data.DataSource({
+				serverFiltering: true,
+				type: "json",
+				transport: {
+					read: { url: strInterOpAs("clsTienda", "lista", "Core"), dataType: "json", type: "post" },
+					parameterMap: function (options, operation) {
+						var dataSend = {};
+						if (cmbCliente.value != "") {
+							dataSend["txtidCadena"] = cmbCliente.value;
+						}
+						if (options.filter != undefined) {
+							dataSend["nombre"] = $("#cmbTienda").data("kendoComboBox")._prev;
+						}
+						return dataSend;
+						
+					}
+				},
+				sort: { field: "tienda", dir: "asc"},
+				schema: {errors: "msgState",data: "args",total: "totalFila"}
+			});
+
 		$("#cmbTienda").kendoComboBox({
 			dataTextField: "tienda",
 			dataValueField: "idTienda",
 			autoBind: false,
-			cascadeFrom: "cmbCliente",
 			placeholder: "Seleccione Tienda",
-			dataSource: {
-				type: "json",
-				transport: {
-					read: { url: strInterOpAs("clsTienda", "lista", "Core"), dataType: "json", type: "post" }
-				},
-				sort: { field: "tienda", dir: "asc"},
-				schema: {
-					errors: "msgState",
-					data: "args",
-					total: "totalFila"
-				}
-			}
+			filter: "contains",
+			minLength: 4,
+			autoBind: false,
+			open: onOpenTienda,
+			dataSource: dsTienda
 		});
 
 		$("#cmbCategoria").kendoComboBox({
