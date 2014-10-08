@@ -25,17 +25,18 @@
 	</table>
 </div>
 <div class="areaTrabajo" id="findProducto">
-	<table style= "padding-bottom: 10px; font-size : 10px">
+	<table style= "padding-bottom: 10px; font-size : 10px; width:100%">
 		<tr >
 			<td colspan="2" >
 				<span style=" font-size: 24px;">Productos</span>
+					<button id="btnVolver" type="button" class="k-button" style="float:right">Volver</button>
 			</td>
 		</tr>
 		<tr style="font-size: 10px; ">
 			<td style="width: 120px">
 				Categoria: 
 			</td>
-			<td>
+			<td >
 				<input id="cmbCategoria" style="width: 200px" />
 			</td>
 		</tr>
@@ -69,10 +70,9 @@
 		<tr style="font-size: 10px; border-bottom-width: 1px; ">
 			<td></td>
 			<td>
-				<button id="btnAgregar" type="button" class="k-button">Agregar</button>
-				<button id="btnVolver" type="button" class="k-button">Volver</button>
-				<button id="btnLimpiar" type="button" class="k-button">Limpiar</button>
-				<button id="btnEnviar" type="button" class="k-button">Enviar</button>
+				<button id="btnAgregar" type="button" class="k-button-red">Agregar</button>
+				<button id="btnLimpiar" type="button" class="k-button-red">Limpiar</button>
+				<button id="btnEnviar" type="button" class="k-button-red">Enviar</button>
 			</td>
 		</tr>
 	</table>
@@ -128,11 +128,11 @@
 		// ####################################
 		// ### Botones						###
 		// ####################################
-		$("#btnEnviar").kendoButton({ click: onSend, icon: "plus" });
+		$("#btnEnviar").kendoButton({ click: onSend, icon: "tick" });
 		function onSend(e) {
 			e.preventDefault();
 			$("#winNewRequest").data("kendoWindow").center().open();
-			$("#txtRepTienda").html("<strong>" + $("#cmbTienda").data("kendoDropDownList").text() + "</strong>");
+			$("#txtRepTienda").html("<strong>" + $("#cmbTienda").data("kendoComboBox").text() + "</strong>");
 			
 			var template = kendo.template("#: cantidad # #: producto # - #: repuesto # <br/>");
 			var v =dsCarrito.data();
@@ -160,7 +160,7 @@
 			}
 		}
 
-		$("#btnLimpiar").kendoButton({ click: onClear, icon: "plus" });
+		$("#btnLimpiar").kendoButton({ click: onClear, icon: "refresh" });
 		function onClear(e) {
 			onLimpiar();
 		}
@@ -177,7 +177,7 @@
 			if (cmbTienda.value != ""){
 				$("#findProducto").show(500);
 				$("#cmbCliente").data("kendoComboBox").enable(false);
-				$("#cmbTienda").data("kendoDropDownList").enable(false);
+				$("#cmbTienda").data("kendoComboBox").enable(false);
 				$("#btnBuscar").data("kendoButton").enable(false);
 			}
 		}
@@ -186,7 +186,7 @@
 		function onClickVolver(e) {
 			$("#findProducto").hide(500);
 			$("#cmbCliente").data("kendoComboBox").enable(true);
-			$("#cmbTienda").data("kendoDropDownList").enable(true);
+			$("#cmbTienda").data("kendoComboBox").enable(true);
 			$("#btnBuscar").data("kendoButton").enable(true);
 		}
 		
@@ -212,14 +212,13 @@
 			}
 		});
 
-		$("#cmbTienda").kendoDropDownList({
+		$("#cmbTienda").kendoComboBox({
 			dataTextField: "tienda",
 			dataValueField: "idTienda",
 			autoBind: false,
 			cascadeFrom: "cmbCliente",
 			placeholder: "Seleccione Tienda",
 			dataSource: {
-				serverFiltering: true,
 				type: "json",
 				transport: {
 					read: { url: strInterOpAs("clsTienda", "lista", "Core"), dataType: "json", type: "post" }
@@ -381,6 +380,16 @@
 
 	});
 </script>
-
+<style>
+.k-button-red{
+		padding: 3px;
+		font-size: 14px;
+		background-color: #0B90A7 ;
+		color: White;
+		border: 0px;
+		min-width: 100px
+		
+	}
+</style>
 </div>
 </asp:Content>

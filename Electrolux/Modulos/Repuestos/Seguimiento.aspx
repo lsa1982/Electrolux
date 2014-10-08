@@ -9,6 +9,14 @@
 			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
 		</tr>
 	</table>
+	<table style= "padding-top: 15px; width: 100%" id="layerNotFound">
+		<tr>
+			<td colspan="2">
+				<span style=" font-size: 11px;">No se encuentran requerimientos con identificador ingresado.</span>
+			</td>
+		</tr>
+	</table>
+
 	
 	<table style= "padding-top: 15px; width: 100%" id="layerSeguimiento">
 		<tr>
@@ -60,8 +68,6 @@
 			</td>
 		</tr>
 		
-
-		
 		<!-- Capa de Actividades -->
 		<tr>
 			<td colspan="2"><div id="layerActividad" style=" font-size: 24px;">Actividades</div></td>
@@ -85,14 +91,12 @@
 		</tr>
 		<tr>
 			<td colspan="2">Historial de las modificaciones de las fechas de compromiso.<br>&nbsp;</td>
-			
 		</tr>
 		<tr>
 			<td style="vertical-align: baseline">Detalles de prorrogas: </td>
 			<td><div id="frmProrroga"></div></td>
 		</tr>
 		<tr>
-			
 			<td > </td>
 			<td><button id="btnNewProrroga" type="button" class="k-button-red">Nueva Prorroga</button></td>
 		</tr>
@@ -101,14 +105,17 @@
 			<td colspan="2"><div id="layerMensaje" style=" font-size: 24px;float:left">Mensajes</div><button id="btnVolver2" type="button" class="k-button" style="float:right">Volver </button></td>
 		</tr>
 		<tr>
-			<td colspan="2">
-			<div class="divMensaje">
-				<span style="font-weight: bold"> lsanchez : laskdfhalsd</span><br>
-				Enviado el  Martes 09 de Septiembre, 2014 a las 02:00:32 <br>
-				
-				</div>
-			</td>
+			<td colspan="2">Mensaje enviados a este seguimiento.<br>&nbsp;</td>
 		</tr>
+		<tr>
+			<td > </td>
+			<td><button id="btnNewMensaje" type="button" class="k-button-red">Nueva Mensaje</button></td>
+		</tr>
+		<tr>
+			<td style="vertical-align: baseline">Detalles de Mensajes: </td>
+			<td><div id="frmMensaje"></div></td>
+		</tr>
+		
 	</table>
 </div>
 
@@ -171,10 +178,50 @@
 		 </tr>
 	 </table>
 </div>
+<div id="winMensaje" class="winSeguimiento">
+	 <table>
+		 <tr>
+			<td>Ingrese mensaje para el seguimiento</td>
+		 </tr>
+		<tr>
+			<td><textarea id="txtMensaje" name="txtMensaje" class="k-textbox" style="width:350px; height:100px" ></textarea></td>
+		 </tr>
+		 <tr>
+			<td><button id="btnSendMensaje" type="button" class="k-button">Enviar</button></td>
+		 </tr>
+	 </table>
+</div>
+
 
 <script>
 	$(document).ready(function () {
 		var idRequerimiento = 0;
+		// ####################################################
+		// ## Windows Mensajes								###
+		// ####################################################
+		$("#btnSendMensaje").kendoButton({ click: onSendMensaje, icon: "close" });
+		function onSendMensaje(e) {
+			var pUrl = [];
+			pUrl.push("idRequerimiento=" + idRequerimiento);
+			pUrl.push("mensaje=" + txtMensaje.value);
+
+			var x = pUrl.join("&");
+			callScript(strInterOp("Mensaje", "insertar"), '&' + x,
+				function (e) {
+					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+					$("#winMensaje").data("kendoWindow").close();
+					$("body, html").animate({ scrollTop: $("#layerMensaje").offset().top }, 600);
+				}
+			);
+		}
+
+		$("#winMensaje").kendoWindow({
+			width: "400px",
+			title: "Mensaje",
+			actions: ["Close"],
+			visible: false,
+			modal: true
+		});
 		// ####################################################
 		// ## Windows Finalizacion							###
 		// ####################################################
@@ -223,26 +270,26 @@
 			pUrl.push("idRequerimiento=" + idRequerimiento);
 			pUrl.push("idFinalizacion=" + cmbFinalizacion.value);
 			if ($('#chkDocumento').is(":checked")) {
-				pUrl.push("idDocumento=" + cmbFinalizacion.value);
+				pUrl.push("id=0");
+				pUrl.push("idDocumento=" + txtNroDocumento.value);
 				pUrl.push("idTipoDocumento=" + $("#cmbTipoDocumento").data("kendoComboBox").value());
 				pUrl.push("TipoDocumento=" + $("#cmbTipoDocumento").data("kendoComboBox").text());
-				pUrl.push("valor=" + cmbFinalizacion.value);
+				pUrl.push("valor=" + txtValor.value);
 			}
 			else {
+				pUrl.push("id=1");
 				pUrl.push("idDocumento=1");
 				pUrl.push("idTipoDocumento=1");
 				pUrl.push("valor=0");
 			}
 
-
-
 			var x = pUrl.join("&");
-			//callScript(strInterOp("Requerimiento", "avanzarActividad"), '&' + x, onRefresh);
-			console.log(x);
+			callScript(strInterOp("Requerimiento", "avanzarActividad"), '&' + x,
+				function (e) {
+					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+					$("#winFinalizacion").data("kendoWindow").close();
+				});
 		}
-
-
-
 		// ####################################################
 		// ## Windows Prorroga								###
 		// ####################################################
@@ -292,7 +339,6 @@
 		// ####################################################
 		// ## Botones										###
 		// ####################################################
-
 		$("#btnVolver1").kendoButton({ click: onVolver, icon: "arrow-n" });
 		$("#btnVolver2").kendoButton({ click: onVolver, icon: "arrow-n" });
 		function onVolver(e) {
@@ -302,6 +348,12 @@
 		$("#btnMensaje").kendoButton({ click: onMensaje, icon: "arrow-s" });
 		function onMensaje(e) {
 			$("body, html").animate({ scrollTop: $("#layerMensaje").offset().top }, 600);
+		}
+
+		$("#btnNewMensaje").kendoButton({ click: onNewMensaje });
+		function onNewMensaje(e) {
+			$("#winMensaje").data("kendoWindow").center();
+			$("#winMensaje").data("kendoWindow").open();
 		}
 
 		$("#btnNewProrroga").kendoButton({ click: onNewProrroga, icon: "tick" });
@@ -342,7 +394,8 @@
 
 		$("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
 		function onFind(e) {
-			dsRepuestos.read({ "idRequerimiento": txtIdRequerimiento.value });
+			idRequerimiento = txtIdRequerimiento.value;
+			dsRepuestos.read({ "idRequerimiento": idRequerimiento });
 			$("#layerSeguimiento").show(500);
 		}
 
@@ -358,7 +411,6 @@
 		// ####################################################
 		// ## Carga Datos									###
 		// ####################################################
-
 		function cargaDatos(data, idRequerimiento) {
 			var vEstado = $.map(dsEstado, function (val) {
 				return val.idEstado == data[0].estado ? val : null;
@@ -374,24 +426,20 @@
 			$("#lblActividad").html("<strong>" + data[0].actividad + "</strong>");
 			dsRequerimiento.read({ "idRequerimiento": idRequerimiento });
 			dsProrroga.read({ "idRequerimiento": idRequerimiento });
-
+			dsMensaje.read({ "idRequerimiento": idRequerimiento });
 			if (data[0].estado == 2) {
 				$("#btnAvanzar").hide();
-				cmbFin.enable(false);
+				$("#cmbFinalizacion").data("kendoDropDownList").enable(false);
 			}
 			else {
-
 				$("#cmbFinalizacion").data("kendoDropDownList").dataSource.read({ "idRequerimiento": idRequerimiento });
 				$("#cmbTipoDocumento").data("kendoComboBox").dataSource.read();
-
 			}
-			$("#layerSeguimiento").show(500);
-		}
 
+		}
 		// ####################################################
 		// ## Datasource									###
 		// ####################################################
-
 		var dsRepuestos = new kendo.data.DataSource({
 			transport: {
 				read: { url: strInterOp("Requerimiento", "lista"), dataType: "json", type: 'POST' },
@@ -409,8 +457,16 @@
 				if (e.action != "remove") {
 					if (this._data.length > 0) {
 						var data = this.data();
+
 						cargaDatos(data, data[0].idRequerimiento);
+						$("#layerNotFound").hide();
+						$("#layerSeguimiento").show();
 					}
+					else {
+						$("#layerSeguimiento").hide();
+						$("#layerNotFound").show();
+					}
+
 				}
 			},
 			batch: true,
@@ -418,7 +474,6 @@
 			error: errorGrid,
 			schema: { errors: "msgState", data: "args", total: "totalFila", model: { id: "idRequerimiento"} }
 		});
-
 
 		var dsRequerimiento = new kendo.data.DataSource({
 			transport: {
@@ -462,10 +517,36 @@
 			}
 		});
 
+		var dsMensaje = new kendo.data.DataSource({
+			transport: { read: { url: strInterOp("Mensaje", "lista"), dataType: "json", type: 'POST'} },
+			batch: true,
+			resizable: true,
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila" },
+			change: function (e) {
+				var strDivMensaje = "";
+				if (this._data.length > 0) {
+					var data = this.data();
+					var strDiv = "<div class='divProrroga'><span style='font-weight: bold; color: #0B90A7 '> Ingresado el $1 <br>Por $2</span><hr/>";
+					strDiv = strDiv + "Mensaje: <strong>$3</strong></div>";
+
+					for (i = 0; i < this._data.length; i++) {
+						strDivData = strDiv;
+						strDivData = strDivData.replace("$1", data[i].fechaIngreso);
+						strDivData = strDivData.replace("$2", data[i].usuario);
+						strDivData = strDivData.replace("$3", data[i].mensaje);
+						strDivMensaje = strDivMensaje + strDivData;
+					}
+				}
+				else {
+					strDivMensaje = "<strong>No existen Mensajes para este requerimiento</strong>";
+				}
+				$("#frmMensaje").html(strDivMensaje);
+			}
+		});
 		// ############################################
 		// ### Grid									###
 		// ############################################
-
 		$("#grid").kendoGrid({
 			dataSource: dsRequerimiento,
 			pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
@@ -490,6 +571,7 @@
 		// ### Ejecución inicial					###
 		// ############################################
 		$("#layerSeguimiento").hide();
+		$("#layerNotFound").hide();
 
 		var vGet = getVarsUrl();
 
