@@ -75,7 +75,7 @@ Public Class Requerimiento
 		If prForm("idRequerimiento") <> "" Then
 			vFiltro = " and al1.idRequerimiento = " & prForm("idRequerimiento")
 		End If
-		vFiltro = " and al1.idUsuario = " & Rol.idUsuario
+		vFiltro = vFiltro & " and al1.idUsuario = " & Rol.idUsuario
 		vFiltro = Rol.aplicaFiltro("Tienda", vFiltro, "al1.idTienda")
 		listaSql("vRequerimiento", vFiltro)
 	End Sub
@@ -97,6 +97,9 @@ Public Class Requerimiento
 
 		Dim strSql As String
 		Dim flagCx As Boolean = False
+		Dim idTipoDocumento As Integer
+		Dim idDocumento As Integer
+		Dim estado As Integer = 0
 
 		If IsNothing(strCx) Then
 			flagCx = True
@@ -118,6 +121,30 @@ Public Class Requerimiento
 
 		Dim idActividadSiguiente As Integer = strCx.retornaDato(strSql)
 
+	
+		If prForm("id") <> "1" Then
+			If prForm("idTipoDocumento") = prForm("TipoDocumento") Then
+				strSql = "insert into elx_wf_tipodocumento  values (null, '$1') "
+				strSql = Replace(strSql, "$1", prForm("TipoDocumento"))
+				strCx.ejecutaSql(strSql)
+				idTipoDocumento = strCx.retornaDato("select LAST_INSERT_ID()")
+			Else
+				idTipoDocumento = prForm("idTipoDocumento")
+			End If
+			strSql = "insert into elx_wf_documento  values (null, '$1','$2', '$3', '$4', '$5') "
+			strSql = Replace(strSql, "$1", idTipoDocumento)	' idTipoDocumento
+			strSql = Replace(strSql, "$2", prForm("idDocumento"))	' nroDocumento
+			strSql = Replace(strSql, "$3", prForm("valor"))	   ' valorUnitario
+			strSql = Replace(strSql, "$4", prForm("valor"))	' valorTotal
+			strSql = Replace(strSql, "$5", "")	' comentario
+			strCx.ejecutaSql(strSql)
+			idDocumento = strCx.retornaDato("select LAST_INSERT_ID()")
+		Else
+			idDocumento = prForm("id")
+		End If
+
+		
+
 		If idActividadSiguiente > 0 Then
 			Dim dr As DataRow
 
@@ -129,17 +156,11 @@ Public Class Requerimiento
 				itx = DateInterval.Hour
 			End If
 
-
-			strSql = "update elx_rep_estados set idFinalizacion = $1, fechaFin = now(), estado = 2, activo = 0 where idRequerimiento = $2 and activo = 1"
-			strSql = Replace(strSql, "$1", idFinalizacion)
-			strSql = Replace(strSql, "$2", idRequerimiento)
-			strCx.ejecutaSql(strSql)
-
 			strSql = "insert into elx_rep_estados values (null, '$0', '$1', '$2', '$3','$4','$5', '$6', '$7','$8', $9) "
 			strSql = Replace(strSql, "$0", idRequerimiento)
 			strSql = Replace(strSql, "$1", idActividadSiguiente)
 			strSql = Replace(strSql, "$2", idFinalizacion)
-			strSql = Replace(strSql, "$3", "0")	' idDocumento
+			strSql = Replace(strSql, "$3", "1")	' idDocumento
 			strSql = Replace(strSql, "$4", Format(Now(), "yyyy-MM-dd HH:mm:ss"))
 			strSql = Replace(strSql, "$5", Format(DateAdd(itx, dr("duracion"), Now()), "yyyy-MM-dd HH:mm:ss"))
 			strSql = Replace(strSql, "$6", Format(Now(), "yyyy-MM-dd HH:mm:ss"))
@@ -148,16 +169,19 @@ Public Class Requerimiento
 			strSql = Replace(strSql, "$9", "1")	'activo
 			strCx.ejecutaSql(strSql)
 		Else
-			strSql = "update elx_rep_estados set idFinalizacion = $1, fechaFin = now(), estado = 2 where idRequerimiento = $2 and activo = 1"
-			strSql = Replace(strSql, "$1", idFinalizacion)
-			strSql = Replace(strSql, "$2", idRequerimiento)
-			strCx.ejecutaSql(strSql)
-
+			estado = 1
 			strSql = "update elx_rep_requerimiento set  fechaFin = now(), estado = 2 where idRequerimiento = $1 "
 			strSql = Replace(strSql, "$1", idRequerimiento)
 			strCx.ejecutaSql(strSql)
 		End If
 
+		strSql = "update elx_rep_estados set idFinalizacion = $1, fechaFin = now(), estado = $4, activo = $5, idDocumento = $2 where idActividad = $3"
+		strSql = Replace(strSql, "$1", idFinalizacion)
+		strSql = Replace(strSql, "$2", idDocumento)
+		strSql = Replace(strSql, "$3", idActividad)
+		strSql = Replace(strSql, "$4", "2")
+		strSql = Replace(strSql, "$5", estado)
+		strCx.ejecutaSql(strSql)
 
 		If strCx.flagError Then
 			rsp.estadoError(100, "Insertar: No se pudo acceder a la base", strCx.msgError)
@@ -182,7 +206,7 @@ Public Class Requerimiento
 		strSql = Replace(strSql, "$0", idRequerimiento)
 		strSql = Replace(strSql, "$1", dr("idActividad"))	' idActividad
 		strSql = Replace(strSql, "$2", "1")	' idFinalizacion
-		strSql = Replace(strSql, "$3", "0")	' idDocumento
+		strSql = Replace(strSql, "$3", "1")	' idDocumento
 		strSql = Replace(strSql, "$4", Format(Now(), "yyyy-MM-dd HH:mm:ss"))
 		strSql = Replace(strSql, "$5", Format(DateAdd(itx, dr("duracion"), Now()), "yyyy-MM-dd HH:mm:ss"))
 		strSql = Replace(strSql, "$6", Format(Now(), "yyyy-MM-dd HH:mm:ss"))
@@ -247,6 +271,24 @@ Public Class Requerimiento
 		idMail.Add(23)
 		enviarMail(idMail)
 	End Sub
+	Sub anular()
+		Dim strCx As New StringConex
+		Dim strSql As String
+		strCx.iniciaTransaccion()
+		strSql = "update elx_rep_requerimiento set estado = 4 WHERE idRequerimiento =  $1"
+		strSql = Replace(strSql, "$1", Me.prForm("idRequerimiento"))
+		strCx.ejecutaSql(strSql)
+		strSql = "update elx_rep_estados set estado = 4 WHERE idRequerimiento =  $1 and activo = 1"
+		strSql = Replace(strSql, "$1", Me.prForm("idRequerimiento"))
+		strCx.ejecutaSql(strSql)
+
+		If strCx.flagError Then
+			rsp.estadoError(100, "Anular: No se pudo acceder a la base", strCx.msgError)
+		Else
+			rsp.args = " {""result"": ""OK""}"
+			strCx.finTransaccion()
+		End If
+	End Sub
 	Sub eliminar()
 		Dim strCx As New StringConex
 		Dim strSql As String
@@ -261,6 +303,7 @@ Public Class Requerimiento
 		If strCx.flagError Then
 			rsp.estadoError(100, "Eliminar: No se pudo acceder a la base", strCx.msgError)
 		Else
+			rsp.args = " {""result"": ""OK""}"
 			strCx.finTransaccion()
 		End If
 	End Sub

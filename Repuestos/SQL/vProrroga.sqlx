@@ -1,0 +1,16 @@
+﻿Select 
+	al1.idRequerimiento,
+	al1.idMotivo,
+	al2.motivo,
+	al1.fechaAntigua,
+	al1.fechaNueva,
+	al1.fechaModificacion,
+	al1.comentario,
+	concat(al3.nombre, " ", al3.nombre) as usuario
+FROM 
+	elx_rep_prorroga al1,
+	elx_rep_prorroga_motivo al2, 
+	elx_hr_personal al3
+WHERE
+	al1.idMotivo = al2.idMotivo and
+	al1.idUsuario = al3.idUsuario 

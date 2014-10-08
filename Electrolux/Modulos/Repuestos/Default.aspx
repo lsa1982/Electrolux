@@ -70,7 +70,7 @@
   		$("#grid").kendoGrid({
   			dataSource: dsRepuestos,
   			pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
-  			height: 450,
+  			height: 400,
   			sortable: true,
   			filterable: filtroGrid,
   			selectable: "multiple",
@@ -86,7 +86,7 @@
 				{ field: "nombre", title: "Producto", width: "200px", template: '#: marca # - #: nombre #' },
 				{ field: "repuesto", title: "Repuesto", width: "200px" },
 				{ field: "cantidad", title: "Cantidad", width: "80px" },
-				{ field: "fechaInicio", title: "Fecha Inicio", width: "110px", template: '<span class="claseEstado claseEstado4">#: fechaInicio #</span>' },
+				{ field: "fechaInicio", title: "Fecha Inicio", width: "110px", template: '<span class="claseEstado claseEstado5">#: fechaInicio #</span>' },
 				{ field: "fechaCompromiso", title: "Fecha Plazo", width: "110px", template: '<span class="claseEstado claseEstado#: estado #">#: fechaCompromiso #</span>' },
 				{ field: "actividad", title: "Actividad", width: "120px" },
 				{ field: "usuario", title: "emisor", width: "80px" },
@@ -119,8 +119,11 @@
  	.claseEstado2 {
  		background-color: green;
  		}
- 	
  	.claseEstado4 {
+ 		background-color: Orange;
+ 		}
+ 	
+ 	.claseEstado5 {
  		background-color: #00a2e8;
  		}
  	

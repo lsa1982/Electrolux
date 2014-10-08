@@ -7,7 +7,7 @@ Public Class clsTienda
 Sub lista()
         Dim vFiltro As String = ""
         If Not prForm("txtidCadena") = "" Then
-            vFiltro = " and al1.idCadena = " & Me.prGet("txtidCadena")
+			vFiltro = " and al1.idCadena = " & Me.prForm("txtidCadena")
         End If
 
         If Not prGet("txtidCadena") = "" Then
@@ -17,6 +17,10 @@ Sub lista()
         If Not prForm("filter[filters][0][field]") = "" Then
             vFiltro = " and al1.idCadena = " & Me.prForm("filter[filters][0][value]")
         End If
+
+		If Not prForm("nombre") = "" Then
+			vFiltro = vFiltro & " and al1.tienda like '%" & Me.prForm("nombre") & "%'"
+		End If
 
         If Not prForm("skip") = "" Then
             vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")

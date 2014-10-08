@@ -1,4 +1,1 @@
-﻿SELECT 
-	*
-FROM
-	elx_wf_flujo
+﻿Select * From elx_wf_flujo
