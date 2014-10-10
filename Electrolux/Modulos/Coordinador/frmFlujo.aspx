@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Core.master" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
 <div class="areaTrabajo" id="trabajo">
+<<<<<<< HEAD
    <span style=" font-size: 24px;">Seguimiento</span><br/>
    <table>
 		<tr >
@@ -72,19 +73,45 @@
 
      var idFlujo = 0;
      var gitGraph = new GitGraph({ click: onClick });
+=======
+	<span style=" font-size: 24px;">Diagrama de Flujos de Trabajo</span><br/>
+	<table style= "padding-top: 15px; width: 100%" id="layerSeguimiento">
+		<tr>
+			<td colspan="2">
+				<span style=" font-size: 11px;">Detalle del requerimiento solicitado:</span>
+
+            </td>
+		</tr>
+	</table>
+    
+</div>
+<canvas id="gitGraph"></canvas>
+
+<div id="grid" style="height: 200px"></div>
+
+<script src="<% = resolveClientUrl("~/Kendo/gitgraph.js") %>" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+>>>>>>> ae56bd7a6d14f8cb5ed51cc0216643e1b4a500c5
         var wfMatriz = [];
         function onClick(c) {
             if (c instanceof Object) {
                 alert(c.message);
             }
+<<<<<<< HEAD
         };
 
+=======
+        }
+>>>>>>> ae56bd7a6d14f8cb5ed51cc0216643e1b4a500c5
         function onRefresh(e) {
             wfMatriz = e
             var index;
             for (index = 0; index < wfMatriz.length; ++index) {
                 gitGraph.creaNodo(wfMatriz[index]);
             };
+<<<<<<< HEAD
    
         };
 
@@ -104,6 +131,26 @@
                     }
                     if (type == "read") {
                         return { idFlujo: data.idFlujo }
+=======
+        };
+
+        callScript(strInterOp("clsGrafo", "lista"), '', onRefresh);
+
+        var gitGraph = new GitGraph({ click: onClick });
+
+
+
+        var dsFlujos = new kendo.data.DataSource({
+            transport: {
+                read: { url: strInterOp("", "lista"), dataType: "json", type: 'POST' },
+                destroy: { url: strInterOp("Requerimiento", "eliminar"), dataType: "json", type: 'POST' },
+                parameterMap: function (data, type) {
+                    if (type == "destroy") {
+                        return { idRequerimiento: data.models[0].idRequerimiento }
+                    }
+                    if (type == "read") {
+                        return { idRequerimiento: data.idRequerimiento }
+>>>>>>> ae56bd7a6d14f8cb5ed51cc0216643e1b4a500c5
                     }
                 }
             },
@@ -111,7 +158,11 @@
                 if (e.action != "remove") {
                     if (this._data.length > 0) {
                         var data = this.data();
+<<<<<<< HEAD
                         cargaDatos(data, data[0].idFlujo);
+=======
+                        cargaDatos(data, data[0].idRequerimiento);
+>>>>>>> ae56bd7a6d14f8cb5ed51cc0216643e1b4a500c5
                     }
                 }
             },
@@ -119,12 +170,20 @@
             resizable: true,
             error: errorGrid,
 
+<<<<<<< HEAD
             schema: { errors: "msgState", data: "args", total: "totalFila", model: { id: "idFlujo"} }
         });
 
 // ####################################################
 // ## Datasource + grid       						###
 // ####################################################   
+=======
+            schema: { errors: "msgState", data: "args", total: "totalFila", model: { id: "idRequerimiento"} }
+        });
+
+    });
+
+>>>>>>> ae56bd7a6d14f8cb5ed51cc0216643e1b4a500c5
 
 var ds = new kendo.data.DataSource({
         transport: {
@@ -194,6 +253,7 @@ var gridColumns = [
         
         });
 
+<<<<<<< HEAD
     $("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
 		function onFind(e) {
 			idFlujo = txtIdFlujo.value;
@@ -250,3 +310,36 @@ var gridColumns = [
      
 </style>
 </asp:Content>
+=======
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+<style>
+	
+ 	.areaTrabajo table td{
+ 		overflow:hidden;
+ 		font-size: 11px;
+ 		border-bottom: 1px dashed #EEEEEE;
+ 		padding-bottom:5px;
+ 		
+ 		}
+ 		
+ 		#grid{
+ 		width:62%;
+ 		float:right;
+ 		}
+ 		
+ 	
+</style>
+</asp:Content>
+>>>>>>> ae56bd7a6d14f8cb5ed51cc0216643e1b4a500c5
