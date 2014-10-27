@@ -25,17 +25,18 @@
 	</table>
 </div>
 <div class="areaTrabajo" id="findProducto">
-	<table style= "padding-bottom: 10px; font-size : 10px">
+	<table style= "padding-bottom: 10px; font-size : 10px; width:100%">
 		<tr >
 			<td colspan="2" >
 				<span style=" font-size: 24px;">Productos</span>
+					<button id="btnVolver" type="button" class="k-button" style="float:right">Volver</button>
 			</td>
 		</tr>
 		<tr style="font-size: 10px; ">
 			<td style="width: 120px">
 				Categoria: 
 			</td>
-			<td>
+			<td >
 				<input id="cmbCategoria" style="width: 200px" />
 			</td>
 		</tr>
@@ -69,10 +70,9 @@
 		<tr style="font-size: 10px; border-bottom-width: 1px; ">
 			<td></td>
 			<td>
-				<button id="btnAgregar" type="button" class="k-button">Agregar</button>
-				<button id="btnVolver" type="button" class="k-button">Volver</button>
-				<button id="btnLimpiar" type="button" class="k-button">Limpiar</button>
-				<button id="btnEnviar" type="button" class="k-button">Enviar</button>
+				<button id="btnAgregar" type="button" class="k-button-red">Agregar</button>
+				<button id="btnLimpiar" type="button" class="k-button-red">Limpiar</button>
+				<button id="btnEnviar" type="button" class="k-button-red">Enviar</button>
 			</td>
 		</tr>
 	</table>
@@ -99,7 +99,7 @@
 					}
 				}
 			  }
-  		});
+		});
 	function onEnd(e){
 		window.location.href = appDir + 'Modulos/Repuestos/Default.aspx';
 	}
@@ -128,11 +128,11 @@
 		// ####################################
 		// ### Botones						###
 		// ####################################
-		$("#btnEnviar").kendoButton({ click: onSend, icon: "plus" });
+		$("#btnEnviar").kendoButton({ click: onSend, icon: "tick" });
 		function onSend(e) {
-  			e.preventDefault();
+			e.preventDefault();
 			$("#winNewRequest").data("kendoWindow").center().open();
-			$("#txtRepTienda").html("<strong>" + $("#cmbTienda").data("kendoDropDownList").text() + "</strong>");
+			$("#txtRepTienda").html("<strong>" + $("#cmbTienda").data("kendoComboBox").text() + "</strong>");
 			
 			var template = kendo.template("#: cantidad # #: producto # - #: repuesto # <br/>");
 			var v =dsCarrito.data();
@@ -149,7 +149,7 @@
 					dsCarrito.add({
 						"idRepuesto" : cmbRepuesto.value , 
 						"idProducto": txtProducto.value,
-						"repuesto": $("#cmbRepuesto").data("kendoDropDownList").text(),
+						"repuesto": $("#cmbRepuesto").data("kendoComboBox").text(),
 						"producto": $("#txtProducto").data("kendoComboBox").text(),
 						"cantidad" : txtCantidad.value });
 					onLimpiar();
@@ -160,17 +160,16 @@
 			}
 		}
 
-		$("#btnLimpiar").kendoButton({ click: onClear, icon: "plus" });
+		$("#btnLimpiar").kendoButton({ click: onClear, icon: "refresh" });
 		function onClear(e) {
 			onLimpiar();
 		}
 		
 		function onLimpiar() {
-			$("#cmbRepuesto").data("kendoDropDownList").text("");
+			$("#cmbRepuesto").data("kendoComboBox").text("");
 			$("#txtProducto").data("kendoComboBox").text("");
 			$("#cmbCategoria").data("kendoComboBox").text("");
 			$("#cmbMarca").data("kendoComboBox").text("");
-			$("#cmbRepuesto").data("kendoDropDownList").text("");
 		}
 
 		$("#btnBuscar").kendoButton({ click: onClick, icon: "arrow-s" });
@@ -178,7 +177,7 @@
 			if (cmbTienda.value != ""){
 				$("#findProducto").show(500);
 				$("#cmbCliente").data("kendoComboBox").enable(false);
-				$("#cmbTienda").data("kendoDropDownList").enable(false);
+				$("#cmbTienda").data("kendoComboBox").enable(false);
 				$("#btnBuscar").data("kendoButton").enable(false);
 			}
 		}
@@ -187,7 +186,7 @@
 		function onClickVolver(e) {
 			$("#findProducto").hide(500);
 			$("#cmbCliente").data("kendoComboBox").enable(true);
-			$("#cmbTienda").data("kendoDropDownList").enable(true);
+			$("#cmbTienda").data("kendoComboBox").enable(true);
 			$("#btnBuscar").data("kendoButton").enable(true);
 		}
 		
@@ -195,153 +194,181 @@
 		// ### Combos						###
 		// ####################################
 
-  		var cmbCliente = $("#cmbCliente").kendoComboBox({
-  			dataTextField: "cadena",
-  			dataValueField: "idCadena",
-  			placeholder: "Seleccione Cadena",
-  			dataSource: {
-         			type: "json",
-         			transport: {
-         				read: { url: strInterOpAs("clsCadena", "lista", "Core"), dataType: "json", type: "post" }
-         			},
-					sort: { field: "cadena", dir: "asc"},
-         			schema: {
-         				errors: "msgState",
-         				data: "args",
-         				total: "totalFila"
-         			}
-         		}
-  		});
+		$("#cmbCliente").kendoComboBox({
+			dataTextField: "cadena",
+			dataValueField: "idCadena",
+			placeholder: "Seleccione Cadena",
+			dataSource: {
+				type: "json",
+				transport: {
+					read: { url: strInterOpAs("clsCadena", "lista", "Core"), dataType: "json", type: "post" }
+				},
+				sort: { field: "cadena", dir: "asc"},
+				schema: {
+					errors: "msgState",
+					data: "args",
+					total: "totalFila"
+				}
+			}
+		});
 
-  		$("#cmbTienda").kendoDropDownList({
-  			dataTextField: "tienda",
-  			dataValueField: "idTienda",
-  			autoBind: false,
-  			cascadeFrom: "cmbCliente",
-  			placeholder: "Seleccione Tienda",
-  			dataSource: {
-         			serverFiltering: true,
-         			type: "json",
-         			transport: {
-         				read: { url: strInterOpAs("clsTienda", "lista", "Core"), dataType: "json", type: "post" }
-         			},
-					sort: { field: "tienda", dir: "asc"},
-         			schema: {
-         				errors: "msgState",
-         				data: "args",
-         				total: "totalFila"
-         			}
-         		}
-  		});
+		function onOpenTienda(e) {
+			console.log("event: open");
+			dsTienda.read();
+		};
 
-  		$("#cmbCategoria").kendoComboBox({
-  			dataTextField: "categoria",
-  			dataValueField: "idCategoria",
-  			autoBind: false,
-  			placeholder: "Seleccione Categoria",
-  			dataSource: {
-         			type: "json",
-         			transport: {
-         				read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "POST" },
+		var dsTienda = new kendo.data.DataSource({
+				serverFiltering: true,
+				type: "json",
+				transport: {
+					read: { url: strInterOpAs("clsTienda", "lista", "Core"), dataType: "json", type: "post" },
+					parameterMap: function (options, operation) {
+						var dataSend = {};
+						if (cmbCliente.value != "") {
+							dataSend["txtidCadena"] = cmbCliente.value;
+						}
+						if (options.filter != undefined) {
+							dataSend["nombre"] = $("#cmbTienda").data("kendoComboBox")._prev;
+						}
+						return dataSend;
+						
+					}
+				},
+				sort: { field: "tienda", dir: "asc"},
+				schema: {errors: "msgState",data: "args",total: "totalFila"}
+			});
+
+		$("#cmbTienda").kendoComboBox({
+			dataTextField: "tienda",
+			dataValueField: "idTienda",
+			autoBind: false,
+			placeholder: "Seleccione Tienda",
+			filter: "contains",
+			minLength: 4,
+			autoBind: false,
+			open: onOpenTienda,
+			dataSource: dsTienda
+		});
+
+		$("#cmbCategoria").kendoComboBox({
+			dataTextField: "categoria",
+			dataValueField: "idCategoria",
+			autoBind: false,
+			placeholder: "Seleccione Categoria",
+			change: function(e) {
+				$("#txtProducto").data("kendoComboBox").text("");
+			},
+
+			dataSource: {
+					type: "json",
+					transport: {
+						read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "POST" },
 						parameterMap: function (options, operation) {
 							var dataSend = {};
 							dataSend["tipo"] = "Linea Blanca";
 							dataSend["clase"] = "Producto";
 							return dataSend;
-	  					}
-         			},
+						}
+					},
 					sort: { field: "categoria", dir: "asc"},
-         			schema: {
-         				errors: "msgState",
-         				data: "args",
-         				total: "totalFila"
-         			}
-         		} 
-  		});
+					schema: {
+						errors: "msgState",
+						data: "args",
+						total: "totalFila"
+					}
+				} 
+		});
 
-  		$("#cmbMarca").kendoComboBox({
-  			dataTextField: "marca",
-  			dataValueField: "idMarca",
-  			autoBind: false,
-  			placeholder: "Seleccione Marca",
-  			dataSource: {
-         			type: "json",
-         			transport: {
-         				read: { url: strInterOpAs("clsMarca", "lista", "Core"), dataType: "json", type: "post" }
-         			},
-					sort: { field: "marca", dir: "asc"},
-         			schema: {
-         				errors: "msgState",
-         				data: "args",
-         				total: "totalFila"
-         			}
-         		}
-  		});
+		$("#cmbMarca").kendoComboBox({
+			dataTextField: "marca",
+			dataValueField: "idMarca",
+			autoBind: false,
+			placeholder: "Seleccione Marca",
+			change: function(e) {
+				$("#txtProducto").data("kendoComboBox").text("");
+			},
+			dataSource: {
+				type: "json",
+				transport: {
+					read: { url: strInterOpAs("clsMarca", "lista", "Core"), dataType: "json", type: "post" }
+				},
+				sort: { field: "marca", dir: "asc"},
+				schema: {
+					errors: "msgState",
+					data: "args",
+					total: "totalFila"
+				}
+			}
+		});
 
 		
 		// ####################################
 		// ### Busca Producto				###
 		// ####################################
-		function onOpen() {
+		function onOpen(e) {
 			console.log("event: open");
 			dsProducto.read();
 		};
 
 		var dsProducto = new kendo.data.DataSource({
-  				serverFiltering: true,
+				serverFiltering: true,
 				transport: {
-  					read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: "post" },
-  					parameterMap: function (options, operation) {
+					read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: "post" },
+					parameterMap: function (options, operation) {
 						var dataSend = {};
 						if (cmbMarca.value != "") {
-  							dataSend["idMarca"] = cmbMarca.value;
-  						}
+							dataSend["idMarca"] = cmbMarca.value;
+						}
 						if (cmbCategoria.value != "") {
-  							dataSend["idCategoria"] = cmbCategoria.value;
-  						}
-  						if (options.filter != undefined) {
-  							dataSend["value"] = txtProducto.value;
-  						}
+							dataSend["idCategoria"] = cmbCategoria.value;
+						}
+						if (options.filter != undefined) {
+							dataSend["value"] = $("#txtProducto").data("kendoComboBox")._prev;
+						}
 						return dataSend;
 						
-  					}
-  				},
-  				schema: {
-  					errors: "msgState",
-  					data: "args",
-  					total: "totalFila"
-  				}
-  			});
+					}
+				},
+				schema: {
+					errors: "msgState",
+					data: "args",
+					total: "totalFila"
+				}
+			});
 
-  		$("#txtProducto").kendoComboBox({
-  			dataTextField: "nombre",
+		var dsRepuesto = new kendo.data.DataSource({
+				transport: {read: { url: strInterOpAs("Repuesto", "listaProductoRepuesto", "Repuestos"), dataType: "json", type: "post" }},
+				schema: {errors: "msgState",data: "args",total: "totalFila" }
+			});
+
+		$("#txtProducto").kendoComboBox({
+			dataTextField: "nombre",
 			dataValueField: "idProducto",
-  			filter: "contains",
+			filter: "contains",
 			minLength: 4,
 			autoBind: false,
 			open: onOpen,
-  			dataSource: dsProducto
-  		});
+			dataSource: dsProducto
+		});
 
-		$("#cmbRepuesto").kendoDropDownList({
-  			dataTextField: "repuesto",
+		$("#cmbRepuesto").kendoComboBox({
+			dataTextField: "repuesto",
 			dataValueField: "idRepuesto",
-  			autoBind: false,
+			autoBind: false,
 			cascadeFrom: "txtProducto",
-  			dataSource: dsRead("Repuesto", "listaProductoRepuesto", "Repuestos") 
-  		});
+			filter: "contains",
+			dataSource: dsRepuesto
+		});
 
 		// ####################################
 		// ### Grid de repuestos			###
 		// ####################################
 
-		
-
-  		$("#grid").kendoGrid({
-  			dataSource: dsCarrito,
-  			autoBind: false,
-  			editable: {  confirmation: false, destroy: true, update: false},
-  			columns: [
+		$("#grid").kendoGrid({
+			dataSource: dsCarrito,
+			autoBind: false,
+			editable: {  confirmation: false, destroy: true, update: false},
+			columns: [
 				{ command: ["destroy"], title: " ", width: "80px" },
 				{ field: "idRepuesto", title: "id", width: "30px" },
 				{ field: "idProducto", title: "id" , width: "1px"},
@@ -350,7 +377,7 @@
 				{ field: "cantidad", title: "Cantidad" , width: "80px"},
 				{ field: "", title: "" }
 			]
-  		});
+		});
 
 		// ####################################
 		// ### Ventana Ingreso				###
@@ -366,11 +393,21 @@
 			content: "frmNewRepuesto.html",
 		});
 
-  		$("#findProducto").hide();
+		$("#findProducto").hide();
 		
 
-  	});
- </script>
-
+	});
+</script>
+<style>
+.k-button-red{
+		padding: 3px;
+		font-size: 14px;
+		background-color: #0B90A7 ;
+		color: White;
+		border: 0px;
+		min-width: 100px
+		
+	}
+</style>
 </div>
 </asp:Content>

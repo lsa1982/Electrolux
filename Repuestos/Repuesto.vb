@@ -46,7 +46,7 @@ Public Class Repuesto
 		ElseIf prForm("filter[filters][0][value]") <> "" Then
 			listaSql("vProductoRepuesto", " and al1.idProducto = " & prForm("filter[filters][0][value]") & " limit 0,30")
 		Else
-			listaSql("vProductoRepuesto", " limit 0,30")
+			listaSql("vProductoRepuesto", " limit 0,100")
 		End If
 	End Sub
 
@@ -56,7 +56,7 @@ Public Class Repuesto
 		ElseIf prForm("filter[filters][0][value]") <> "" Then
 			listaSql("vRepuestoProducto", " and al1.idRepuesto = " & prForm("filter[filters][0][value]") & " limit 0,30")
 		Else
-			listaSql("vRepuestoProducto", " limit 0,30")
+			listaSql("vRepuestoProducto", " limit 0,100")
 		End If
 	End Sub
 

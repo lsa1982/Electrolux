@@ -194,369 +194,369 @@
 
 
 <script>
-    $(document).ready(function () {
-        var idRequerimiento = 0;
-        // ####################################################
-        // ## Windows Mensajes								###
-        // ####################################################
-        $("#btnSendMensaje").kendoButton({ click: onSendMensaje, icon: "close" });
-        function onSendMensaje(e) {
-            var pUrl = [];
-            pUrl.push("idRequerimiento=" + idRequerimiento);
-            pUrl.push("mensaje=" + txtMensaje.value);
+	$(document).ready(function () {
+		var idRequerimiento = 0;
+		// ####################################################
+		// ## Windows Mensajes								###
+		// ####################################################
+		$("#btnSendMensaje").kendoButton({ click: onSendMensaje, icon: "close" });
+		function onSendMensaje(e) {
+			var pUrl = [];
+			pUrl.push("idRequerimiento=" + idRequerimiento);
+			pUrl.push("mensaje=" + txtMensaje.value);
 
-            var x = pUrl.join("&");
-            callScript(strInterOp("Mensaje", "insertar"), '&' + x,
+			var x = pUrl.join("&");
+			callScript(strInterOp("Mensaje", "insertar"), '&' + x,
 				function (e) {
-				    dsRepuestos.read({ "idRequerimiento": idRequerimiento });
-				    $("#winMensaje").data("kendoWindow").close();
-				    $("body, html").animate({ scrollTop: $("#layerMensaje").offset().top }, 600);
+					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+					$("#winMensaje").data("kendoWindow").close();
+					$("body, html").animate({ scrollTop: $("#layerMensaje").offset().top }, 600);
 				}
 			);
-        }
+		}
 
-        $("#winMensaje").kendoWindow({
-            width: "400px",
-            title: "Mensaje",
-            actions: ["Close"],
-            visible: false,
-            modal: true
-        });
-        // ####################################################
-        // ## Windows Finalizacion							###
-        // ####################################################
-        $('#chkDocumento').change(function () {
-            if ($(this).is(":checked"))
-                $("#lblDoc1, #lblDoc2, #lblDoc3").show();
-            else
-                $("#lblDoc1, #lblDoc2, #lblDoc3").hide();
-        });
+		$("#winMensaje").kendoWindow({
+			width: "400px",
+			title: "Mensaje",
+			actions: ["Close"],
+			visible: false,
+			modal: true
+		});
+		// ####################################################
+		// ## Windows Finalizacion							###
+		// ####################################################
+		$('#chkDocumento').change(function () {
+			if ($(this).is(":checked"))
+				$("#lblDoc1, #lblDoc2, #lblDoc3").show();
+			else
+				$("#lblDoc1, #lblDoc2, #lblDoc3").hide();
+		});
 
-        $("#txtValor").kendoNumericTextBox({ step: 1000, min: 0 });
-        $("#winFinalizacion").kendoWindow({
-            width: "430px",
-            title: "Finalizar Actividad",
-            actions: ["Close"],
-            visible: false,
-            modal: true
-        });
+		$("#txtValor").kendoNumericTextBox({ step: 1000, min: 0 });
+		$("#winFinalizacion").kendoWindow({
+			width: "430px",
+			title: "Finalizar Actividad",
+			actions: ["Close"],
+			visible: false,
+			modal: true
+		});
 
-        $("#cmbFinalizacion").kendoDropDownList({
-            dataTextField: "finalizacion",
-            dataValueField: "idFinalizacion",
-            autoBind: false,
-            dataSource: {
-                type: "json",
-                transport: { read: { url: strInterOp("Requerimiento", "listaFinalizacion"), type: "post"} },
-                schema: { errors: "msgState", data: "args", total: "totalFila" }
-            }
-        });
+		$("#cmbFinalizacion").kendoDropDownList({
+			dataTextField: "finalizacion",
+			dataValueField: "idFinalizacion",
+			autoBind: false,
+			dataSource: {
+				type: "json",
+				transport: { read: { url: strInterOp("Requerimiento", "listaFinalizacion"), type: "post"} },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
 
-        $("#cmbTipoDocumento").kendoComboBox({
-            dataTextField: "tipoDocumento",
-            dataValueField: "idTipoDocumento",
-            autoBind: false,
-            placeholder: "Seleccione Documento",
-            dataSource: {
-                type: "json",
-                transport: { read: { url: strInterOp("TipoDocumento", "lista"), type: "post"} },
-                schema: { errors: "msgState", data: "args", total: "totalFila" }
-            }
-        });
+		$("#cmbTipoDocumento").kendoComboBox({
+			dataTextField: "tipoDocumento",
+			dataValueField: "idTipoDocumento",
+			autoBind: false,
+			placeholder: "Seleccione Documento",
+			dataSource: {
+				type: "json",
+				transport: { read: { url: strInterOp("TipoDocumento", "lista"), type: "post"} },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
 
-        $("#btnSendFinalizar").kendoButton({ click: onSendFinalizar, icon: "plus" });
-        function onSendFinalizar(e) {
-            var pUrl = [];
-            pUrl.push("idRequerimiento=" + idRequerimiento);
-            pUrl.push("idFinalizacion=" + cmbFinalizacion.value);
-            if ($('#chkDocumento').is(":checked")) {
-                pUrl.push("id=0");
-                pUrl.push("idDocumento=" + txtNroDocumento.value);
-                pUrl.push("idTipoDocumento=" + $("#cmbTipoDocumento").data("kendoComboBox").value());
-                pUrl.push("TipoDocumento=" + $("#cmbTipoDocumento").data("kendoComboBox").text());
-                pUrl.push("valor=" + txtValor.value);
-            }
-            else {
-                pUrl.push("id=1");
-                pUrl.push("idDocumento=1");
-                pUrl.push("idTipoDocumento=1");
-                pUrl.push("valor=0");
-            }
+		$("#btnSendFinalizar").kendoButton({ click: onSendFinalizar, icon: "plus" });
+		function onSendFinalizar(e) {
+			var pUrl = [];
+			pUrl.push("idRequerimiento=" + idRequerimiento);
+			pUrl.push("idFinalizacion=" + cmbFinalizacion.value);
+			if ($('#chkDocumento').is(":checked")) {
+				pUrl.push("id=0");
+				pUrl.push("idDocumento=" + txtNroDocumento.value);
+				pUrl.push("idTipoDocumento=" + $("#cmbTipoDocumento").data("kendoComboBox").value());
+				pUrl.push("TipoDocumento=" + $("#cmbTipoDocumento").data("kendoComboBox").text());
+				pUrl.push("valor=" + txtValor.value);
+			}
+			else {
+				pUrl.push("id=1");
+				pUrl.push("idDocumento=1");
+				pUrl.push("idTipoDocumento=1");
+				pUrl.push("valor=0");
+			}
 
-            var x = pUrl.join("&");
-            callScript(strInterOp("Requerimiento", "avanzarActividad"), '&' + x,
+			var x = pUrl.join("&");
+			callScript(strInterOp("Requerimiento", "avanzarActividad"), '&' + x,
 				function (e) {
-				    dsRepuestos.read({ "idRequerimiento": idRequerimiento });
-				    $("#winFinalizacion").data("kendoWindow").close();
+					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+					$("#winFinalizacion").data("kendoWindow").close();
 				});
-        }
-        // ####################################################
-        // ## Windows Prorroga								###
-        // ####################################################
-        $("#btnSendPostegar").kendoButton({ click: onSendPostegar, icon: "close" });
-        function onSendPostegar(e) {
-            var pUrl = [];
-            pUrl.push("idRequerimiento=" + idRequerimiento);
-            pUrl.push("idMotivo=" + cmbMotivo.value);
-            pUrl.push("fechaNueva=" + lblFechaNueva.value);
-            pUrl.push("fechaAntigua=" + $("#lblCompromiso").text());
-            pUrl.push("comentario=" + txtComentario.value);
+		}
+		// ####################################################
+		// ## Windows Prorroga								###
+		// ####################################################
+		$("#btnSendPostegar").kendoButton({ click: onSendPostegar, icon: "close" });
+		function onSendPostegar(e) {
+			var pUrl = [];
+			pUrl.push("idRequerimiento=" + idRequerimiento);
+			pUrl.push("idMotivo=" + cmbMotivo.value);
+			pUrl.push("fechaNueva=" + lblFechaNueva.value);
+			pUrl.push("fechaAntigua=" + $("#lblCompromiso").text());
+			pUrl.push("comentario=" + txtComentario.value);
 
-            var x = pUrl.join("&");
-            callScript(strInterOp("Prorroga", "insertar"), '&' + x,
+			var x = pUrl.join("&");
+			callScript(strInterOp("Prorroga", "insertar"), '&' + x,
 				function (e) {
-				    dsRepuestos.read({ "idRequerimiento": idRequerimiento });
-				    $("#winProrroga").data("kendoWindow").close();
-				    $("body, html").animate({ scrollTop: $("#layerProrroga").offset().top }, 600);
+					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+					$("#winProrroga").data("kendoWindow").close();
+					$("body, html").animate({ scrollTop: $("#layerProrroga").offset().top }, 600);
 				}
 			);
-        }
+		}
 
-        $("#lblFechaNueva").kendoDatePicker({ format: "yyyy-MM-dd" }).data("kendoDatePicker");
+		$("#lblFechaNueva").kendoDatePicker({ format: "yyyy-MM-dd" }).data("kendoDatePicker");
 
-        $("#cmbMotivo").kendoComboBox({
-            dataTextField: "motivo",
-            dataValueField: "idMotivo",
-            autoBind: false,
-            placeholder: "Seleccion un motivo...",
-            dataSource: {
-                type: "json",
-                transport: {
-                    read: { url: strInterOp("Motivo", "lista"), type: "post" }
-                },
-                schema: { errors: "msgState", data: "args", total: "totalFila" }
-            }
-        });
+		$("#cmbMotivo").kendoComboBox({
+			dataTextField: "motivo",
+			dataValueField: "idMotivo",
+			autoBind: false,
+			placeholder: "Seleccion un motivo...",
+			dataSource: {
+				type: "json",
+				transport: {
+					read: { url: strInterOp("Motivo", "lista"), type: "post" }
+				},
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
 
-        $("#winProrroga").kendoWindow({
-            width: "450px",
-            title: "Postegar plazo",
-            actions: ["Close"],
-            visible: false,
-            modal: true
-        });
+		$("#winProrroga").kendoWindow({
+			width: "450px",
+			title: "Postegar plazo",
+			actions: ["Close"],
+			visible: false,
+			modal: true
+		});
 
-        // ####################################################
-        // ## Botones										###
-        // ####################################################
-        $("#btnVolver1").kendoButton({ click: onVolver, icon: "arrow-n" });
-        $("#btnVolver2").kendoButton({ click: onVolver, icon: "arrow-n" });
-        function onVolver(e) {
-            $("body, html").animate({ scrollTop: 0 }, 600);
-        }
+		// ####################################################
+		// ## Botones										###
+		// ####################################################
+		$("#btnVolver1").kendoButton({ click: onVolver, icon: "arrow-n" });
+		$("#btnVolver2").kendoButton({ click: onVolver, icon: "arrow-n" });
+		function onVolver(e) {
+			$("body, html").animate({ scrollTop: 0 }, 600);
+		}
 
-        $("#btnMensaje").kendoButton({ click: onMensaje, icon: "arrow-s" });
-        function onMensaje(e) {
-            $("body, html").animate({ scrollTop: $("#layerMensaje").offset().top }, 600);
-        }
+		$("#btnMensaje").kendoButton({ click: onMensaje, icon: "arrow-s" });
+		function onMensaje(e) {
+			$("body, html").animate({ scrollTop: $("#layerMensaje").offset().top }, 600);
+		}
 
-        $("#btnNewMensaje").kendoButton({ click: onNewMensaje });
-        function onNewMensaje(e) {
-            $("#winMensaje").data("kendoWindow").center();
-            $("#winMensaje").data("kendoWindow").open();
-        }
+		$("#btnNewMensaje").kendoButton({ click: onNewMensaje });
+		function onNewMensaje(e) {
+			$("#winMensaje").data("kendoWindow").center();
+			$("#winMensaje").data("kendoWindow").open();
+		}
 
-        $("#btnNewProrroga").kendoButton({ click: onNewProrroga, icon: "tick" });
-        function onNewProrroga(e) {
-            $("#winProrroga").data("kendoWindow").center();
-            $("#winProrroga").data("kendoWindow").open();
-        }
+		$("#btnNewProrroga").kendoButton({ click: onNewProrroga, icon: "tick" });
+		function onNewProrroga(e) {
+			$("#winProrroga").data("kendoWindow").center();
+			$("#winProrroga").data("kendoWindow").open();
+		}
 
-        $("#btnProrroga").kendoButton({ click: onPostegar, icon: "arrow-s" });
-        function onPostegar(e) {
-            $("body, html").animate({ scrollTop: $("#layerProrroga").offset().top }, 600);
-        }
+		$("#btnProrroga").kendoButton({ click: onPostegar, icon: "arrow-s" });
+		function onPostegar(e) {
+			$("body, html").animate({ scrollTop: $("#layerProrroga").offset().top }, 600);
+		}
 
-        $("#btnAnular").kendoButton({ click: onAnular });
-        function onAnular(e) {
-            var r = confirm("Esta seguro de anular este requerimiento");
-            if (r == true) {
-                var req = dsRepuestos.at(0);
-                callScript(strInterOp("Requerimiento", "anular"), '&idRequerimiento=' + req.id,
+		$("#btnAnular").kendoButton({ click: onAnular });
+		function onAnular(e) {
+			var r = confirm("Esta seguro de anular este requerimiento");
+			if (r == true) {
+				var req = dsRepuestos.at(0);
+				callScript(strInterOp("Requerimiento", "anular"), '&idRequerimiento=' + req.id,
 				function (e) {
-				    dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
 				}
 			);
-            }
-        }
+			}
+		}
 
-        $("#btnDelete").kendoButton({ click: onDelete });
-        function onDelete(e) {
-            var r = confirm("Esta seguro de eliminar este requerimiento");
-            if (r == true) {
-                var req = dsRepuestos.at(0);
-                callScript(strInterOp("Requerimiento", "eliminar"), '&idRequerimiento=' + req.id,
+		$("#btnDelete").kendoButton({ click: onDelete });
+		function onDelete(e) {
+			var r = confirm("Esta seguro de eliminar este requerimiento");
+			if (r == true) {
+				var req = dsRepuestos.at(0);
+				callScript(strInterOp("Requerimiento", "eliminar"), '&idRequerimiento=' + req.id,
 				function (e) {
-				    window.location.href = "Default.aspx";
+					window.location.href = "Default.aspx";
 				});
-            }
-        }
+			}
+		}
 
-        $("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
-        function onFind(e) {
-            idRequerimiento = txtIdRequerimiento.value;
-            dsRepuestos.read({ "idRequerimiento": idRequerimiento });
-            $("#layerSeguimiento").show(500);
-        }
+		$("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
+		function onFind(e) {
+			idRequerimiento = txtIdRequerimiento.value;
+			dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+			$("#layerSeguimiento").show(500);
+		}
 
-        function onRefresh(e) {
-            dsRepuestos.read({ "idRequerimiento": idRequerimiento });
-        }
+		function onRefresh(e) {
+			dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+		}
 
-        $("#btnAvanzar").kendoButton({ click: onClick, icon: "arrow-u" });
-        function onClick(e) {
-            $("#winFinalizacion").data("kendoWindow").center();
-            $("#winFinalizacion").data("kendoWindow").open();
-        }
-        // ####################################################
-        // ## Carga Datos									###
-        // ####################################################
-        function cargaDatos(data, idRequerimiento) {
-            var vEstado = $.map(dsEstado, function (val) {
-                return val.idEstado == data[0].estado ? val : null;
-            });
-            $("#lblEmisor").html("<strong>" + data[0].usuario + "</strong>");
-            $("#lblProducto").html("<strong>" + data[0].nombre + "</strong>");
-            $("#lblRepuesto").html("<strong>" + data[0].codigo + ' - ' + data[0].repuesto + "</strong>");
-            $("#lblTienda").html("<strong>" + data[0].tienda + "</strong>");
-            $("#lblIngreso").html("<strong>" + data[0].fechaInicio + "</strong>");
-            $("#lblCompromiso").html("<strong>" + data[0].fechaCompromiso + "</strong>");
-            $("#lblCantidad").html("<strong>" + data[0].cantidad + "</strong>");
-            $("#lblEstado").html("<strong>" + vEstado[0].estado + "</strong>");
-            $("#lblActividad").html("<strong>" + data[0].actividad + "</strong>");
-            dsRequerimiento.read({ "idRequerimiento": idRequerimiento });
-            dsProrroga.read({ "idRequerimiento": idRequerimiento });
-            dsMensaje.read({ "idRequerimiento": idRequerimiento });
-            if (data[0].estado == 2) {
-                $("#btnAvanzar").hide();
-                $("#cmbFinalizacion").data("kendoDropDownList").enable(false);
-            }
-            else {
-                $("#cmbFinalizacion").data("kendoDropDownList").dataSource.read({ "idRequerimiento": idRequerimiento });
-                $("#cmbTipoDocumento").data("kendoComboBox").dataSource.read();
-            }
+		$("#btnAvanzar").kendoButton({ click: onClick, icon: "arrow-u" });
+		function onClick(e) {
+			$("#winFinalizacion").data("kendoWindow").center();
+			$("#winFinalizacion").data("kendoWindow").open();
+		}
+		// ####################################################
+		// ## Carga Datos									###
+		// ####################################################
+		function cargaDatos(data, idRequerimiento) {
+			var vEstado = $.map(dsEstado, function (val) {
+				return val.idEstado == data[0].estado ? val : null;
+			});
+			$("#lblEmisor").html("<strong>" + data[0].usuario + "</strong>");
+			$("#lblProducto").html("<strong>" + data[0].nombre + "</strong>");
+			$("#lblRepuesto").html("<strong>" + data[0].codigo + ' - ' + data[0].repuesto + "</strong>");
+			$("#lblTienda").html("<strong>" + data[0].tienda + "</strong>");
+			$("#lblIngreso").html("<strong>" + data[0].fechaInicio + "</strong>");
+			$("#lblCompromiso").html("<strong>" + data[0].fechaCompromiso + "</strong>");
+			$("#lblCantidad").html("<strong>" + data[0].cantidad + "</strong>");
+			$("#lblEstado").html("<strong>" + vEstado[0].estado + "</strong>");
+			$("#lblActividad").html("<strong>" + data[0].actividad + "</strong>");
+			dsRequerimiento.read({ "idRequerimiento": idRequerimiento });
+			dsProrroga.read({ "idRequerimiento": idRequerimiento });
+			dsMensaje.read({ "idRequerimiento": idRequerimiento });
+			if (data[0].estado == 2) {
+				$("#btnAvanzar").hide();
+				$("#cmbFinalizacion").data("kendoDropDownList").enable(false);
+			}
+			else {
+				$("#cmbFinalizacion").data("kendoDropDownList").dataSource.read({ "idRequerimiento": idRequerimiento });
+				$("#cmbTipoDocumento").data("kendoComboBox").dataSource.read();
+			}
 
-        }
-        // ####################################################
-        // ## Datasource									###
-        // ####################################################
-        var dsRepuestos = new kendo.data.DataSource({
-            transport: {
-                read: { url: strInterOp("Requerimiento", "lista"), dataType: "json", type: 'POST' },
-                destroy: { url: strInterOp("Requerimiento", "eliminar"), dataType: "json", type: 'POST' },
-                parameterMap: function (data, type) {
-                    if (type == "destroy") {
-                        return { idRequerimiento: data.models[0].idRequerimiento }
-                    }
-                    if (type == "read") {
-                        return { idRequerimiento: data.idRequerimiento }
-                    }
-                }
-            },
-            change: function (e) {
-                if (e.action != "remove") {
-                    if (this._data.length > 0) {
-                        var data = this.data();
+		}
+		// ####################################################
+		// ## Datasource									###
+		// ####################################################
+		var dsRepuestos = new kendo.data.DataSource({
+			transport: {
+				read: { url: strInterOp("Requerimiento", "lista"), dataType: "json", type: 'POST' },
+				destroy: { url: strInterOp("Requerimiento", "eliminar"), dataType: "json", type: 'POST' },
+				parameterMap: function (data, type) {
+					if (type == "destroy") {
+						return { idRequerimiento: data.models[0].idRequerimiento }
+					}
+					if (type == "read") {
+						return { idRequerimiento: data.idRequerimiento }
+					}
+				}
+			},
+			change: function (e) {
+				if (e.action != "remove") {
+					if (this._data.length > 0) {
+						var data = this.data();
 
-                        cargaDatos(data, data[0].idRequerimiento);
-                        $("#layerNotFound").hide();
-                        $("#layerSeguimiento").show();
-                    }
-                    else {
-                        $("#layerSeguimiento").hide();
-                        $("#layerNotFound").show();
-                    }
+						cargaDatos(data, data[0].idRequerimiento);
+						$("#layerNotFound").hide();
+						$("#layerSeguimiento").show();
+					}
+					else {
+						$("#layerSeguimiento").hide();
+						$("#layerNotFound").show();
+					}
 
-                }
-            },
-            batch: true,
-            resizable: true,
-            error: errorGrid,
-            schema: { errors: "msgState", data: "args", total: "totalFila", model: { id: "idRequerimiento"} }
-        });
+				}
+			},
+			batch: true,
+			resizable: true,
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila", model: { id: "idRequerimiento"} }
+		});
 
-        var dsRequerimiento = new kendo.data.DataSource({
-            transport: {
-                read: { url: strInterOp("Requerimiento", "listaEstado"), dataType: "json", type: 'POST' }
-            },
-            batch: true,
-            resizable: true,
-            error: errorGrid,
-            schema: { errors: "msgState", data: "args", total: "totalFila" }
-        });
+		var dsRequerimiento = new kendo.data.DataSource({
+			transport: {
+				read: { url: strInterOp("Requerimiento", "listaEstado"), dataType: "json", type: 'POST' }
+			},
+			batch: true,
+			resizable: true,
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
 
-        var dsProrroga = new kendo.data.DataSource({
-            transport: { read: { url: strInterOp("Prorroga", "lista"), dataType: "json", type: 'POST'} },
-            batch: true,
-            resizable: true,
-            error: errorGrid,
-            schema: { errors: "msgState", data: "args", total: "totalFila" },
-            change: function (e) {
-                var strDivProrroga = "";
-                if (this._data.length > 0) {
-                    var data = this.data();
-                    var strDiv = "<div class='divProrroga'><span style='font-weight: bold; color: #0B90A7 '> Ingresado el $1 <br>Por $2";
-                    strDiv = strDiv + "</span><br><hr/>Motivo:<strong> $3</strong><br>Fecha Anterior:<strong> $4</strong><br>";
-                    strDiv = strDiv + "Fecha Nueva: <strong>$5</strong><br>Comentario: <strong>$6</strong></div>";
+		var dsProrroga = new kendo.data.DataSource({
+			transport: { read: { url: strInterOp("Prorroga", "lista"), dataType: "json", type: 'POST'} },
+			batch: true,
+			resizable: true,
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila" },
+			change: function (e) {
+				var strDivProrroga = "";
+				if (this._data.length > 0) {
+					var data = this.data();
+					var strDiv = "<div class='divProrroga'><span style='font-weight: bold; color: #0B90A7 '> Ingresado el $1 <br>Por $2";
+					strDiv = strDiv + "</span><br><hr/>Motivo:<strong> $3</strong><br>Fecha Anterior:<strong> $4</strong><br>";
+					strDiv = strDiv + "Fecha Nueva: <strong>$5</strong><br>Comentario: <strong>$6</strong></div>";
 
-                    for (i = 0; i < this._data.length; i++) {
-                        strDivData = strDiv;
-                        strDivData = strDivData.replace("$1", data[i].fechaModificacion);
-                        strDivData = strDivData.replace("$2", data[i].usuario);
-                        strDivData = strDivData.replace("$3", data[i].motivo);
-                        strDivData = strDivData.replace("$4", data[i].fechaAntigua);
-                        strDivData = strDivData.replace("$5", data[i].fechaNueva);
-                        strDivData = strDivData.replace("$6", data[i].comentario);
-                        strDivProrroga = strDivProrroga + strDivData;
-                    }
-                }
-                else {
-                    strDivProrroga = "<strong>No existen prorrogas para este requerimiento</strong>";
-                }
-                $("#frmProrroga").html(strDivProrroga);
-            }
-        });
+					for (i = 0; i < this._data.length; i++) {
+						strDivData = strDiv;
+						strDivData = strDivData.replace("$1", data[i].fechaModificacion);
+						strDivData = strDivData.replace("$2", data[i].usuario);
+						strDivData = strDivData.replace("$3", data[i].motivo);
+						strDivData = strDivData.replace("$4", data[i].fechaAntigua);
+						strDivData = strDivData.replace("$5", data[i].fechaNueva);
+						strDivData = strDivData.replace("$6", data[i].comentario);
+						strDivProrroga = strDivProrroga + strDivData;
+					}
+				}
+				else {
+					strDivProrroga = "<strong>No existen prorrogas para este requerimiento</strong>";
+				}
+				$("#frmProrroga").html(strDivProrroga);
+			}
+		});
 
-        var dsMensaje = new kendo.data.DataSource({
-            transport: { read: { url: strInterOp("Mensaje", "lista"), dataType: "json", type: 'POST'} },
-            batch: true,
-            resizable: true,
-            error: errorGrid,
-            schema: { errors: "msgState", data: "args", total: "totalFila" },
-            change: function (e) {
-                var strDivMensaje = "";
-                if (this._data.length > 0) {
-                    var data = this.data();
-                    var strDiv = "<div class='divProrroga'><span style='font-weight: bold; color: #0B90A7 '> Ingresado el $1 <br>Por $2</span><hr/>";
-                    strDiv = strDiv + "Mensaje: <strong>$3</strong></div>";
+		var dsMensaje = new kendo.data.DataSource({
+			transport: { read: { url: strInterOp("Mensaje", "lista"), dataType: "json", type: 'POST'} },
+			batch: true,
+			resizable: true,
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila" },
+			change: function (e) {
+				var strDivMensaje = "";
+				if (this._data.length > 0) {
+					var data = this.data();
+					var strDiv = "<div class='divProrroga'><span style='font-weight: bold; color: #0B90A7 '> Ingresado el $1 <br>Por $2</span><hr/>";
+					strDiv = strDiv + "Mensaje: <strong>$3</strong></div>";
 
-                    for (i = 0; i < this._data.length; i++) {
-                        strDivData = strDiv;
-                        strDivData = strDivData.replace("$1", data[i].fechaIngreso);
-                        strDivData = strDivData.replace("$2", data[i].usuario);
-                        strDivData = strDivData.replace("$3", data[i].mensaje);
-                        strDivMensaje = strDivMensaje + strDivData;
-                    }
-                }
-                else {
-                    strDivMensaje = "<strong>No existen Mensajes para este requerimiento</strong>";
-                }
-                $("#frmMensaje").html(strDivMensaje);
-            }
-        });
-        // ############################################
-        // ### Grid									###
-        // ############################################
-        $("#grid").kendoGrid({
-            dataSource: dsRequerimiento,
-            pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
-            height: 250,
-            sortable: true,
-            filterable: filtroGrid,
-            resizable: true,
-            autoBind: false,
-            scrollable: true,
-            columns: [
+					for (i = 0; i < this._data.length; i++) {
+						strDivData = strDiv;
+						strDivData = strDivData.replace("$1", data[i].fechaIngreso);
+						strDivData = strDivData.replace("$2", data[i].usuario);
+						strDivData = strDivData.replace("$3", data[i].mensaje);
+						strDivMensaje = strDivMensaje + strDivData;
+					}
+				}
+				else {
+					strDivMensaje = "<strong>No existen Mensajes para este requerimiento</strong>";
+				}
+				$("#frmMensaje").html(strDivMensaje);
+			}
+		});
+		// ############################################
+		// ### Grid									###
+		// ############################################
+		$("#grid").kendoGrid({
+			dataSource: dsRequerimiento,
+			pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
+			height: 250,
+			sortable: true,
+			filterable: filtroGrid,
+			resizable: true,
+			autoBind: false,
+			scrollable: true,
+			columns: [
 				{ field: "idRequerimiento", title: "id", width: "40px" },
 				{ field: "estado", title: "E", template: '<span class="claseEstado claseEstado#: estado #">&nbsp;</span>', width: "35px" },
 				{ field: "actividad", title: "actividad", width: "180px" },
@@ -566,20 +566,20 @@
 				{ field: "rol", title: "rol", width: "120px" },
 				{ field: "", title: "" }
 			]
-        });
-        // ############################################
-        // ### Ejecución inicial					###
-        // ############################################
-        $("#layerSeguimiento").hide();
-        $("#layerNotFound").hide();
+		});
+		// ############################################
+		// ### Ejecución inicial					###
+		// ############################################
+		$("#layerSeguimiento").hide();
+		$("#layerNotFound").hide();
 
-        var vGet = getVarsUrl();
+		var vGet = getVarsUrl();
 
-        if (typeof vGet.idRequerimiento != "undefined") {
-            idRequerimiento = vGet.idRequerimiento;
-            dsRepuestos.read({ "idRequerimiento": vGet.idRequerimiento });
-        }
-    });
+		if (typeof vGet.idRequerimiento != "undefined") {
+			idRequerimiento = vGet.idRequerimiento;
+			dsRepuestos.read({ "idRequerimiento": vGet.idRequerimiento });
+		}
+	});
 </script>
 <style>
 	.claseEstado {

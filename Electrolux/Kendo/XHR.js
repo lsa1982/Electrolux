@@ -202,14 +202,8 @@ function dsRead(jsClase, jsFuncion, jsAssem) {
 	var xDs = {
 		serverFiltering: true,
 		type: "json",
-		transport: {
-         	read: { url: strInterOpAs(jsClase, jsFuncion, jsAssem), dataType: "json", type: "post" }
-		},
-		schema: {
-         	errors: "msgState",
-         	data: "args",
-         	total: "totalFila"
-		}
+		transport: {read: { url: strInterOpAs(jsClase, jsFuncion, jsAssem), dataType: "json", type: "post" }},
+		schema: {errors: "msgState",data: "args",total: "totalFila"}
 	}
 	return xDs;
 };
@@ -218,5 +212,6 @@ var dsEstado = [
 	{ "idEstado": 0, "estado": "Todos" },
 	{ "idEstado": 1, "estado": "Pendiente" },
 	{ "idEstado": 2, "estado": "Finalizado" },
-	{ "idEstado": 3, "estado": "Atrasado" }
+	{ "idEstado": 3, "estado": "Atrasado" },
+	{ "idEstado": 4, "estado": "Anulado" }
 ];

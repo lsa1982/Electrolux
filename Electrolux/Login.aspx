@@ -148,7 +148,6 @@ aloooooooo
 		background-color: Blue ;
 		color: White;
 		border: 0px;
-		
 	}
 	
 </style>
