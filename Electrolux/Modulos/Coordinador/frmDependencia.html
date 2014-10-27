@@ -1,0 +1,124 @@
+﻿<form id="check">
+<table style="width:100%">
+	
+    <tr style="width:100%">
+		<td style="width: 100px">
+				Actividad: 
+			</td>
+			<td>
+					<input id="cmbActividad" name="txtidActividad" style="width: 250px" requeired />
+			</td> 
+     </tr>  
+     
+       <tr style="width:100%">
+		<td style="width: 100px">
+				Finalizacion: 
+			</td>
+			<td>
+					<input id="cmbFinalizacion" name="txtidFinalizacion" style="width: 250px" requeired />
+			</td> 
+     </tr>             
+
+   <tr style="width:100%">
+		<td style="width: 100px">
+				Actividad Siguiente: 
+			</td>
+			<td>
+					<input id="cmbAS" name="txtidActividadSiguiente" style="width: 250px" requeired />
+			</td> 
+     </tr>             
+
+
+		<td colspan="2" style="border-top-style: dashed ; border-top-color: Gray; border-top-width: 1px; padding-top: 10px">
+			<button id="btnAgregar" type="button" class="k-button">Agregar</button>&nbsp;
+			<button id="btnCancelar" type="button" class="k-button">Cancelar</button>
+		</td>
+	</tr>
+
+</table>
+</form>
+<script>
+
+    $(document).ready(function () {
+
+        $("#btnAgregar").kendoButton({ icon: "plus", click: onClick });
+        $("#btnCancelar").kendoButton({ icon: "plus", click: onClose });
+
+        function onClick(e) {
+            var validator = $("#check").kendoValidator().data("kendoValidator");
+            enviaForm(validator, 'check', 'clsDependencia', 'insertar', onSuccess);
+            $("#cmbActividad").data("kendoComboBox").enable(true);
+            $("#cmbFinalizacion").data("kendoComboBox").enable(true);
+            $("#cmbAS").data("kendoComboBox").enable(true);
+
+        }
+
+        function onSuccess() {
+            $("#winNewRequest1").data("kendoWindow").close();
+        }
+
+        function onClose() {
+            $("#winNewRequest1").data("kendoWindow").close();
+        }
+
+        var cmbRol = $("#cmbActividad").kendoComboBox({
+            dataTextField: "actividad",
+            dataValueField: "idActividad",
+            autoBind: false,
+            placeholder: "Seleccionar",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: { url: strInterOpAs("clsActividad", "lista", "Coordinador"), dataType: "json", type: "post" }
+                },
+                sort: { field: "actividad", dir: "asc" },
+                schema: {
+                    errors: "msgState",
+                    data: "args",
+                    total: "totalFila"
+                }
+            }
+        });
+
+        var cmbFlujo = $("#cmbFinalizacion").kendoComboBox({
+            dataTextField: "Finalizacion",
+            dataValueField: "idFinalizacion",
+            autoBind: false,
+            placeholder: "Seleccionar",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: { url: strInterOpAs("clsDependencia", "lista", "Coordinador"), dataType: "json", type: "post" }
+                },
+                sort: { field: "Finalizacion", dir: "asc" },
+                schema: {
+                    errors: "msgState",
+                    data: "args",
+                    total: "totalFila"
+                }
+            }
+        });
+
+        var cmbFlujo = $("#cmbAS").kendoComboBox({
+            dataTextField: "actividadSiguiente",
+            dataValueField: "idActividadSiguiente",
+            autoBind: false,
+            placeholder: "Seleccionar",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: { url: strInterOpAs("clsDependencia", "lista", "Coordinador"), dataType: "json", type: "post" }
+                },
+                sort: { field: "actividadSiguiente", dir: "asc" },
+                schema: {
+                    errors: "msgState",
+                    data: "args",
+                    total: "totalFila"
+                }
+            }
+        });
+
+
+
+    });
+</script>

@@ -64,6 +64,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsDependencia.vb" />
     <Compile Include="clsFlujo.vb" />
     <Compile Include="clsActividad.vb" />
     <Compile Include="clsActividad2.vb" />
@@ -109,7 +110,15 @@
     <EmbeddedResource Include="SQL\vGrafo.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="SQL\vFlujo.sqlx" />
+    <EmbeddedResource Include="SQL\vFlujo.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQL\vRoles.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQL\vDependencia.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonClass\CommonClass.vbproj">

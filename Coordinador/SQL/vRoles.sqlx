@@ -1,0 +1,9 @@
+﻿Select 
+    AL1.IDROL AS ID_ROL,   
+	al2.ROL AS categoryName,
+    al1.nombre AS subCategoryName
+From
+	elx_hr_personal al1,
+	elx_hr_rol al2
+Where
+	al1.idRol = al2.IDROL

@@ -6,16 +6,16 @@ Public Class clsActividad
 
     Sub lista()
         Dim vFiltro As String = ""
-        If Not prForm("txtidActividad") = "" Then
-            vFiltro = " and al1.idActividad = " & Me.prGet("txtidActividad")
+        If Not prForm("txtidFlujo") = "" Then
+            vFiltro = " and al1.idFlujo = " & Me.prForm("txtidFlujo")
         End If
 
-        If Not prGet("txtidActividad") = "" Then
-            vFiltro = " and al1.idActividad = " & Me.prGet("txtidActividad")
+        If Not prForm("txtidFlujo") = "" Then
+            vFiltro = " and al1.idFlujo = " & Me.prForm("txtidFlujo")
         End If
 
         If Not prForm("filter[filters][0][field]") = "" Then
-            vFiltro = " and al1.idActividad= " & Me.prForm("filter[filters][0][value]")
+            vFiltro = " and al1.idFlujo= " & Me.prForm("filter[filters][0][value]")
         End If
         listaSql("vActividad", vFiltro)
     End Sub
