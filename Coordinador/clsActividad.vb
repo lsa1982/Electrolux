@@ -20,6 +20,22 @@ Public Class clsActividad
         listaSql("vActividad", vFiltro)
     End Sub
 
+    Sub listaActividad()
+        Dim vFiltro As String = ""
+        If Not prForm("txtidActividad") = "" Then
+            vFiltro = " and al1.idActividad = " & Me.prForm("txtidActividad")
+        End If
+
+        If Not prForm("txtidActividad") = "" Then
+            vFiltro = " and al1.idActividad = " & Me.prForm("txtidActividad")
+        End If
+
+        If Not prForm("filter[filters][0][field]") = "" Then
+            vFiltro = " and al1.idActividad= " & Me.prForm("filter[filters][0][value]")
+        End If
+        listaSql("vActividad", vFiltro)
+    End Sub
+
     Sub insertar()
         Dim strCx As New StringConex
         Dim strSql As String

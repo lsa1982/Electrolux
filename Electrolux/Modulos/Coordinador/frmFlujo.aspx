@@ -129,7 +129,7 @@
             callScript(strInterOp("clsFlujo", "lista2"), 'idFlujo=' + idFlujo, cargaDatos);
             //$("#grid").show(500);
             $("#layerFlujo").show(500);
-            };
+        };
 
 
 
@@ -167,7 +167,7 @@
     // ###	Grid Actividades        							###
     // ############################################################
 
-var ds = new kendo.data.DataSource({
+    var ds = new kendo.data.DataSource({
         transport: {
             read: { url: strInterOpAs("clsActividad", "lista", "Coordinador"), dataType: "json", type: "POST" },
             destroy: { url: strInterOpAs("clsActividad", "eliminar", "Coordinador"), dataType: "json", type: "POST" },
@@ -201,118 +201,118 @@ var ds = new kendo.data.DataSource({
             total: "totalFila",
             model: {
                 fields: {
-                    idActividad: { type:"number" },
-                    idRol: { type:"number" },
-                    ROL: { type:"string" },
-                    Flujo: { type:"string" },
-                    idFlujo: { type:"number" },
-                    actividad: { type:"string" },
-                    duracion: { type:"number" },
-                    medida: { type:"string" },
-                    orden: { type:"number" }
+                    idActividad: { type: "number" },
+                    idRol: { type: "number" },
+                    ROL: { type: "string" },
+                    Flujo: { type: "string" },
+                    idFlujo: { type: "number" },
+                    actividad: { type: "string" },
+                    duracion: { type: "number" },
+                    medida: { type: "string" },
+                    orden: { type: "number" }
 
                 }
             }
         }
     });
 
-var gridColumns = [
+    var gridColumns = [
                 { field: "idActividad", title: "ID", width: "80px" },
                 { field: "ROL", title: "Rol", width: "80px" },
                 { field: "Flujo", title: "Flujo", width: "80px" },
                 { field: "actividad", title: "Actividad", width: "80px" },
                 { field: "duracion", title: "Duracion", width: "80px" },
                 { field: "medida", title: "Medida", width: "80px" },
-                { field: "orden", title: "Orden",width: "80px"  },
+                { field: "orden", title: "Orden", width: "80px" },
 				{ field: "", title: "" }
                 ];
 
-        $("#grid").kendoGrid({
-            dataSource: ds,
-            sortable: true,
-            resizable: true,
-            height: 220,
-            width: 200,
-            columns: gridColumns,
-            scrollable: true
-        });
+    $("#grid").kendoGrid({
+        dataSource: ds,
+        sortable: true,
+        resizable: true,
+        height: 220,
+        width: 200,
+        columns: gridColumns,
+        scrollable: true
+    });
 
 
-        // ############################################################
-        // ###	Grid Dependencia        							###
-        // ############################################################
+    // ############################################################
+    // ###	Grid Dependencia        							###
+    // ############################################################
 
-        var dsD = new kendo.data.DataSource({
-            transport: {
-                read: { url: strInterOpAs("clsDependencia", "lista", "Coordinador"), dataType: "json", type: "POST" },
-                parameterMap: function (options, operation) {
-                    if (operation !== "read" && options.models) {
-                        return { "txtidActividad": options.models[0].idActividad,
-                            "txtActividad": options.models[0].idRol,
-                            "txtFinalizacion": options.models[0].idFlujo,
-                            "txtActividadSiguiente": options.models[0].actividadSiguiente
-                        };
-                    }
-                    else {
-                        return options;
-                    }
+    var dsD = new kendo.data.DataSource({
+        transport: {
+            read: { url: strInterOpAs("clsDependencia", "listaActividad", "Coordinador"), dataType: "json", type: "POST" },
+            parameterMap: function (options, operation) {
+                if (operation !== "read" && options.models) {
+                    return { "txtidActividad": options.models[0].idActividad,
+                        "txtActividad": options.models[0].idRol,
+                        "txtFinalizacion": options.models[0].idFlujo,
+                        "txtActividadSiguiente": options.models[0].actividadSiguiente
+                    };
                 }
-            },
-            batch: true,
-            resizable: true,
-            error: errorGrid,
-            serverPaging: true,
-            serverFiltering: true,
-            pageSize: 30,
-            schema: {
-                errors: "msgState",
-                data: "args",
-                total: "totalFila",
-                model: {
-                    fields: {
-                        idActividad: { type: "number" },
-                        actividad: { type: "string" },
-                        Finalizacion: { type: "string" },
-                        actividadSiguiente: { type: "string" }
-                    }
+                else {
+                    return options;
                 }
             }
-        });
+        },
+        batch: true,
+        resizable: true,
+        error: errorGrid,
+        serverPaging: true,
+        serverFiltering: true,
+        pageSize: 30,
+        schema: {
+            errors: "msgState",
+            data: "args",
+            total: "totalFila",
+            model: {
+                fields: {
+                    idActividad: { type: "number" },
+                    actividad: { type: "string" },
+                    Finalizacion: { type: "string" },
+                    actividadSiguiente: { type: "string" }
+                }
+            }
+        }
+    });
 
-        var gridColumnsD = [
+    var gridColumnsD = [
                 { field: "actividad", title: "Actividad", width: "80px" },
                 { field: "Finalizacion", title: "Finalizacion", width: "80px" },
                 { field: "actividadSiguiente", title: "AS", width: "80px" },
 				{ field: "", title: "" }
                 ];
 
-                    $("#gridDependencia").kendoGrid({
-                    dataSource: dsD,
-                    sortable: true,
-                    resizable: true,
-                    height: 220,
-                    width: 200,
-                    columns: gridColumnsD,
-                    scrollable: true
-                });
+    $("#gridDependencia").kendoGrid({
+        dataSource: dsD,
+        sortable: true,
+        resizable: true,
+        height: 220,
+        width: 200,
+        columns: gridColumnsD,
+        scrollable: true
+    });
 
 
-                var gridColumnsP = [
+    var gridColumnsP = [
                 { field: "actividad", title: "Actividad", width: "80px" },
                 { field: "Finalizacion", title: "Finalizacion", width: "80px" },
                 { field: "actividadSiguiente", title: "AS", width: "80px" },
 				{ field: "", title: "" }
                 ];
 
-                $("#gridPadre").kendoGrid({
-                    dataSource: dsD,
-                    sortable: true,
-                    resizable: true,
-                    height: 220,
-                    width: 200,
-                    columns: gridColumnsP,
-                    scrollable: true
-                });
+    $("#gridPadre").kendoGrid({
+        dataSource: dsD,
+        sortable: true,
+        resizable: true,
+        height: 220,
+        width: 200,
+        columns: gridColumnsP,
+        scrollable: true
+    });
 
 
 
@@ -320,15 +320,15 @@ var gridColumns = [
 
 
 
-        function cargaDatos(data) {
-           
-		    $("#lblidFlujo").html("<strong>" + data[0].idFlujo + "</strong>");
-			$("#lblFlujo").html("<strong>" + data[0].Flujo + "</strong>");
-			$("#lblGrupo").html("<strong>" + data[0].Grupo + "</strong>");
-			$("#lblDuracion").html("<strong>" + data[0].duracion + "</strong>");
-			$("#lblMedida").html("<strong>" + data[0].medida + "</strong>");
-			//dsFlujo.read({ "idFlujo": idFlujo });
-         };
+    function cargaDatos(data) {
+
+        $("#lblidFlujo").html("<strong>" + data[0].idFlujo + "</strong>");
+        $("#lblFlujo").html("<strong>" + data[0].Flujo + "</strong>");
+        $("#lblGrupo").html("<strong>" + data[0].Grupo + "</strong>");
+        $("#lblDuracion").html("<strong>" + data[0].duracion + "</strong>");
+        $("#lblMedida").html("<strong>" + data[0].medida + "</strong>");
+        //dsFlujo.read({ "idFlujo": idFlujo });
+    };
 
     $("#layerFlujo").hide();
     $("#layerNotFound").hide();
@@ -390,11 +390,11 @@ var gridColumns = [
     });
 
     //if (typeof vGet.idFlujo != "undefined") {
-        //idFlujo = vGet.idFlujo;
-        //dsFlujos.read({ "idFlujo": vGet.idFlujo });
-       // }; 
+    //idFlujo = vGet.idFlujo;
+    //dsFlujos.read({ "idFlujo": vGet.idFlujo });
+    // }; 
 
-   // var tabStrip = $("#tabView").kendoTabStrip().data("kendoTabStrip");
+    // var tabStrip = $("#tabView").kendoTabStrip().data("kendoTabStrip");
     //tabStrip.append({ text: "Item 2", content: "holaaa2" });
 
 
