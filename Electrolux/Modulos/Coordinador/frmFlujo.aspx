@@ -217,13 +217,10 @@
     });
 
     var gridColumns = [
-                { field: "idActividad", title: "ID", width: "80px" },
                 { field: "ROL", title: "Rol", width: "80px" },
-                { field: "Flujo", title: "Flujo", width: "80px" },
-                { field: "actividad", title: "Actividad", width: "80px" },
+                { field: "actividad", title: "Actividad", width: "200px" },
                 { field: "duracion", title: "Duracion", width: "80px" },
                 { field: "medida", title: "Medida", width: "80px" },
-                { field: "orden", title: "Orden", width: "80px" },
 				{ field: "", title: "" }
                 ];
 
