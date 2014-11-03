@@ -102,6 +102,7 @@
 
         var dMatriz = [];
         var wfMatriz = [];
+
         function onClick(c) {
             if (c instanceof Object) {
                 dsD.read({ "txtidActividad": c.idActividad });
@@ -115,12 +116,13 @@
             var index;
             for (index = 0; index < wfMatriz.length; ++index) {
                 gitGraph.creaNodo(wfMatriz[index]);
-            };
+            }
             gitGraph.render();
         };
 
 
         $("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
+
         function onFind(e) {
 
             idFlujo = txtIdFlujo.value;
@@ -129,7 +131,7 @@
             callScript(strInterOp("clsFlujo", "lista2"), 'idFlujo=' + idFlujo, cargaDatos);
             //$("#grid").show(500);
             $("#layerFlujo").show(500);
-        };
+        }
 
 
 
