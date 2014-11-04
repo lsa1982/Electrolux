@@ -68,7 +68,7 @@
 			{ field: "razonSocial", title: "Razón Social", width: "100px" },
 			{ field: "rut", title: "Rut", width: "120px" },
 			{ field: "estado", title: "Estado", width: "50px" },
-			{ field: "imagen", title: "Imagen", template: "<img src='#= cadena #.jpg' />"},
+			{ field: "imagen", title: "Imagen", template: "<img src='images/cadena/#= imagen #' />", width: "50"},
             { field: "ultimaModificacion", title: "Ultima Modificacion", width: "180px" }
 			];
 
