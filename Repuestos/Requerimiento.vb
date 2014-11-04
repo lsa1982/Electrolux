@@ -1,9 +1,10 @@
 ﻿Imports Elx.CommonClass
 Imports System.Net.Mail
+Imports System.Collections.Specialized
 
 Public Class Requerimiento
 	Inherits clsEntidad
-	
+
 	Sub insertar()
 
 		Dim strCx As New StringConex
@@ -67,7 +68,8 @@ Public Class Requerimiento
 		Else
 			strCx.finTransaccion()
 			enviarMail(idMail)
-			rsp.args = "{ ""OK"": ""OK""}"
+			
+			rsp.args = "{ ""idRequerimiento"": """ & String.Join(",", idMail) & """}"
 		End If
 	End Sub
 	Sub lista()
@@ -121,7 +123,7 @@ Public Class Requerimiento
 
 		Dim idActividadSiguiente As Integer = strCx.retornaDato(strSql)
 
-	
+
 		If prForm("id") <> "1" Then
 			If prForm("idTipoDocumento") = prForm("TipoDocumento") Then
 				strSql = "insert into elx_wf_tipodocumento  values (null, '$1') "
@@ -142,8 +144,6 @@ Public Class Requerimiento
 		Else
 			idDocumento = prForm("id")
 		End If
-
-		
 
 		If idActividadSiguiente > 0 Then
 			Dim dr As DataRow
@@ -173,6 +173,18 @@ Public Class Requerimiento
 			strSql = "update elx_rep_requerimiento set  fechaFin = now(), estado = 2 where idRequerimiento = $1 "
 			strSql = Replace(strSql, "$1", idRequerimiento)
 			strCx.ejecutaSql(strSql)
+			Dim iRepuesto As New Repuesto
+			Dim iParam As New NameValueCollection()
+			Dim drRequerimiento As DataRow
+			iRepuesto.Rol = Me.Rol
+			drRequerimiento = strCx.retornaDataRow("select idRepuesto, cantidad from elx_rep_requerimiento where idRequerimiento = " & idRequerimiento)
+			iParam.Add("referencia", idRequerimiento)
+			iParam.Add("comentario", "Ingreso automatico por despacho de requerimiento")
+			iParam.Add("idTipoDocumento", "1")
+			iParam.Add("detalle", drRequerimiento("idRepuesto") & "|" & (drRequerimiento("cantidad") * -1) & "|0;")
+			iRepuesto.prForm = iParam
+			iRepuesto.insertarMovimiento()
+
 		End If
 
 		strSql = "update elx_rep_estados set idFinalizacion = $1, fechaFin = now(), estado = $4, activo = $5, idDocumento = $2 where idActividad = $3"
@@ -267,8 +279,8 @@ Public Class Requerimiento
 	End Sub
 	Sub prueba()
 		Dim idMail As New ArrayList
-		idMail.Add(22)
-		idMail.Add(23)
+		idMail.Add(20)
+		idMail.Add(1)
 		enviarMail(idMail)
 	End Sub
 	Sub anular()
