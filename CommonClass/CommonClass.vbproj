@@ -52,8 +52,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EASendMail40">
-      <HintPath>.\EASendMail40.dll</HintPath>
+    <Reference Include="EASendMail45">
+      <HintPath>.\EASendMail45.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

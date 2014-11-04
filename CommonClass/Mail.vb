@@ -74,6 +74,7 @@ Public Class Mail
 		oMail.Subject = _subject	'Sujeto del e-mail
 		oMail.HtmlBody = _body 'contenido del mail
 		oMail.ReturnPath = "levi.sanchez@vanda.cl"
+
 		'ENVIO
 		Try
 			oSmtp.SendMail(oServer, oMail)

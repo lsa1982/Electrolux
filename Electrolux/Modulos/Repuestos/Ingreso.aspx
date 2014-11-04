@@ -101,7 +101,7 @@
 			  }
 		});
 	function onEnd(e){
-		window.location.href = appDir + 'Modulos/Repuestos/Default.aspx';
+		window.location.href = 'frmPostSend.aspx?idOrigen=1&idRequerimiento=' + e.idRequerimiento;
 	}
 
 	function onRequest(e) {
