@@ -109,13 +109,13 @@
     <EmbeddedResource Include="SQL\vGrafo.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-<<<<<<< HEAD
+
     <EmbeddedResource Include="SQL\vFlujo.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-=======
+
     <None Include="SQL\vFlujo.sqlx" />
->>>>>>> ae56bd7a6d14f8cb5ed51cc0216643e1b4a500c5
+
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonClass\CommonClass.vbproj">
