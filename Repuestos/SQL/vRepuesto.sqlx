@@ -8,7 +8,8 @@
 	al1.cantidad, 
 	al1.valor,
 	al2.grupo,
-	al2.tipo
+	al2.tipo,
+	al1.ultimaModificacion
 FROM 
 	ELX_rep_Repuesto al1,
 	elx_rep_grupo al2

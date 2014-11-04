@@ -38,9 +38,9 @@ Public Class Requerimiento
 				ElseIf dr("medida") = "hh" Then
 					itx = DateInterval.Hour
 				End If
-				strSql = "INSERT INTO ELX_REP_REQUERIMIENTO VALUES (null, '$1', '$2', '$3', '$4','$5','$6','$7', '$8', '$9', '$A', '$B') "
+                strSql = "INSERT INTO ELX_REP_REQUERIMIENTO (idRequerimiento, idUsuario, idTienda, idRepuesto, idProducto, fechaInicio, fechaCompromiso, fechaFin, estado, codiLegado, descripcion, cantidad)VALUES (null, '$1', '$2', '$3', '$4','$5','$6','$7', '$8', '$9', '$A', '$B') "
 				strSql = Replace(strSql, "$1", Me.Rol.idUsuario)
-				strSql = Replace(strSql, "$2", Me.prForm("idTienda"))
+                strSql = Replace(strSql, "$2", Me.prForm("idTienda"))
 				strSql = Replace(strSql, "$3", registro(0))	' Repuesto
 				strSql = Replace(strSql, "$4", registro(1))	' Producto
 				strSql = Replace(strSql, "$5", Format(Now(), "yyyy-MM-dd HH:mm:ss"))

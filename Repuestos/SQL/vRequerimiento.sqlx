@@ -19,7 +19,8 @@
 	al8.actividad,
 	al9.usuario,
 	al1.cantidad,
-	al10.marca
+	al10.marca,
+	al1.ultimaModificacion
 FROM 
 	elx_rep_requerimiento al1,
 	elx_core_producto al2, 

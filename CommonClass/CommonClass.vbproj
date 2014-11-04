@@ -76,6 +76,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassTest.vb" />
     <Compile Include="clsEntidad.vb" />
     <Compile Include="clsLog.vb" />
     <Compile Include="Mail.vb" />
