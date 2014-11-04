@@ -12,32 +12,24 @@ Public Class Repuesto
 
 	End Sub
 	Sub lista()
-		Dim strCx As New StringConex
-		Dim dt As DataTable
-		Dim strSql As String
-		strSql = "SELECT SQL_CALC_FOUND_ROWS  idRepuesto, idCategoria ,codigo ,repuesto, imagen, cantidad FROM ELX_rep_Repuesto"
 
+		Dim vFiltro As String = ""
 		If Not prForm("idRepuesto") = "" Then
-			strSql = strSql & " where idRepuesto =" & prForm("idRepuesto")
+			vFiltro = vFiltro & "  and al1.idRepuesto =" & prForm("idRepuesto")
 		End If
 
-		If Not prForm("filter[filters][0][field]") = "" Then
-			strSql = strSql & " where repuesto like '%" & prForm("filter[filters][0][value]") & "%' "
+		If prForm("filter[filters][0][field]") = "repuesto" Then
+			vFiltro = vFiltro & " and al1.repuesto like '%" & prForm("filter[filters][0][value]") & "%' "
 		End If
+		If prForm("filter[filters][0][field]") = "codigo" Then
+			vFiltro = vFiltro & " and al1.codigo like '%" & prForm("filter[filters][0][value]") & "%' "
+		End If
+
 
 		If Not prForm("skip") = "" Then
-			strSql = strSql & " limit " & prForm("skip") & ", " & prForm("take")
+			vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
 		End If
-
-		strCx.iniciaTransaccion()
-		dt = strCx.retornaDataTable(strSql)
-		Me.respuesta.totalFila = strCx.retornaDato("SELECT FOUND_ROWS()")
-		strCx.closeConex()
-		If strCx.flagError Then
-			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
-		Else
-			rsp.args = Me.retornaTablaSerializada(dt)
-		End If
+		listaSql("vRepuesto", vFiltro)
 	End Sub
 
 	Sub listaProductoRepuesto()

@@ -1,10 +1,10 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Core.master" %>
+<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Core.master" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
 <div class="areaTrabajo" id="trabajo">
 	<span style=" font-size: 24px;">Diagrama de Flujos de Trabajo</span><br/>
     <table>
      <tr>
-			<td>Ingrese número de requerimiento a buscar</td>
+			<td>Ingrese n�mero de requerimiento a buscar</td>
 			<td><input id="txtIdFlujo" type="text" /></td>
 			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
             <td><button id="btnNactividad" type="button"  class="k-button">Agregar Nueva Actividad</button></td>

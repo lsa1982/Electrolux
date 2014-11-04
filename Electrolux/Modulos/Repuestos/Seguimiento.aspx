@@ -604,22 +604,9 @@
 	.claseEstado4 {
 		background-color: Orange;
 		}
-	.areaTrabajo table td{
-		font-size: 11px;
-		border-bottom: 1px dashed #EEEEEE;
-		padding-bottom:5px;
-		
-		}
 	
-	.k-button-red{
-		padding: 3px;
-		font-size: 14px;
-		background-color: #0B90A7 ;
-		color: White;
-		border: 0px;
-		min-width: 100px
-		
-	}
+	
+
 		
 	.winSeguimiento{
 		font-size: 11px;

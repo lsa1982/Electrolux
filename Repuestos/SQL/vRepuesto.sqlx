@@ -1,0 +1,16 @@
+﻿SELECT 
+	SQL_CALC_FOUND_ROWS  
+	al1.idRepuesto, 
+	al1.idCategoria ,
+	al1.codigo ,
+	al1.repuesto, 
+	al1.imagen, 
+	al1.cantidad, 
+	al1.valor,
+	al2.grupo,
+	al2.tipo
+FROM 
+	ELX_rep_Repuesto al1,
+	elx_rep_grupo al2
+where
+	al1.idGrupo = al2.idGrupo

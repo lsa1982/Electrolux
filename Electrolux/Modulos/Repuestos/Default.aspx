@@ -31,7 +31,7 @@
   		$("#btnNuevo").kendoButton({ click: onClick, icon: 'plus' });
 
   		function onClick(e) {
-  			window.location = 'Ingreso.aspx';
+  			window.location.href = 'Ingreso.aspx';
   		}
 
   		function onChange(e) {
