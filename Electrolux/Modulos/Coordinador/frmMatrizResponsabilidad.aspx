@@ -15,7 +15,7 @@
 					<td colspan="2">
 						<span style=" font-size: 14px; font-weight: bold">Información del Usuario Asignado</span>
 					</td>
-					<tr>
+					<tr>C:\repositorio\Electrolux\Modulos\Coordinador\frmMatrizResponsabilidad.aspx
 						<td style="width:150px">Usuario Asignado : </td>
 						<td><div id="lblUsuario"></div></td>
 					</tr>
