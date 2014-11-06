@@ -9,9 +9,12 @@
 	al1.valor,
 	al2.grupo,
 	al2.tipo,
+	al3.categoria,
 	al1.ultimaModificacion
 FROM 
 	ELX_rep_Repuesto al1,
-	elx_rep_grupo al2
+	elx_rep_grupo al2,
+	elx_core_categoria al3
 where
-	al1.idGrupo = al2.idGrupo
+	al1.idGrupo = al2.idGrupo and
+	al1.idCategoria = al3.idCategoria

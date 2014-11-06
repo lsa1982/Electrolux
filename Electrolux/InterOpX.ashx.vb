@@ -52,11 +52,13 @@ Public Class InterOpX
 			rsp = CType(o.respuesta, xhrResponse)
 			escribeLog(ipAssem, operacionAssem, "Respuesta: " & rsp.serializarXhr())
 			context.Response.Write(rsp.serializarXhr())
+			If rsp.errorState Then context.Response.StatusCode = 550
 
 		Catch ex As Exception
 			escribeLog(ipAssem, operacionAssem, "ERROR:" & ex.Message)
 			rsp = New xhrResponse("", "")
 			rsp.estadoError(100, ex.Message)
+			context.Response.StatusCode = 550
 			context.Response.Write(rsp.serializarXhr())
 		End Try
 

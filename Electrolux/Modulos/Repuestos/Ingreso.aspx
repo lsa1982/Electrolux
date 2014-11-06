@@ -12,7 +12,7 @@
 				Seleccione Cliente: 
 			</td>
 			<td>
-					<input id="cmbCliente" style="width: 300px" />
+				<input id="cmbCliente" style="width: 300px" />
 			</td>
 			<td>
 				Seleccione Tienda: 

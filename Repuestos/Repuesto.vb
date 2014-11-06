@@ -11,14 +11,13 @@ Public Class Repuesto
 	Sub insertar()
 
 	End Sub
-
 	Sub insertarMovimiento()
 		Dim strCx As New StringConex
 		Dim strSql As String
 		strCx.iniciaTransaccion()
 		Dim detalle() As String
 		Dim idMovimiento As Integer
-		
+
 		strSql = "INSERT INTO ELX_REP_inventario VALUES (null, $1, '$2', '$3', '$4', $5) "
 		strSql = Replace(strSql, "$1", Me.prForm("idTipoDocumento"))
 		strSql = Replace(strSql, "$2", Format(Now(), "yyyy-MM-dd HH:mm:ss"))
@@ -57,12 +56,15 @@ Public Class Repuesto
 			rsp.args = "{ ""OK"": ""OK""}"
 		End If
 	End Sub
-
 	Sub lista()
 
 		Dim vFiltro As String = ""
 		If Not prForm("idRepuesto") = "" Then
 			vFiltro = vFiltro & "  and al1.idRepuesto =" & prForm("idRepuesto")
+		End If
+
+		If Not prForm("codigo") = "" Then
+			vFiltro = vFiltro & "  and al1.codigo = '" & prForm("codigo") & "'"
 		End If
 
 		If prForm("filter[filters][0][field]") = "repuesto" Then
@@ -87,6 +89,13 @@ Public Class Repuesto
 			listaSql("vProductoRepuesto", " limit 0,100")
 		End If
 	End Sub
+
+	Sub listaImagen()
+		If prForm("idRepuesto") <> "" Then
+			listaSql("select * from elx_rep_repuestoimagen where 1=1 ", "and idRepuesto = " & prForm("idRepuesto"), False)
+		End If
+	End Sub
+
 	Sub listaRepuestoProducto()
 		If prForm("idRepuesto") <> "" Then
 			listaSql("vRepuestoProducto", " and al1.idRepuesto = " & prForm("idRepuesto"))
@@ -96,6 +105,49 @@ Public Class Repuesto
 			listaSql("vRepuestoProducto", " limit 0,100")
 		End If
 	End Sub
+	Sub subirImagen()
+		If (prFile.Count = 0) Then
+			rsp.estadoError(100, "No se pudo subir archivo")
+		Else
+			If Right(prFile.Item(0).FileName, 3) <> "jpg" And Right(prFile.Item(0).FileName, 3) <> "png" Then
+				rsp.estadoError(200, "Extension Incorrecta")
+			Else
+				Try
+					prFile.Item(0).SaveAs(AppDomain.CurrentDomain.BaseDirectory & "Styles\Repuestos\Temp\" & prFile.Item(0).FileName)
+					rsp.pagina = prFile.Item(0).FileName
+				Catch ex As Exception
+					rsp.estadoError(201, ex.Message)
+				End Try
+
+			End If
+		End If
+	End Sub
+	Sub guardarImagen()
+		Dim strCx As New StringConex
+		Dim strSql As String
+		strCx.iniciaTransaccion()
+		If Me.prForm("flagPrincipal") = 1 Then
+			strSql = "update elx_rep_repuestoImagen set principal = 0 where idRepuesto = $1; "
+			strSql = Replace(strSql, "$1", Me.prForm("idRepuesto"))
+			strCx.ejecutaSql(strSql)
+		End If
+
+		strSql = "INSERT INTO elx_rep_repuestoImagen (idRepuesto , imagen, principal, informacion) VALUES ($1, '$2', $3, '$4') "
+		strSql = Replace(strSql, "$1", Me.prForm("idRepuesto"))
+		strSql = Replace(strSql, "$2", Me.prForm("fileUpload"))
+		strSql = Replace(strSql, "$3", Me.prForm("flagPrincipal"))
+		strSql = Replace(strSql, "$4", Me.prForm("informacion"))
+		strCx.ejecutaSql(strSql)
+
+		If strCx.flagError Then
+			rsp.estadoError(100, "Insertar: No se pudo acceder a la base", strCx.msgError)
+		Else
+			File.Move(AppDomain.CurrentDomain.BaseDirectory & "Styles\Repuestos\Temp\" & Me.prForm("fileUpload"),
+			  AppDomain.CurrentDomain.BaseDirectory & "Styles\Repuestos\" & Me.prForm("fileUpload"))
+			rsp.args = "{ ""OK"": ""OK""}"
+		End If
+	End Sub
+
 
 
 End Class

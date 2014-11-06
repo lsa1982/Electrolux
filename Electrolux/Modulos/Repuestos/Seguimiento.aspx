@@ -396,7 +396,6 @@
 		function onFind(e) {
 			idRequerimiento = txtIdRequerimiento.value;
 			dsRepuestos.read({ "idRequerimiento": idRequerimiento });
-			$("#layerSeguimiento").show(500);
 		}
 
 		function onRefresh(e) {
