@@ -39,6 +39,39 @@ Public Class Sincronizacion
 
 	End Sub
 	
+    Sub InsertarLectura()
 
+        Dim strCx As New StringConex
+        Dim strSql As String
+        Dim str
+        Dim x
+        Dim spli As String()
+        Dim splits As String()
+        Dim tmp() As String
+
+        spli = Split(prGet("dato"), "|")
+        For i = 0 To spli.Length - 1 'recorre registros'
+            str = spli(i)
+            splits = Split(str, ",")
+
+            strSql = "INSERT INTO elx_db_test.elx_core_lectura (idTienda, idProducto, precio, distancia, fleje, pop, oferta,sincronizado,fechaIngreso) " & _
+            "VALUES ($1, $2,$3, '$4',$5, $6,$7,$8,'$9')"
+
+            For x = 0 To splits.Length - 1 ' recorre por campos'
+
+                strSql = Replace(strSql, "$" & (x + 1), splits(x))
+            Next
+            strCx.ejecutaSql(strSql)
+            splits = tmp
+
+        Next
+
+        If strCx.flagError Then
+            rsp.estadoError(100, strCx.msgError)
+        Else
+            rsp.args = "{ ""Registros"": " & spli.Length & "}"
+        End If
+
+    End Sub
 End Class
 

@@ -3,6 +3,47 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
 <div class="msgPagina">
+<div id="winCargaImagen" style="font-size: 11px">
+	<table>
+		<tr>
+			<td>Seleccione la imagenes que desea subir: </td>
+		</tr>
+		<tr>
+			<td><input id="imgNewImagen" type="file" name="imgNewImagen" validationMessage="Select movie" /></td>
+		</tr>
+		<tr>
+			<td><div id="uploadMsg"></div></td>
+		</tr>
+	</table>
+	<table id="layerInfoImagen" style="display:none">
+		<tr>
+			<td colspan="2" >Ingrese información adicional sobre la imagen:</td>
+		</tr>
+		<tr>
+			<td>Información</td>
+			<td>
+				<input id="txtInformacion" type="text" class="k-textbox" /> 
+				<input id="txtUpload" type="hidden"/>
+			</td>
+		</tr>
+		<tr>
+			<td>Imagen Principal</td>
+			<td>
+				<select id="txtImagenPrincipal">
+					<option value="0">No</option>
+					<option value="1">Si</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>
+				<button id="btnImagenSend" type="button" class="k-button-red">Subir </button>
+				<button id="btnImagenCancel" type="button" class="k-button-red">Cancelar </button>
+			</td>
+		</tr>
+	</table>
+</div>
 	<button id="button" type="button">Agregar Nuevo Producto</button>
 </div>
 <div id="grid" style="height: 380px"></div>
