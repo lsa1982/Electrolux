@@ -6,7 +6,7 @@
 	al3.categoria, 
 	al3.tipo, 
 	al5.marca,
-	al2.codigo
+	al2.imagen
 FROM 
 	elx_rep_productoRepuesto al1, 
 	elx_core_producto al2, 

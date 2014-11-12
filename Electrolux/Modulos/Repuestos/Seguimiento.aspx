@@ -4,8 +4,8 @@
 	<span style=" font-size: 24px;">Seguimiento</span><br/>
 	<table>
 		<tr>
-			<td>Ingrese número de requerimiento a buscar</td>
-			<td><input id="txtIdRequerimiento" type="text" /></td>
+			<td style="width: 250px">Ingrese número de requerimiento a buscar</td>
+			<td style="width: 150px"><input id="txtIdRequerimiento" type="text" /></td>
 			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
 		</tr>
 	</table>
