@@ -258,7 +258,6 @@
 			change: function(e) {
 				$("#txtProducto").data("kendoComboBox").text("");
 			},
-
 			dataSource: {
 					type: "json",
 					transport: {

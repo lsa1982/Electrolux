@@ -29,6 +29,13 @@ Public Class clsProducto
 
         listaSql("vProductos", vFiltro)
     End Sub
+	Sub listaSeccion()
+		Dim vFiltro As String = ""
+		If Not prForm("idProducto") = "" Then
+			vFiltro = " and idProducto = " & prForm("idProducto")
+		End If
+		listaSql("select * from elx_core_productoSeccion where 1=1 ", vFiltro, False)
+	End Sub
 
     Sub insertar()
         Dim strCx As New StringConex

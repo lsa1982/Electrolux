@@ -25,40 +25,34 @@
 		idUsuario = vUser
 
 		mRepuesto = New Modulo("Repuestos", "../Repuestos/default.aspx")
-        mCore = New Modulo("Core", "../Core/frmGridCategoria.aspx")
+		mCore = New Modulo("Core", "../Core/frmGridCategoria.aspx")
 		mDashBoard = New Modulo("DashBoard", "")
-        mCoordinador = New Modulo("Coordinador", "../Coordinador/frmGridActividad.aspx")
+		mCoordinador = New Modulo("Coordinador", "../Coordinador/frmGridActividad.aspx")
 
 		mnuSeguimiento = New Menu("Seguimiento", "Seguimiento.aspx", "")
 		mnuSeguimiento.AddSeccion(New Seccion("AvanzaActividad"))
-        mnuRequerimiento = New Menu("Mis Requerimientos", "default.aspx", "")
+		mnuRequerimiento = New Menu("Mis Requerimientos", "default.aspx", "")
 
-        mnuCategoria = New Menu("Categoria", "frmGridCategoria.aspx", "")
+		mnuCategoria = New Menu("Categoria", "frmGridCategoria.aspx", "")
 
 		If vRol = "1" Then
 			_name = "Administrador"
 			mRepuesto.AddMenu(mnuRequerimiento)
 			mRepuesto.AddMenu(New Menu("Ingreso", "Ingreso.aspx", ""))
-            mRepuesto.AddMenu(mnuSeguimiento)
-            mRepuesto.AddMenu(New Menu("Repuestos", "frmGridRepuestos.aspx", ""))
-
-            mCore.AddMenu(New Menu("Marca", "frmGridMarca.aspx", ""))
-            mCore.AddMenu(New Menu("Productos", "frmGridProducto.aspx", ""))
-            mCore.AddMenu(New Menu("Tiendas", "frmGridTienda.aspx", ""))
-            mCore.AddMenu(New Menu("Cadena", "frmGridCadena.aspx", ""))
-            mCore.AddMenu(New Menu("Usuarios", "frmGridUsuario.aspx", ""))
-
-            mCoordinador.AddMenu(New Menu("Flujos", "frmFlujo.aspx", ""))
-            mCoordinador.AddMenu(New Menu("Actividad", "frmGridActividad.aspx", ""))
-
-
-
-            mCore.AddMenu(mnuCategoria)
-
+			mRepuesto.AddMenu(mnuSeguimiento)
+			mRepuesto.AddMenu(New Menu("Repuestos", "frmGridRepuestos.aspx", ""))
+			mCore.AddMenu(New Menu("Marca", "frmGridMarca.aspx", ""))
+			mCore.AddMenu(New Menu("Productos", "frmGridProducto.aspx", ""))
+			mCore.AddMenu(New Menu("Tiendas", "frmGridTienda.aspx", ""))
+			mCore.AddMenu(New Menu("Cadena", "frmGridCadena.aspx", ""))
+			mCore.AddMenu(New Menu("Usuarios", "frmGridUsuario.aspx", ""))
+			mCoordinador.AddMenu(New Menu("Flujos", "frmFlujo.aspx", ""))
+			mCoordinador.AddMenu(New Menu("Actividad", "frmGridActividad.aspx", ""))
+			mCore.AddMenu(mnuCategoria)
 			modulo.Add(mRepuesto.Name, mRepuesto)
 			modulo.Add(mCore.Name, mCore)
 			modulo.Add(mDashBoard.Name, mDashBoard)
-            modulo.Add(mCoordinador.Name, mCoordinador)
+			modulo.Add(mCoordinador.Name, mCoordinador)
 
 		End If
 		If vRol = "2" Then

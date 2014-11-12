@@ -1,5 +1,12 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Repuestos.master" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
+<script src="../../Kendo/bjqs-1.3.js" type="text/javascript"></script>
+<link href="../../Styles/bjqs.css" rel="stylesheet" type="text/css" />
+<script src="../../Kendo/vex.combined.min.js" type="text/javascript"></script>
+	<link href="../../Styles/vex.css" rel="stylesheet" type="text/css" />
+	<link href="../../Styles/vex-theme-os.css" rel="stylesheet" type="text/css" />
+	
+
 <div class="areaTrabajo" id="trabajo">
 	<span style=" font-size: 24px;">Detalle de Repuesto</span><br/>
 	<table>
@@ -30,20 +37,8 @@
 			<td colspan="2">
 				<table >
 					<tr>
-						<td style=" height: 140px; width: 240px; text-align: center">
-							<div id="imgCenter" style="width: 100%; padding-bottom: 15px; height: 128px; width: 128px; cursor:hand " >
-								<img src="../../Styles/images/Core.png"/>
-							</div>
-							<div style=" height: 30px; width: 30px;margin-left: 15px; float: left; border: 1px solid #CCC" >
-								<img src="../../Styles/images/Core.png" height="16px" width="16px"/>
-							</div>
-							<div style=" height: 30px; width: 30px;margin-left: 15px;float: left; border: 1px solid #CCC" >
-								<img src="../../Styles/images/Core.png" height="16px" width="16px"/>
-							</div>
-							<div style=" height: 30px; width: 30px;margin-left: 15px; float: left; border: 1px solid #CCC" >
-								<img src="../../Styles/images/Core.png" height="16px" width="16px"/>
-							</div>
-							
+						<td text-align: center" style=" height: 300px; width: 250px;" >
+							<div id="banner-fade" ></div>
 						</td>
 						<td>
 						<table style= "width: 100%">
@@ -98,8 +93,27 @@
 		<!-- Capa de Productos -->
 		<tr>
 			<td colspan="2">
-				<div id="layerProducto" style=" font-size: 24px;">Productos Compatibles</div>
+				<div id="layerProducto" style=" font-size: 24px; float:left">
+					Productos Compatibles
+				</div>
 				<button id="btnVolver1" type="button" class="k-button" style="float:right">Volver </button>
+			</td>
+		</tr>
+
+		<tr>
+			<td style=" width: 300px; vertical-align: middle" > Para agregar un nuevo producto presione aqui:</td>
+			<td><button id="btnNewProducto" type="button" class="k-button-red">Nueva Producto</button></td>
+		</tr>
+		<tr>
+			<td colspan="2"><div id="frmProducto"></div></td>
+		</tr>
+
+		<!-- Capa de Inventario -->
+		<tr>
+			<td colspan="2">
+			
+				<div id="layerInventario" style=" font-size: 24px; float:left">Inventario</div>
+				<button id="btnVolver2" type="button" class="k-button" style="float:right">Volver </button>
 			</td>
 		</tr>
 		<tr>
@@ -108,27 +122,28 @@
 		<tr>
 			<td colspan="2"><div id="grid"></div></td>
 		</tr>
-		<!-- Capa de Inventario -->
+	</table>
+</div>
+<div id="winImagen" style="font-size:11px; text-align:center">
+	<table style=" width: 100%">
 		<tr>
-			<td colspan="2">
-				<div id="layerInventario" style=" font-size: 24px;">Inventario</div>
-				<button id="btnVolver2" type="button" class="k-button" style="float:right">Volver </button>
+			<td><div id="imgImagenCentral"></div></td>
+		</tr>
+		<tr>
+			<td><div id="imgImagenTitle"></div></td>
+		</tr>
+		<tr>
+			<td><hr /></td>
+		</tr>
+		<tr>
+			<td>
+				<input id="imgImagenId" type="hidden" />
+				<button id="btnImgEliminar" type="button" class="k-button" >Eliminar Imagen </button>
+				<button id="btnImgMarca" type="button" class="k-button">Marcar como principal </button>
 			</td>
-		</tr>
-		<tr>
-			<td colspan="2">Lista de producto que utilizan este repuesto:<br>&nbsp;</td>
-		</tr>
-		<tr>
-			<td colspan="2"><div id="Div2"></div></td>
 		</tr>
 	</table>
 </div>
-<div id="winImagen">
-	<div id="imgImagenCentral"></div>
-	<a href="#">Eliminar</a>
-	<a href="#">Marcar como principal</a>
-</div>
-
 <div id="winCargaImagen" style="font-size: 11px">
 	<table>
 		<tr>
@@ -170,9 +185,172 @@
 		</tr>
 	</table>
 </div>
-
+<div id="winNewProducto" style="font-size:11px">
+		<table >
+		<tr >
+			<td style="width: 120px">
+				Categoria: 
+			</td>
+			<td >
+				<input id="cmbCategoria" style="width: 200px" />
+			</td>
+		</tr>
+		<tr >
+			<td>
+				Marca: 
+			</td>
+			<td>
+				<input id="cmbMarca" style="width: 200px" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Producto: 
+			</td>
+			<td>
+				<input id="txtProducto" style="width: 200px" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Seccion: 
+			</td>
+			<td>
+				<input id="cmbSeccion" style="width: 200px" />
+			</td>
+		</tr>
+		<tr style="font-size: 10px; border-bottom-width: 1px; ">
+			<td></td>
+			<td>
+				<button id="btnProductoAgregar" type="button" class="k-button-red">Agregar</button>
+			</td>
+		</tr>
+	</table>
+</div>
 <script>
 	$(document).ready(function () {
+
+		// ########################################
+		// ### Windows Nuevo Producto			###
+		// ########################################
+
+		$("#winNewProducto").kendoWindow({
+			width: "450px",
+			title: "Agregar Producto",
+			actions: ["Close"],
+			visible: false,
+			modal: true
+		});
+
+		$("#btnProductoAgregar").kendoButton({ click: onNewProducto });
+		function onNewProducto(e) {
+
+		}
+
+		$("#cmbCategoria").kendoComboBox({
+			dataTextField: "categoria",
+			dataValueField: "idCategoria",
+			autoBind: false,
+			placeholder: "Seleccione Categoria",
+			change: function (e) {
+				$("#txtProducto").data("kendoComboBox").text("");
+			},
+			dataSource: {
+				type: "json",
+				transport: {
+					read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "POST" },
+					parameterMap: function (options, operation) {
+						var dataSend = {};
+						dataSend["tipo"] = "Linea Blanca";
+						dataSend["clase"] = "Producto";
+						return dataSend;
+					}
+				},
+				sort: { field: "categoria", dir: "asc" },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		$("#cmbMarca").kendoComboBox({
+			dataTextField: "marca",
+			dataValueField: "idMarca",
+			autoBind: false,
+			placeholder: "Seleccione Marca",
+			change: function (e) {
+				$("#txtProducto").data("kendoComboBox").text("");
+			},
+			dataSource: {
+				type: "json",
+				transport: {read: { url: strInterOpAs("clsMarca", "lista", "Core"), dataType: "json", type: "post" }},
+				sort: { field: "marca", dir: "asc" },
+				schema: {errors: "msgState",data: "args",total: "totalFila" }
+			}
+		});
+
+		$("#cmbMarca").kendoComboBox({
+			dataTextField: "marca",
+			dataValueField: "idMarca",
+			autoBind: false,
+			placeholder: "Seleccione Marca",
+			change: function (e) {
+				$("#txtProducto").data("kendoComboBox").text("");
+			},
+			dataSource: {
+				type: "json",
+				transport: { read: { url: strInterOpAs("clsMarca", "lista", "Core"), dataType: "json", type: "post"} },
+				sort: { field: "marca", dir: "asc" },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		var dsProductoAdd = new kendo.data.DataSource({
+			serverFiltering: true,
+			transport: {
+				read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: "post" },
+				parameterMap: function (options, operation) {
+					var dataSend = {};
+					if (cmbMarca.value != "") 
+						dataSend["idMarca"] = cmbMarca.value;
+					if (cmbCategoria.value != "") 
+						dataSend["idCategoria"] = cmbCategoria.value;
+					if (options.filter != undefined) 
+						dataSend["value"] = $("#txtProducto").data("kendoComboBox")._prev;
+					return dataSend;
+
+				}
+			},
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
+		function onOpen(e) {
+			console.log("event: open");
+			dsProductoAdd.read();
+		};
+
+
+		$("#txtProducto").kendoComboBox({
+			dataTextField: "nombre",
+			dataValueField: "idProducto",
+			filter: "contains",
+			minLength: 4,
+			autoBind: false,
+			dataSource: dsProductoAdd,
+			open: onOpen
+		});
+
+		$("#cmbSeccion").kendoDropDownList({
+			dataTextField: "seccion",
+			dataValueField: "idSeccion",
+			autoBind: false,
+			cascadeFrom: "txtProducto",
+			dataSource: {
+				type: "json",
+				transport: { read: { url: strInterOpAs("clsProducto", "listaSeccion", "Core"), dataType: "json", type: "post"} },
+				sort: { field: "seccion", dir: "asc" },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+
 		// ########################################
 		// ### Windows Cargar Imagen			###
 		// ########################################
@@ -231,6 +409,8 @@
 			callScript(strInterOp("Repuesto", "guardarImagen"), '&' + x,
 				function (e) {
 					$("#winCargaImagen").data("kendoWindow").close();
+					dsImagen.read({ "idRepuesto": idRepuesto });
+					onImagenCancel(e);
 				}
 			);
 		}
@@ -241,6 +421,7 @@
 			$(".k-widget.k-upload").find("ul").remove();
 			$("#imgNewImagen").data("kendoUpload").enable();
 		}
+
 		// ########################################
 		// ### Windows Imagen					###
 		// ########################################
@@ -252,21 +433,67 @@
 			modal: true
 		});
 
-		$('#imgCenter').click(function () {
-			$("#winImagen").data("kendoWindow").center();
-			$("#winImagen").data("kendoWindow").open();
-			$("#imgImagenCentral").html("<img src='../../Styles/images/Core.png'/>");
-		});
+		$("#btnImgEliminar").kendoButton({ click: onImgEliminar });
+		function onImgEliminar(e) {
+			var pUrl = [];
+			pUrl.push("idImagen=" + imgImagenId.value);
+			var x = pUrl.join("&");
+			callScript(strInterOp("Repuesto", "eliminarImagen"), '&' + x,
+				function (e) {
+					$("#winImagen").data("kendoWindow").close();
+					$('#banner-fade').empty();
+					dsImagen.read({ "idRepuesto": idRepuesto });
+				}
+			);
+		}
+
+		$("#btnImgMarca").kendoButton({ click: onImgMarca });
+		function onImgMarca(e) {
+			var pUrl = [];
+			pUrl.push("idImagen=" + imgImagenId.value);
+			pUrl.push("idRepuesto=" + idRepuesto);
+			var x = pUrl.join("&");
+			callScript(strInterOp("Repuesto", "marcaImagen"), '&' + x,
+			function (e) {
+				$("#winImagen").data("kendoWindow").close();
+				$('#banner-fade').empty();
+				dsImagen.read({ "idRepuesto": idRepuesto });
+			}
+			);
+		}
 
 		// ########################################
 		// ### Botones Operacion				###
 		// ########################################
-		$("#btnModificar").kendoButton({ click: onImagen });
-		$("#btnEliminar").kendoButton({ click: onImagen });
+		$("#btnModificar").kendoButton({ click: onModificar });
+		function onModificar(e) {
+			window.location.href = 'frmNewRepuesto.aspx?idRepuesto=' + idRepuesto;
+		}
+
+
+		$("#btnEliminar").kendoButton({ click: onDelete });
 		$("#btnImagen").kendoButton({ click: onImagen });
 		function onImagen(e) {
 			$("#winCargaImagen").data("kendoWindow").center();
 			$("#winCargaImagen").data("kendoWindow").open();
+		}
+
+		function onDelete(e) {
+			vex.defaultOptions.className = 'vex-theme-os';
+			vex.dialog.confirm({ message: 'Enter your username and password:',
+				callback: function (e) {
+					if (e) {
+						var pUrl = [];
+						pUrl.push("idRepuesto=" + idRepuesto);
+						var x = pUrl.join("&");
+						callScript(strInterOp("Repuesto", "eliminar"), '&' + x,
+							function (ex) {
+								dsImagen.read({ "idRepuesto": idRepuesto });
+							}
+						);
+					}
+				}
+			});
 		}
 
 		// ########################################
@@ -290,9 +517,9 @@
 		}
 
 		// ########################################
-		// ### Grid Producto					###
+		// ### Grid Invenatario					###
 		// ########################################
-		var dsProducto = new kendo.data.DataSource({
+		var dsInventario = new kendo.data.DataSource({
 			transport: {
 				read: { url: strInterOp("Repuesto", "listaRepuestoProducto"), dataType: "json", type: 'POST' }
 			},
@@ -303,7 +530,7 @@
 		});
 
 		$("#grid").kendoGrid({
-			dataSource: dsProducto,
+			dataSource: dsInventario,
 			pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
 			height: 450,
 			sortable: true,
@@ -323,7 +550,6 @@
 		// ########################################
 		// ### Datasource Imagenes				###
 		// ########################################
-
 		var dsImagen = new kendo.data.DataSource({
 			transport: { read: { url: strInterOp("Repuesto", "listaImagen"), dataType: "json", type: 'POST'} },
 			batch: true,
@@ -331,30 +557,29 @@
 			error: errorGrid,
 			schema: { errors: "msgState", data: "args", total: "totalFila" },
 			change: function (e) {
-				var strDivImagen = "";
 				if (this._data.length > 0) {
 					var data = this.data();
-					//					var strDiv = "<div class='divProrroga'><span style='font-weight: bold; color: #0B90A7 '> Ingresado el $1 <br>Por $2";
-					//					strDiv = strDiv + "</span><br><hr/>Motivo:<strong> $3</strong><br>Fecha Anterior:<strong> $4</strong><br>";
-					//					strDiv = strDiv + "Fecha Nueva: <strong>$5</strong><br>Comentario: <strong>$6</strong></div>";
-
-					//					for (i = 0; i < this._data.length; i++) {
-					//						strDivData = strDiv;
-					//						strDivData = strDivData.replace("$1", data[i].fechaModificacion);
-					//						strDivData = strDivData.replace("$2", data[i].usuario);
-					//						strDivData = strDivData.replace("$3", data[i].motivo);
-					//						strDivData = strDivData.replace("$4", data[i].fechaAntigua);
-					//						strDivData = strDivData.replace("$5", data[i].fechaNueva);
-					//						strDivData = strDivData.replace("$6", data[i].comentario);
-					//						strDivImagen = strDivImagen + strDivData;
-					//					}
+					$('#banner-fade').empty();
+					$('#banner-fade').bjqs({ data: data, path: '../../Styles/Repuestos/', responsive: true });
 				}
 				else {
-					strDivImagen = "<strong>No existen Imagenes</strong>";
+					$("#imgCenter").html("<strong>No existen Imagenes</strong>");
 				}
-				$("#imgCenter").html(strDivImagen);
+				$('#banner-fade .bjqs-slide').click(function () {
+					$("#winImagen").data("kendoWindow").center();
+					$("#winImagen").data("kendoWindow").open();
+					var strImg = "<img src='$1' title='$2' data-id='$4'/>";
+					strImg = strImg.replace("$1", this.firstChild.src);
+					strImg = strImg.replace("$1", this.firstChild.title);
+					strImg = strImg.replace("$4", this.firstChild.dataset.id);
+					imgImagenId.value = this.firstChild.dataset.id;
+					$("#imgImagenCentral").html(strImg);
+					$("#imgImagenTitle").html(this.firstChild.title);
+
+				});
 			}
 		});
+
 		// ########################################
 		// ### Carga de Formulario				###
 		// ########################################
@@ -371,6 +596,7 @@
 			$("#lblValor").html("<strong>" + data[0].valor + "</strong>");
 			dsProducto.read({ "idRepuesto": idRepuesto });
 			dsImagen.read({ "idRepuesto": idRepuesto });
+			dsInventario.read({ "idRepuesto": idRepuesto });
 		}
 
 		var dsRepuesto = new kendo.data.DataSource({
@@ -393,6 +619,52 @@
 			error: errorGrid,
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
+		// ########################################
+		// ### DataSource Producto				###
+		// ########################################
+		var dsProducto = new kendo.data.DataSource({
+			transport: {
+				read: { url: strInterOp("Repuesto", "listaRepuestoProducto"), dataType: "json", type: 'POST' }
+			},
+			batch: true,
+			resizable: true,
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila" },
+			change: function (e) {
+				var strDivProducto = "";
+				if (this._data.length > 0) {
+					var data = this.data();
+					var strDiv = "<span style='font-weight: bold; color: #0B90A7 '>  $1 - $2";
+					strDiv = strDiv + "</span><br><hr/>Tipo:<strong> $3</strong><br>Categoria:<strong> $4</strong><br>";
+					strDiv = strDiv + "<img src='$5' style='max-width:240px; max-height:240px; ' />";
+
+					for (i = 0; i < this._data.length; i++) {
+						var strDivData = strDiv;
+						strDivData = strDivData.replace("$1", data[i].codigo);
+						strDivData = strDivData.replace("$2", data[i].nombre);
+						strDivData = strDivData.replace("$3", data[i].tipo);
+						strDivData = strDivData.replace("$4", data[i].categoria);
+						strDivData = strDivData.replace("$6", data[i].idProducto);
+
+						if (data[i].imagen != "")
+							strDivData = strDivData.replace("$5", data[i].imagen);
+						else
+							strDivData = strDivData.replace("$5", "../../Styles/Productos/noImage.png");
+						strDivProducto = strDivProducto + "<div class='divProducto'>" + strDivData + "</div>";
+					}
+				}
+				else {
+					strDivProducto = "<strong>No existen productos asociados a este repuesto.</strong>";
+				}
+				$("#frmProducto").html(strDivProducto);
+			}
+		});
+
+		$("#btnNewProducto").kendoButton({ click: onNewProducto });
+		function onNewProducto(e) {
+			$("#winNewProducto").data("kendoWindow").center();
+			$("#winNewProducto").data("kendoWindow").open();
+		}
 
 		// ########################################
 		// ### Boton Buscar						###
@@ -410,35 +682,22 @@
 			idRepuesto = vGet.idRepuesto;
 			dsRepuesto.read({ "idRepuesto": idRepuesto });
 		}
-
-
 	});
 </script>
-
-</div>
 <style>
-	.claseEstado {
- 		padding: 5px;
- 		font-weight: bold;
- 		color: White;
- 		border-radius: 6px;
- 		}
- 	.claseEstado0 {
- 		background-color: Red;
- 		}
- 	.claseEstado1 {
- 		background-color: yellow;
- 		}
- 	.claseEstado2 {
- 		background-color: green;
- 		}
- 	
- 	.areaTrabajo table td{
- 		font-size: 11px;
- 		border-bottom: 1px dashed #EEEEEE;
- 		padding-bottom:5px;
- 		
- 		}
+	
+	.divProducto{
+		 border: 1px solid #AAA; 
+		 width: 260px; 
+		 float: left;
+		 margin-right:15px;
+		 margin-bottom:15px;
+		 -webkit-border-radius: 5px;
+		 padding: 5px;
+		 box-shadow: 0 0 4px #999;
+		 min-height: 150px;
+		 cursor: pointer
+		}
  	
 </style>
 </asp:Content>
