@@ -95,7 +95,7 @@
                 autoUpload: true
             },
             multiple: false,
-            success: onSuccess1,
+            success: onSuccessUp,
             error: onError
         });
 
@@ -104,7 +104,7 @@
             $("#uploadMsg").html("Se ha producido un problema en la carga: <strong>" + rspUpload.msgState + "</strong>");
         }
 
-        function onSuccess1(e) {
+        function onSuccessUp(e) {
             var files = e.files;
             if (e.operation == "upload") {
                 $("#imgNewImagen").data("kendoUpload").disable();
