@@ -71,17 +71,21 @@ Public Class InterOpX
 	End Property
 
 	Sub escribeLog(ByVal vIpAdress As String, ByVal vParam As String, ByVal vOperacion As String)
+		Try
+			Dim strWr As New StreamWriter(AppDomain.CurrentDomain.BaseDirectory & "\Log\LogInterOp.txt", True)
+			Dim strLog As String
+			strLog = "[$1][$2][$3] $4 }"
+			strLog = Replace(strLog, "'", """")
+			strLog = Replace(strLog, "$1", Now())
+			strLog = Replace(strLog, "$2", vIpAdress)
+			strLog = Replace(strLog, "$3", vParam)
+			strLog = Replace(strLog, "$4", vOperacion)
+			strWr.WriteLine(strLog)
+			strWr.Close()
+		Catch ex As Exception
 
-		Dim strWr As New StreamWriter(AppDomain.CurrentDomain.BaseDirectory & "\Log\LogInterOp.txt", True)
-		Dim strLog As String
-		strLog = "[$1][$2][$3] $4 }"
-		strLog = Replace(strLog, "'", """")
-		strLog = Replace(strLog, "$1", Now())
-		strLog = Replace(strLog, "$2", vIpAdress)
-		strLog = Replace(strLog, "$3", vParam)
-		strLog = Replace(strLog, "$4", vOperacion)
-		strWr.WriteLine(strLog)
-		strWr.Close()
+		End Try
+		
 	End Sub
 
 End Class

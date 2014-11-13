@@ -1,0 +1,15 @@
+﻿Select 
+	al1.idInventario,
+	al1.fechaMovimiento,
+	al1.referencia,
+	al1.comentario,
+	al2.tipoDocumento,
+	al3.valor,
+	al3.cantidad
+FROM 
+	elx_rep_inventario al1,
+	elx_rep_tipoDocumento al2,
+	elx_rep_inventariodetalle al3
+WHERE
+	al1.idTipoDocumento = al2.idTipoDocumento 
+	and al1.idInventario = al3.idInventario 

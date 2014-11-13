@@ -17,20 +17,23 @@ Public Module clsLog
 	'End Sub
 
 	Public Sub escribeLog(ByVal strOperacion As String, ByVal strMantenedor As String, ByVal strActividad As String, ByVal strDetalle As String)
+		Try
+			Dim strWr As New StreamWriter(AppDomain.CurrentDomain.BaseDirectory & "\Excel\Log.txt", True)
+			Dim strLog As String
+			strLog = "{'fecha' : '$1', 'Usuario': '$2', 'Operacion':'$3', 'Mantenedor': '$4', 'Actividad' : '$5', 'Detalle':'$6' }"
+			strLog = Replace(strLog, "'", """")
+			strLog = Replace(strLog, "$1", Now())
+			strLog = Replace(strLog, "$2", "")
+			strLog = Replace(strLog, "$3", strOperacion)
+			strLog = Replace(strLog, "$4", strMantenedor)
+			strLog = Replace(strLog, "$5", strActividad)
+			strLog = Replace(strLog, "$6", "")
+			strWr.WriteLine(strLog)
+			strWr.Close()
+		Catch ex As Exception
 
-		Dim strWr As New StreamWriter(AppDomain.CurrentDomain.BaseDirectory & "\Excel\Log.txt", True)
-		Dim strLog As String
-		strLog = "{'fecha' : '$1', 'Usuario': '$2', 'Operacion':'$3', 'Mantenedor': '$4', 'Actividad' : '$5', 'Detalle':'$6' }"
-		strLog = Replace(strLog, "'", """")
-		strLog = Replace(strLog, "$1", Now())
-		strLog = Replace(strLog, "$2", "")
-		strLog = Replace(strLog, "$3", strOperacion)
-		strLog = Replace(strLog, "$4", strMantenedor)
-		strLog = Replace(strLog, "$5", strActividad)
-		strLog = Replace(strLog, "$6", "")
-		strWr.WriteLine(strLog)
-		strWr.Close()
-
+		End Try
+		
 	End Sub
 
 End Module

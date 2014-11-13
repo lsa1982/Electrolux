@@ -47,6 +47,36 @@ Public Class Repuesto
 			rsp.args = "{ ""idRepuesto"": """ & Me.prForm("idRepuesto") & """}"
 		End If
 	End Sub
+	Sub eliminar()
+		Dim strCx As New StringConex
+		Dim strSql As String
+
+		strSql = "DELETE FROM elx_rep_repuesto WHERE idRepuesto = $1"
+		strSql = Replace(strSql, "$1", Me.prForm("idRepuesto"))
+		strCx.ejecutaSql(strSql)
+
+		If strCx.flagError Then
+			rsp.estadoError(100, "Eliminar: No se pudo acceder a la base", strCx.msgError)
+		Else
+			rsp.args = "{ ""OK"": ""OK""}"
+		End If
+	End Sub
+	Sub insertarProducto()
+		Dim strCx As New StringConex
+		Dim strSql As String
+		Dim idRepuesto As Integer
+		strSql = "INSERT INTO elx_rep_productorepuesto  (idProducto, idRepuesto, idSeccion) VALUES ($1, $2, $3) "
+		strSql = Replace(strSql, "$1", Me.prForm("idProducto"))
+		strSql = Replace(strSql, "$2", Me.prForm("idRepuesto"))
+		strSql = Replace(strSql, "$3", Me.prForm("idSeccion"))
+		strCx.ejecutaSql(strSql)
+
+		If strCx.flagError Then
+			rsp.estadoError(100, "Insertar: No se pudo acceder a la base", strCx.msgError)
+		Else
+			rsp.args = "{ ""idRepuesto"": """ & idRepuesto & """}"
+		End If
+	End Sub
 #End Region
 #Region "Vistas de Repuestos"
 	Sub lista()
@@ -105,7 +135,11 @@ Public Class Repuesto
 			listaSql("vRepuestoProducto", " limit 0,100")
 		End If
 	End Sub
-
+	Sub listaInventario()
+		If prForm("idRepuesto") <> "" Then
+			listaSql("vInventarioRepuesto", " and al3.idRepuesto = " & prForm("idRepuesto"))
+		End If
+	End Sub
 #End Region
 #Region "Imagen"
 	Sub subirImagen()

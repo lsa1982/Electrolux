@@ -188,36 +188,20 @@
 <div id="winNewProducto" style="font-size:11px">
 		<table >
 		<tr >
-			<td style="width: 120px">
-				Categoria: 
-			</td>
-			<td >
-				<input id="cmbCategoria" style="width: 200px" />
-			</td>
+			<td style="width: 120px">Categoria: </td>
+			<td ><input id="cmbCategoria" style="width: 200px" /></td>
 		</tr>
 		<tr >
-			<td>
-				Marca: 
-			</td>
-			<td>
-				<input id="cmbMarca" style="width: 200px" />
-			</td>
+			<td>Marca: </td>
+			<td><input id="cmbMarca" style="width: 200px" /></td>
 		</tr>
 		<tr>
-			<td>
-				Producto: 
-			</td>
-			<td>
-				<input id="txtProducto" style="width: 200px" />
-			</td>
+			<td>Producto: </td>
+			<td><input id="txtProducto" style="width: 200px"  /></td>
 		</tr>
 		<tr>
-			<td>
-				Seccion: 
-			</td>
-			<td>
-				<input id="cmbSeccion" style="width: 200px" />
-			</td>
+			<td>Seccion: </td>
+			<td><input id="cmbSeccion" style="width: 200px" /></td>
 		</tr>
 		<tr style="font-size: 10px; border-bottom-width: 1px; ">
 			<td></td>
@@ -233,7 +217,6 @@
 		// ########################################
 		// ### Windows Nuevo Producto			###
 		// ########################################
-
 		$("#winNewProducto").kendoWindow({
 			width: "450px",
 			title: "Agregar Producto",
@@ -242,9 +225,26 @@
 			modal: true
 		});
 
-		$("#btnProductoAgregar").kendoButton({ click: onNewProducto });
-		function onNewProducto(e) {
-
+		
+		$("#btnProductoAgregar").kendoButton({ click: onProductoAgregar });
+		function onProductoAgregar(e) {
+			
+			var pUrl = [];
+			pUrl.push("idRepuesto=" + idRepuesto);
+			pUrl.push("idProducto=" + txtProducto.value);
+			pUrl.push("idSeccion=" + cmbSeccion.value);
+			
+			var x = pUrl.join("&");
+			callScript(strInterOp("Repuesto", "insertarProducto"), '&' + x,
+				function (e) {
+					$("#winNewProducto").data("kendoWindow").close();
+					dsProducto.read({ "idRepuesto": idRepuesto });
+					$("#txtProducto").data("kendoComboBox").text("");
+					$("#cmbCategoria").data("kendoComboBox").text("");
+					$("#cmbMarca").data("kendoComboBox").text("");
+					$("#cmbSeccion").data("kendoComboBox").text("");
+				}
+			);
 		}
 
 		$("#cmbCategoria").kendoComboBox({
@@ -281,9 +281,9 @@
 			},
 			dataSource: {
 				type: "json",
-				transport: {read: { url: strInterOpAs("clsMarca", "lista", "Core"), dataType: "json", type: "post" }},
+				transport: { read: { url: strInterOpAs("clsMarca", "lista", "Core"), dataType: "json", type: "post"} },
 				sort: { field: "marca", dir: "asc" },
-				schema: {errors: "msgState",data: "args",total: "totalFila" }
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
 			}
 		});
 
@@ -309,11 +309,11 @@
 				read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: "post" },
 				parameterMap: function (options, operation) {
 					var dataSend = {};
-					if (cmbMarca.value != "") 
+					if (cmbMarca.value != "")
 						dataSend["idMarca"] = cmbMarca.value;
-					if (cmbCategoria.value != "") 
+					if (cmbCategoria.value != "")
 						dataSend["idCategoria"] = cmbCategoria.value;
-					if (options.filter != undefined) 
+					if (options.filter != undefined)
 						dataSend["value"] = $("#txtProducto").data("kendoComboBox")._prev;
 					return dataSend;
 
@@ -341,15 +341,13 @@
 			dataTextField: "seccion",
 			dataValueField: "idSeccion",
 			autoBind: false,
-			cascadeFrom: "txtProducto",
 			dataSource: {
 				type: "json",
-				transport: { read: { url: strInterOpAs("clsProducto", "listaSeccion", "Core"), dataType: "json", type: "post"} },
+				transport: { read: { url: strInterOpAs("clsSeccion", "lista", "Core"), dataType: "json", type: "post"} },
 				sort: { field: "seccion", dir: "asc" },
 				schema: { errors: "msgState", data: "args", total: "totalFila" }
 			}
 		});
-
 
 		// ########################################
 		// ### Windows Cargar Imagen			###
@@ -480,7 +478,7 @@
 
 		function onDelete(e) {
 			vex.defaultOptions.className = 'vex-theme-os';
-			vex.dialog.confirm({ message: 'Enter your username and password:',
+			vex.dialog.confirm({ message: 'Esta seguro de eliminar este repuesto?',
 				callback: function (e) {
 					if (e) {
 						var pUrl = [];
@@ -488,7 +486,7 @@
 						var x = pUrl.join("&");
 						callScript(strInterOp("Repuesto", "eliminar"), '&' + x,
 							function (ex) {
-								dsImagen.read({ "idRepuesto": idRepuesto });
+								window.location.href = 'frmGridRepuestos.aspx';
 							}
 						);
 					}
@@ -505,14 +503,13 @@
 			$("body, html").animate({ scrollTop: 0 }, 600);
 		}
 
-
-		$("#btnProducto").kendoButton({ click: onMensaje, icon: "arrow-s" });
-		function onMensaje(e) {
+		$("#btnProducto").kendoButton({ click: onMoveProducto, icon: "arrow-s" });
+		function onMoveProducto(e) {
 			$("body, html").animate({ scrollTop: $("#layerProducto").offset().top }, 600);
 		}
 
-		$("#btnInventario").kendoButton({ click: onMensaje, icon: "arrow-s" });
-		function onMensaje(e) {
+		$("#btnInventario").kendoButton({ click: onMoveInventario, icon: "arrow-s" });
+		function onMoveInventario(e) {
 			$("body, html").animate({ scrollTop: $("#layerInventario").offset().top }, 600);
 		}
 
@@ -521,7 +518,7 @@
 		// ########################################
 		var dsInventario = new kendo.data.DataSource({
 			transport: {
-				read: { url: strInterOp("Repuesto", "listaRepuestoProducto"), dataType: "json", type: 'POST' }
+				read: { url: strInterOp("Repuesto", "listaInventario"), dataType: "json", type: 'POST' }
 			},
 			batch: true,
 			resizable: true,
@@ -538,14 +535,22 @@
 			resizable: true,
 			autoBind: false,
 			columns: [
-				{ field: "idProducto", title: "id", width: "40px" },
-				{ field: "codigo", title: "Codigo", width: "200px" },
-				{ field: "nombre", title: "Producto", width: "200px" },
-				{ field: "marca", title: "Marca", width: "200px" },
-				{ field: "categoria", title: "Categoria", width: "200px" },
+				{ command: { text: "Detalle", click: onView }, title: " ", width: "90px" },
+				{ field: "idInventario", title: "id", width: "40px" },
+				{ field: "fechaMovimiento", title: "Codigo", width: "180px" },
+				{ field: "tipoDocumento", title: "Documento", width: "160px" },
+				{ field: "referencia", title: "nReferencia", width: "150px" },
+				{ field: "valor", title: "Valor", width: "100px" },
+				{ field: "cantidad", title: "Cantidad", width: "100px" },
 				{ field: "", title: "" }
 			]
 		});
+
+		function onView(e) {
+			e.preventDefault();
+			var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+			window.location = 'RepuestoProducto.aspx?idRepuesto=' + dataItem.idRepuesto;
+		}
 
 		// ########################################
 		// ### Datasource Imagenes				###
