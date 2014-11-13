@@ -3,7 +3,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
 <div class="msgPagina">
-	<button id="button" type="button">Agregar Nueva Cadena</button>
+<table>
+	<tr>
+    <td><button id="button" type="button">Agregar Nueva Cadena</button></td>
+    </tr>
+</table>
 </div>
 <div id="grid" style="height: 380px"></div>
 <div id="winNewRequest">Espere Mientras se actualizan los datos</div>
@@ -22,7 +26,7 @@
                         "txtRut": options.models[0].rut,
                         "txtEstado": options.models[0].estado,
                         txtultimaModificacion: options.models[0].ultimaModificacion,
-                        "txtImagen": options.models[0].imagen
+                        "txtUpload": options.models[0].imagen
                     };
                 }
             }
