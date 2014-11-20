@@ -18,6 +18,10 @@ Public Class clsTienda
 			vFiltro = " and al1.idCadena = " & Me.prForm("filter[filters][0][value]")
 		End If
 
+		If Not prForm("region") = "" Then
+			vFiltro = " and al1.region = '" & Me.prForm("region") & "'"
+		End If
+
 		If Not prForm("nombre") = "" Then
 			vFiltro = vFiltro & " and al1.tienda like '%" & Me.prForm("nombre") & "%'"
 		End If

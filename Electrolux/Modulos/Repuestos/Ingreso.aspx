@@ -236,6 +236,9 @@
 					if (cmbCliente.value != "") {
 						dataSend["txtidCadena"] = cmbCliente.value;
 					}
+					if (cmbRegion.value != "") {
+						dataSend["region"] = cmbRegion.value;
+					}
 					if (options.filter != undefined) {
 						dataSend["nombre"] = $("#cmbTienda").data("kendoComboBox")._prev;
 					}
