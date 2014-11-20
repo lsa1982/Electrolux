@@ -92,7 +92,7 @@ Public MustInherit Class clsEntidad
 			sqlText = ""
 		End If
 	End Function
-	Sub listaSql(ByVal vistaSql As String, Optional ByVal vistaParam As String = "", Optional ByVal archivoSql As Boolean = True)
+	Sub listaSql(ByVal vistaSql As String, Optional ByVal vistaParam As String = "", Optional ByVal archivoSql As Boolean = True, Optional ByVal postSql As String = "")
 		Dim strCx As New StringConex
 		Dim dt As DataTable
 		Dim strSql As String
@@ -101,6 +101,7 @@ Public MustInherit Class clsEntidad
 		Else
 			strSql = vistaSql & vistaParam
 		End If
+		strSql = strSql & postSql
 		strCx.iniciaTransaccion()
 		dt = strCx.retornaDataTable(strSql)
 		If strCx.flagError Then

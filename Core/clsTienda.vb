@@ -39,7 +39,7 @@ Public Class clsTienda
 		If Not prForm("idCadena") = "" Then
 			vFiltro = " and idCadena = " & Me.prForm("idCadena")
 		End If
-		listaSql("select distinct region from elx_core_tienda where 1=1 ", vFiltro, False)
+		listaSql("select region from elx_core_region where region in (select distinct region from elx_core_tienda where 1=1 ", vFiltro, False, " ) order by nmroRegion")
 	End Sub
 
     Sub insertar()
