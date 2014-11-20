@@ -1,10 +1,13 @@
 ﻿Select 
+	al1.idProductoRepuesto,
 	al1.idProducto,
 	al1.idRepuesto,
 	al2.codigo,
 	al2.repuesto,
 	al3.categoria,
-	al3.tipo
+	al3.tipo,
+	al2.imagen,
+	al1.idSeccion
 FROM 
 	elx_rep_productoRepuesto al1,
 	elx_rep_repuesto al2,

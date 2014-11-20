@@ -38,7 +38,7 @@
 		</tr>
 		<tr>
 			<td >Respuesto</td>
-			<td ><div id="lblRepuesto"></div></td>
+			<td ><span style=" text-decoration: underline; color: #00F; cursor: pointer"><div id="lblRepuesto"></div></span></td>
 		</tr>
 		<tr>
 			<td >Tienda</td>
@@ -434,6 +434,9 @@
 				$("#cmbFinalizacion").data("kendoDropDownList").dataSource.read({ "idRequerimiento": idRequerimiento });
 				$("#cmbTipoDocumento").data("kendoComboBox").dataSource.read();
 			}
+			$("#lblRepuesto").click(function () {
+				window.location.href = 'RepuestoProducto.aspx?idRepuesto=' + data[0].idRepuesto;
+			})
 
 		}
 		// ####################################################

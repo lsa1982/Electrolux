@@ -8,9 +8,8 @@ Public Class clsSeccion
 		Dim strSql As String
 
 		Dim vFiltro As String = ""
-		If Not prGet("idSeccion") = "" Then
-			vFiltro = vFiltro & " and idCadena = " & Me.prGet("txtidCadena")
-
+		If Not prForm("idSeccion") = "" Then
+			vFiltro = vFiltro & " and idSeccion = " & Me.prForm("idSeccion")
 		End If
 
 		strSql = "SELECT idSeccion, seccion, descripcion FROM elx_core_seccion where 1=1 "

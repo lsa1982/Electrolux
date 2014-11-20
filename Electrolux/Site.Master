@@ -1,7 +1,7 @@
 ﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Site.master.vb" Inherits="Electrolux.Site" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<html >
 <head id="Head1" runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Coordinador de Tareas</title>
@@ -13,7 +13,7 @@
 	<script src="<% = resolveClientUrl("Kendo/XHR.js")%>" type="text/javascript"></script>  
 </head>
 <body>
-<script>
+<script type="text/javascript">
 		var assem = '<% = pathAssem %>';
 		var mItem = [ <% = mItem%>];
 		var mRol = '<% = mRol %>';
@@ -50,10 +50,6 @@
 
 			$("#window").kendoWindow({
 				width: "600px",
-				position: {
-					top: "300px",
-					left: "400px"
-				},
 				title: "Esperando",
 				actions: ["Close"],
 				visible: false,
@@ -168,6 +164,7 @@
 			border-radius: 6px;
 			border: 1px solid #DDDDDD;
 			margin-bottom: 5px;
+			position: relative;
 			}
 		
 		.areaTrabajoRMid{

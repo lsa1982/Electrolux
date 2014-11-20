@@ -47,7 +47,7 @@ Public Class Sincronizacion
         Dim x
         Dim spli As String()
         Dim splits As String()
-        Dim tmp() As String
+
 
         spli = Split(prGet("dato"), "|")
         For i = 0 To spli.Length - 1 'recorre registros'
@@ -62,7 +62,7 @@ Public Class Sincronizacion
                 strSql = Replace(strSql, "$" & (x + 1), splits(x))
             Next
             strCx.ejecutaSql(strSql)
-            splits = tmp
+			'splits = tmp
 
         Next
 

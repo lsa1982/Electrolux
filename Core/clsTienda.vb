@@ -4,32 +4,43 @@
 Public Class clsTienda
     Inherits clsEntidad
 
-Sub lista()
-        Dim vFiltro As String = ""
-        If Not prForm("txtidCadena") = "" Then
+	Sub lista()
+		Dim vFiltro As String = ""
+		If Not prForm("txtidCadena") = "" Then
 			vFiltro = " and al1.idCadena = " & Me.prForm("txtidCadena")
-        End If
+		End If
 
-        If Not prGet("txtidCadena") = "" Then
-            vFiltro = " and al1.idCadena = " & Me.prGet("txtidCadena")
-        End If
+		If Not prGet("txtidCadena") = "" Then
+			vFiltro = " and al1.idCadena = " & Me.prGet("txtidCadena")
+		End If
 
-        If Not prForm("filter[filters][0][field]") = "" Then
-            vFiltro = " and al1.idCadena = " & Me.prForm("filter[filters][0][value]")
-        End If
+		If Not prForm("filter[filters][0][field]") = "" Then
+			vFiltro = " and al1.idCadena = " & Me.prForm("filter[filters][0][value]")
+		End If
+
+		If Not prForm("region") = "" Then
+			vFiltro = " and al1.region = '" & Me.prForm("region") & "'"
+		End If
 
 		If Not prForm("nombre") = "" Then
 			vFiltro = vFiltro & " and al1.tienda like '%" & Me.prForm("nombre") & "%'"
 		End If
 
-        If Not prForm("skip") = "" Then
-            vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
-        Else
+		If Not prForm("skip") = "" Then
+			vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
+		Else
 			vFiltro = vFiltro & " limit 0 , 50"
-        End If
+		End If
 
-        listaSql("vTiendas", vFiltro)
-    End Sub
+		listaSql("vTiendas", vFiltro)
+	End Sub
+	Sub listaRegion()
+		Dim vFiltro As String = ""
+		If Not prForm("idCadena") = "" Then
+			vFiltro = " and idCadena = " & Me.prForm("idCadena")
+		End If
+		listaSql("select distinct region from elx_core_tienda where 1=1 ", vFiltro, False)
+	End Sub
 
     Sub insertar()
         Dim strCx As New StringConex

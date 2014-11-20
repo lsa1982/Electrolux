@@ -1,7 +1,6 @@
 ﻿Imports Elx.CommonClass
 
-Imports System.IO.Compression
-Imports System.Text
+
 Imports System.IO
 
 
@@ -32,7 +31,7 @@ Public Class Repuesto
 	Sub actualizar()
 		Dim strCx As New StringConex
 		Dim strSql As String
-		Dim idRepuesto As Integer
+
 		strSql = "update elx_rep_repuesto set idCategoria = $1, idGrupo = $2, codigo = '$3' , repuesto = '$4' where idRepuesto = $5"
 		strSql = Replace(strSql, "$1", Me.prForm("txtCategoria"))
 		strSql = Replace(strSql, "$2", Me.prForm("txtGrupo"))
@@ -53,6 +52,20 @@ Public Class Repuesto
 
 		strSql = "DELETE FROM elx_rep_repuesto WHERE idRepuesto = $1"
 		strSql = Replace(strSql, "$1", Me.prForm("idRepuesto"))
+		strCx.ejecutaSql(strSql)
+
+		If strCx.flagError Then
+			rsp.estadoError(100, "Eliminar: No se pudo acceder a la base", strCx.msgError)
+		Else
+			rsp.args = "{ ""OK"": ""OK""}"
+		End If
+	End Sub
+	Sub eliminarProducto()
+		Dim strCx As New StringConex
+		Dim strSql As String
+
+		strSql = "DELETE FROM elx_rep_productoRepuesto WHERE idProductoRepuesto = $1"
+		strSql = Replace(strSql, "$1", Me.prForm("idProductoRepuesto"))
 		strCx.ejecutaSql(strSql)
 
 		If strCx.flagError Then
@@ -117,6 +130,8 @@ Public Class Repuesto
 			listaSql("vProductoRepuesto", " and al1.idProducto = " & prForm("idProducto"))
 		ElseIf prForm("filter[filters][0][value]") <> "" Then
 			listaSql("vProductoRepuesto", " and al1.idProducto = " & prForm("filter[filters][0][value]") & " limit 0,30")
+		ElseIf prForm("idSeccion") <> "" Then
+			listaSql("vProductoRepuesto", " and al1.idSeccion = " & prForm("idSeccion"))
 		Else
 			listaSql("vProductoRepuesto", " limit 0,100")
 		End If
@@ -142,23 +157,23 @@ Public Class Repuesto
 	End Sub
 #End Region
 #Region "Imagen"
-	Sub subirImagen()
-		If (prFile.Count = 0) Then
-			rsp.estadoError(100, "No se pudo subir archivo")
-		Else
-			If Right(prFile.Item(0).FileName, 3) <> "jpg" And Right(prFile.Item(0).FileName, 3) <> "png" Then
-				rsp.estadoError(200, "Extension Incorrecta")
-			Else
-				Try
-					prFile.Item(0).SaveAs(AppDomain.CurrentDomain.BaseDirectory & "Styles\Repuestos\Temp\" & prFile.Item(0).FileName)
-					rsp.pagina = prFile.Item(0).FileName
-				Catch ex As Exception
-					rsp.estadoError(201, ex.Message)
-				End Try
+	'Sub subirImagen()
+	'	If (prFile.Count = 0) Then
+	'		rsp.estadoError(100, "No se pudo subir archivo")
+	'	Else
+	'		If Right(prFile.Item(0).FileName, 3) <> "jpg" And Right(prFile.Item(0).FileName, 3) <> "png" Then
+	'			rsp.estadoError(200, "Extension Incorrecta")
+	'		Else
+	'			Try
+	'				prFile.Item(0).SaveAs(AppDomain.CurrentDomain.BaseDirectory & "Styles\Repuestos\Temp\" & prFile.Item(0).FileName)
+	'				rsp.pagina = prFile.Item(0).FileName
+	'			Catch ex As Exception
+	'				rsp.estadoError(201, ex.Message)
+	'			End Try
 
-			End If
-		End If
-	End Sub
+	'		End If
+	'	End If
+	'End Sub
 	Sub guardarImagen()
 		Dim strCx As New StringConex
 		Dim strSql As String
@@ -185,7 +200,7 @@ Public Class Repuesto
 			rsp.estadoError(100, "Insertar: No se pudo acceder a la base", strCx.msgError)
 		Else
 			Dim archivoDestino As String = AppDomain.CurrentDomain.BaseDirectory & "Styles\Repuestos\" & Me.prForm("fileUpload")
-			Dim archivoOrigen As String = AppDomain.CurrentDomain.BaseDirectory & "Styles\Repuestos\Temp\" & Me.prForm("fileUpload")
+			Dim archivoOrigen As String = AppDomain.CurrentDomain.BaseDirectory & "Styles\Temp\" & Me.prForm("fileUpload")
 			If File.Exists(archivoDestino) Then
 				File.Delete(archivoDestino)
 			End If
