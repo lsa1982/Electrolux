@@ -15,11 +15,11 @@ Public Class clsTienda
 		End If
 
 		If Not prForm("filter[filters][0][field]") = "" Then
-			vFiltro = " and al1.idCadena = " & Me.prForm("filter[filters][0][value]")
+			vFiltro = vFiltro & " and al1.idCadena = " & Me.prForm("filter[filters][0][value]")
 		End If
 
 		If Not prForm("region") = "" Then
-			vFiltro = " and al1.region = '" & Me.prForm("region") & "'"
+			vFiltro = vFiltro & " and al1.region = '" & Me.prForm("region") & "'"
 		End If
 
 		If Not prForm("nombre") = "" Then

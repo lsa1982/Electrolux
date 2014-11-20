@@ -286,7 +286,7 @@
 			dataTextField: "region",
 			dataValueField: "region",
 			autoBind: false,
-			placeholder: "Seleccione Regi&oacute;n",
+			placeholder: "Seleccione Región",
 			autoBind: false,
 			dataSource: dsRegion,
 			open: function (e) {
