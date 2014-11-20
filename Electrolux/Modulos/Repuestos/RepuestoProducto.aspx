@@ -518,6 +518,7 @@
 		}
 
 		//#endregion
+
 		//#region Grid Inventario
 		//################################################
 		var dsInventario = new kendo.data.DataSource({
@@ -556,6 +557,7 @@
 			window.location = 'RepuestoProducto.aspx?idRepuesto=' + dataItem.idRepuesto;
 		}
 		//#endregion
+
 		//#region Datasource Imagenes
 		//################################################
 		var dsImagen = new kendo.data.DataSource({
@@ -589,6 +591,7 @@
 		});
 
 		//#endregion
+
 		//#region Carga de Formulario
 		//################################################
 		function cargaDatos(data) {
@@ -627,6 +630,7 @@
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
 		//#endregion
+
 		//#region DataSource Producto
 		//################################################
 		var dsProducto = new kendo.data.DataSource({
@@ -657,7 +661,7 @@
 						strDivData = strDivData.replace("$7", data[i].idProductoRepuesto);
 						strDivData = strDivData.replace("$8", data[i].idProducto);
 						if (data[i].imagen != "")
-							strDivData = strDivData.replace("$5", data[i].imagen);
+							strDivData = strDivData.replace("$5", "../../Styles/Productos/" + data[i].imagen);
 						else
 							strDivData = strDivData.replace("$5", "../../Styles/Productos/noImage.png");
 						strDivProducto = strDivProducto + "<div class='divProducto'>" + strDivData + "</div>";
@@ -700,6 +704,7 @@
 			$("#winNewProducto").data("kendoWindow").open();
 		}
 		//#endregion
+
 		//#region Boton Buscar
 		//################################################
 		$("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
@@ -707,6 +712,7 @@
 			dsRepuesto.read({ "codigo": txtFindCodigo.value });
 		}
 		//#endregion
+
 		//#region Proceso Inicial
 		//################################################
 		var idRepuesto = 0;
