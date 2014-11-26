@@ -54,7 +54,7 @@ Public Class Sincronizacion
             str = spli(i)
             splits = Split(str, ",")
 
-            strSql = "INSERT INTO elx_db_test.elx_core_lectura (idTienda, idProducto, precio, distancia, fleje, pop, oferta,sincronizado,fechaIngreso) " & _
+            strSql = "INSERT INTO elx_core_lectura (idTienda, idProducto, precio, distancia, fleje, pop, oferta,sincronizado,fechaIngreso) " & _
             "VALUES ($1, $2,$3, '$4',$5, $6,$7,$8,'$9')"
 
             For x = 0 To splits.Length - 1 ' recorre por campos'
