@@ -1,161 +1,170 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Repuestos.master" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
-<div class="areaTrabajo" id="trabajo">
-	<span style=" font-size: 24px;">Matriz de Responsabilidad</span><br/>
-	<table style= "padding-top: 15px; width: 100%" id="layerSeguimiento">
+<div class="areaTrabajo" id="findPerfil">
+	<table style= "padding-bottom: 10px">
 		<tr>
-			<td colspan="2">
-				<span style=" font-size: 11px;">Detalle del requerimiento solicitado:</span>
+			<td colspan="4">
+				<span style=" font-size: 24px;">Selecci&oacute;n de Rol</span>
 			</td>
 		</tr>
 		<tr>
-			<td style="width:250px;vertical-align: top" > <div id="treeview"></div></td>
-			<td style=" vertical-align: top; border-left: 1px dashed #EEEEEE"> 
-				<table width="100%">
-					<td colspan="2">
-						<span style=" font-size: 14px; font-weight: bold">Información del Usuario Asignado</span>
-					</td>
-					<tr>C:\repositorio\Electrolux\Modulos\Coordinador\frmMatrizResponsabilidad.aspx
-						<td style="width:150px">Usuario Asignado : </td>
-						<td><div id="lblUsuario"></div></td>
-					</tr>
-					<tr>
-						<td style="width:150px">Fecha Asignación : </td>
-						<td><div id="lblAsignacion"></div></td>
-					</tr>
-					<tr>
-						<td style="width:150px">eMail : </td>
-						<td><div id="lblEmail"></div></td>
-					</tr>
-					<tr>
-						<td style="width:150px">Fono : </td>
-						<td><div id="lblFono"></div></td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<div id="tabView"></div>
-						</td>
-						
-					</tr>
-				</table>
-				
+			<td style="width: 120px">
+				Seleccione Perfil: 
 			</td>
+			<td>
+				<input id="cmbPerfil" style="width: 300px" />
+			</td>
+			<td>
+				Seleccione Rol: 
+			</td>
+			<td>
+				<input id="cmbRol" style="width: 300px" />
+			</td>
+			<td><button id="btnBuscar" type="button" class="k-button">Buscar...</button></td>
+		</tr>
+		<tr>
+			<td>
+				Seleccione Región: 
+			</td>
+			<td colspan="3"><input id="cmbRegion" style="width: 300px" /></td>
 		</tr>
 	</table>
 </div>
-
-
-
+<div class="areaTrabajo" id="findRol"> 
+	<table style= "padding-bottom: 10px; font-size : 10px; width:100%">
+		<tr >
+			<td colspan="2" >
+				<span style=" font-size: 24px;">Datos del Rol</span>
+					<button id="btnVolverPerfil" type="button" class="k-button" style="float:right">Volver</button>
+			</td>
+		</tr>
+		<tr>
+			<td style="width: 120px">
+				Rol
+			</td>
+			<td >
+				<div id="txtRol" ></div>
+			</td>
+		</tr>
+		<tr >
+			<td>
+				estado: 
+			</td>
+			<td>
+				<div id="txtEstado" ></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Asignado a : 
+			</td>
+			<td>
+				<div id="txtUsuario" ></div>
+			</td>
+		</tr>
+		
+	</table>
+</div>
 <script>
 	$(document).ready(function () {
+		//#region Paso 1 Busca Rol
+		// ####################################
 
-		function templateMatriz(vVariable, vRol) {
-			this.Nombre = vVariable;
-			this.htmlTemplate = "<table> " +
-				"<tr><td>Seleccione $1</td><td>InputBox</td><td>Button</td></tr><tr><td colspan='3'><div id='grid$1'></div></td></tr>" +
-			"</table>";
-			this.htmlTemplate = this.htmlTemplate.replace(/\$1/g, vVariable);
-			this.source = new kendo.data.DataSource({
-				serverFiltering: true,
+		$("#btnBuscar").kendoButton({ icon: "arrow-s", click:
+				function (e) {
+					if (cmbRol.value != "") {
+						$("#findRol").show(500);
+					}
+				}
+		});
+
+		$("#cmbPerfil").kendoComboBox({
+			dataTextField: "perfil",
+			dataValueField: "idPerfil",
+			placeholder: "Seleccione Perfil",
+			dataSource: {
+				type: "json",
 				transport: {
-					read: { url: strInterOpAs("clsMatrizResponsabilidad", "lista", "Coordinador"), dataType: "json", type: "post", data: {idVariable: vVariable, idRol: vRol} }
+					read: { url: strInterOp("Perfil", "lista"), dataType: "json", type: "post" }
 				},
+				sort: { field: "perfil", dir: "asc" },
 				schema: { errors: "msgState", data: "args", total: "totalFila" }
-			});
-			this.creaGrid = function () {
-				$("#grid" + vVariable).kendoGrid({
-					dataSource: this.source,
-					height: 350,
-					sortable: true,
-					filterable: filtroGrid,
-					resizable: true,
-					columns: [
-						{ field: "idResponsabilidad", title: "id", width: "40px" },
-						{ field: "valorInt", title: "actividad", width: "180px" },
-						{ field: "valorChar", title: "Inicio", width: "170px" },
-						{ field: "", title: "" }
-					]
-				});
-			};
-
-		}
-
-
-
-		var inline = new kendo.data.HierarchicalDataSource({
-			data: [
-				{ categoryName: "Supervisor",
-					subCategories: [
-						{ subCategoryName: "Supervisor Stgo Oriente" },
-						{ subCategoryName: "Supervisor Stgo Centro" },
-						{ subCategoryName: "Supervisor I-II Region" },
-						{ subCategoryName: "Supervisor III-IV Region" },
-						{ subCategoryName: "Supervisor V Region Interior" },
-						{ subCategoryName: "Supervisor Sur" }
-					]
-				},
-				{ categoryName: "KAM", subCategories: [
-						{ subCategoryName: "KAM Cencosud" },
-						{ subCategoryName: "KAM Ripley" },
-						{ subCategoryName: "KAM Falabella" },
-						{ subCategoryName: "KAM Otros" }
-					]
-				},
-				{ categoryName: "PM", subCategories: [
-						{ subCategoryName: "PM Fensa" },
-						{ subCategoryName: "PM Mademsa" },
-						{ subCategoryName: "PM Electrolux" },
-						{ subCategoryName: "PM Somela" }
-					]
-				}
-			],
-			schema: {
-				model: {
-					children: "subCategories"
-				}
+			},
+			cascade: function (e) {
+				$("#cmbRol").data("kendoComboBox").text("");
+				$("#cmbRol").data("kendoComboBox").value("");
 			}
 		});
 
-		$("#treeview").kendoTreeView({
-			dataSource: inline,
-			dataTextField: ["categoryName", "subCategoryName"]
+		var dsRol= new kendo.data.DataSource({
+			serverFiltering: true,
+			type: "json",
+			transport: {
+				read: { url: strInterOp("Rol", "lista"), dataType: "json", type: "post" },
+				parameterMap: function (options, operation) {
+					var dataSend = {};
+					if (cmbPerfil.value != "") {
+						dataSend["idPerfil"] = cmbPerfil.value;
+					}
+					if (cmbRegion.value != "") {
+						dataSend["region"] = cmbRegion.value;
+					}
+					if (options.filter != undefined) {
+						dataSend["rol"] = $("#cmbRol").data("kendoComboBox")._prev;
+					}
+					return dataSend;
+				}
+			},
+			sort: { field: "tienda", dir: "asc" },
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
+
+		$("#cmbRol").kendoComboBox({
+			dataTextField: "rol",
+			dataValueField: "idRol",
+			autoBind: false,
+			placeholder: "Seleccione Rol",
+			filter: "contains",
+			minLength: 4,
+			autoBind: false,
+			dataSource: dsRol,
+			open: function (e) {
+				dsRol.read();
+			}
 		});
 
 
-		var data = [
-				{
-					usuario: "Levi Sanchez",
-					asignacion: "2014-01-01",
-					eMail: "levi.sanchez@gmail.com",
-					fono: "99999999"
+		var dsRegion = new kendo.data.DataSource({
+			type: "json",
+			transport: {
+				read: { url: strInterOp("Perfil", "listaRegion"), dataType: "json", type: "post" },
+				parameterMap: function (options, operation) {
+					var dataSend = {};
+					if (cmbPerfil.value != "") {
+						dataSend["idPerfil"] = cmbPerfil.value;
+					}
+					return dataSend;
 				}
-			];
-		$("#lblUsuario").html("<strong>" + data[0].usuario + "</strong>");
-		$("#lblAsignacion").html("<strong>" + data[0].asignacion + "</strong>");
-		$("#lblEmail").html("<strong>" + data[0].eMail + "</strong>");
-		$("#lblFono").html("<strong>" + data[0].fono + "</strong>");
+			},
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
 
-		// ############################################################
-		// ###	Data Source Responsables							###
-		// ############################################################
+		$("#cmbRegion").kendoComboBox({
+			dataTextField: "region",
+			dataValueField: "region",
+			autoBind: false,
+			placeholder: "Seleccione Región",
+			autoBind: false,
+			dataSource: dsRegion,
+			open: function (e) {
+				dsRegion.read();
+			}
+		});
 
-		var tabStrip = $("#tabView").kendoTabStrip().data("kendoTabStrip");
-		var x = new templateMatriz("Tienda", "1");
-		tabStrip.append({ text: x.Nombre, content: x.htmlTemplate });
-		x.creaGrid();
-		tabStrip.append({ text: "Item 2", content: "holaaa2" });
+		//#endregion
 
+		$("#findRol").hide();
 	});
-</script>
-
-<style>
 	
- 	.areaTrabajo table td{
- 		font-size: 11px;
- 		border-bottom: 1px dashed #EEEEEE;
- 		padding-bottom:5px;
- 		
- 		}
- 	
-</style>
+</script>
 </asp:Content>

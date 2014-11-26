@@ -33,6 +33,7 @@ aloooooooo
 			</tr>
 			<tr>
 				<td>
+					<input type="hidden" id="ReturnUrl" />
 					<input type="text" class="k-textbox" name="txtUser" id="txtUser" 
 					 placeholder="Usuario" required="required" validationMessage="Ingrese Usuario"/>
 				</td>
@@ -45,7 +46,7 @@ aloooooooo
 			</tr>
 			<tr>
 				<td>
-					<input type="checkbox" name="Accept" /> Mantenerme Conectado
+					<input type="checkbox" id="txtConectado" /> Mantenerme Conectado
 				</td>
 			</tr>
 			<tr>
@@ -82,8 +83,11 @@ aloooooooo
 			$("#mensaje").hide(500);
 		});
 
+		var vGet = getVarsUrl();
+		if (typeof vGet.ReturnUrl != "undefined") 
+			ReturnUrl.value = vGet.ReturnUrl;
+
 	});
-	document.cookie = '..ASPXAUTH=77CEF5EAF0D503E9A44BAB30344F19A5C690C87D7183D4666E6191A59C008BCB7EC36812D2BD0E8819762165738DDE60C47160AAA6F29F5EA0C441BBBA93F98F821C77697C23DCD8DB9EBCA8C2EBE650E1F44CA61F5DD8917820235EECF7824D12487EB4D7A535A69011B9F1AD1EEB35752BBBD6EC040CDA8FB3F36BD4B66EE28EB70B8890527FBBF31C75B35B92BAECE739F161A00C5167F82E050D7BC0FD8D;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 
 </script>
 

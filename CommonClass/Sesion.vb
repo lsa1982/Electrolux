@@ -34,7 +34,11 @@ Public Class Sesion
 		If Not IsNothing(dt) Then
 			If validaUsuario(prForm("txtUser"), prForm("txtPass"), dt.Rows(0).Item("password")) Then
 				If dt.Rows(0).Item("idRol") > 0 Then
-					tkt = New FormsAuthenticationTicket(1, "User", DateTime.Now, DateTime.Now.AddMinutes(30), True, "your custom data")
+					If prForm("txtConectado") = "on" Then
+						tkt = New FormsAuthenticationTicket(1, "User", DateTime.Now, New Date(3000, 12, 31), True, "your custom data")
+					Else
+						tkt = New FormsAuthenticationTicket(1, "User", DateTime.Now, New Date(3000, 12, 31), False, "your custom data")
+					End If
 
 					cookiestr = FormsAuthentication.Encrypt(tkt)
 					ck = New HttpCookie(FormsAuthentication.FormsCookieName, cookiestr)
@@ -59,13 +63,15 @@ Public Class Sesion
 					End If
 
 					HttpContext.Current.Response.Cookies.Add(ck)
-					ck.Expires = DateTime.Now.AddMinutes(30)
 
-					strRedirect = prGet("ReturnUrl")
+
+
+					strRedirect = prForm("ReturnUrl")
 					If strRedirect = "" Then
 						strRedirect = "Modulos/Repuestos/default.aspx"
 					End If
-					rsp.pagina = strRedirect
+
+					rsp.pagina = Replace(HttpUtility.UrlDecode(strRedirect), "/Electrolux/", "")
 					rsp.args = "{ ""Sesion"": ""OK""}"
 				Else
 					rsp.estadoError(200, "Seguridad: Usuario sin Rol")
@@ -77,7 +83,7 @@ Public Class Sesion
 		Else
 			rsp.estadoError(300, "Seguridad: Usuario no existe")
 		End If
-		
+
 
 	End Sub
 

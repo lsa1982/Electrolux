@@ -7,30 +7,42 @@
 			<span style=" font-size: 24px;">Inventario</span>
 		</td>
 		<td  style=" text-align:right; vertical-align: top;font-size: 10px;">
-			
-			<button id="btnNuevo" type="button" class="k-button">Nuevo Movimiento</button>
+			<button id="btnDetalleRepuesto" type="button" class="k-button">Detalle de Repuesto</button>
+			<button id="btnNuevoRepuesto" type="button" class="k-button">Nuevo Repuesto</button>
+			<button id="btnNuevoMovimiento" type="button" class="k-button">Nuevo Movimiento</button>
 			
 		</td>
 	</tr>
 	<tr style="font-size: 10px; border-bottom-width: 1px; ">
-		<td>
-			Seleccione Estado de Solicitudes a Filtrar: <input id="cmbEstado" value="0" />
-		</td>
-		<td>&nbsp
+		
+		<td>Listado de todos los repuestos ingresados al sistema:
 		</td>
 		<td style=" text-align:right; vertical-align: top;font-size: 10px;">
 			
 		</td>
 	</tr>
 </table>
-<div id="grid"></div>
+<div id="gridProducto"></div>
 </div>
 <script>
 	$(document).ready(function () {
-		$("#btnNuevo").kendoButton({ click: onClick, icon: 'plus' });
-		function onClick(e) {
-			window.location.href = 'Inventario.aspx';
-		}
+		$("#btnNuevoMovimiento").kendoButton({ icon: 'plus', click:
+			function (e) {
+				window.location.href = 'Inventario.aspx';
+			}
+		});
+
+		$("#btnNuevoRepuesto").kendoButton({ icon: 'plus', click:
+			function (e) {
+				window.location.href = 'frmNewProducto.aspx';
+			}
+		});
+
+		$("#btnDetalleRepuesto").kendoButton({ icon: 'search', click:
+			function (e) {
+				window.location.href = 'RepuestoProducto.aspx';
+			}
+		});
 
 		// ########################################################
 		// ### Ds												###
@@ -46,28 +58,22 @@
 			serverPaging: true,
 			serverFiltering: true,
 			pageSize: 30,
-			schema: {
-				errors: "msgState",
-				data: "args",
-				total: "totalFila"
-			}
+			schema: {errors: "msgState", data: "args", total: "totalFila"}
 		});
 
 		// ########################################################
 		// ### Grid												###
 		// ########################################################
 
-		$("#grid").kendoGrid({
+		$("#gridProducto").kendoGrid({
 			pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
 			dataSource: dsRepuestos,
 			sortable: true,
-  			filterable: filtroGrid,
-  			selectable: "multiple",
-  			resizable: true,
-  			//autoBind: false,
-
-  			columns: [
-				{ command: { text: "Productos", click: onView }, title: " ", width: "90px" },
+			filterable: filtroGrid,
+			selectable: "multiple",
+			resizable: true,
+			columns: [
+				{ command: { text: "Detalle", click: onView }, title: " ", width: "90px" },
 				{ field: "idRepuesto", title: "id", width: "1px" },
 				{ field: "codigo", title: "Repuesto", width: "150px" },
 				{ field: "repuesto", title: "Repuesto", width: "300px" },

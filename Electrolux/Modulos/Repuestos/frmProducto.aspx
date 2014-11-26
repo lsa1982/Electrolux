@@ -614,11 +614,11 @@
 		//#region Botones Operacion
 		//################################################
 
-		$("#btnModificar").kendoButton({ click: onModificar });
-		function onModificar(e) {
-			window.location.href = 'frmNewRepuesto.aspx?idRepuesto=' + idRepuesto;
-		}
-
+		$("#btnModificar").kendoButton({ click:
+			function (e) {
+				window.location.href = 'frmNewProducto.aspx?idProducto=' + idProducto;
+			}
+		});
 
 		$("#btnEliminar").kendoButton({ click: onDelete });
 		$("#btnNewView").kendoButton({ click: onImagen });
@@ -668,6 +668,7 @@
 		}
 
 		//#endregion
+
 		//#region DataSource Repuesto
 		//################################################
 		var dsRepuesto = new kendo.data.DataSource({
@@ -735,12 +736,13 @@
 			error: errorGrid,
 			schema: { errors: "msgState", data: "args", total: "totalFila" },
 			change: function (e) {
+				$("#carruselProducto").empty();
 				if (this._data.length > 0) {
 					var data = this.data();
 					var strDiv = "<div class='carrusel' name='carruselImagen' data-id='$1'>";
 					strDiv = strDiv + "<img src='../../Styles/Productos/$2' style=' max-width: 128px; max-height: 128px' />";
 					strDiv = strDiv + "<span class='carruselLabel'>$3</span></div>";
-					$("#carruselProducto").empty();
+					
 					for (i = 0; i < this._data.length; i++) {
 						var strDivData = strDiv;
 						strDivData = strDivData.replace("$1", data[i].idImagen);

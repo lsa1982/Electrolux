@@ -508,7 +508,7 @@
 		// ############################################################
 
 		document.getElementById("tabLebel").style.display = 'none';
-		callScript(strInterOp("clsMatrizResponsabilidad", "Listar_perfilRol"), '', onChargerPerfil);
+		callScript(strInterOp("clsMatrizResponsabilidad", "ListarPerfilRol"), '', onChargerPerfil);
 
 
 	});

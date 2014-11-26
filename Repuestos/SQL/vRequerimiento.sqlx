@@ -21,7 +21,8 @@
 	al1.cantidad,
 	al10.marca,
 	al1.ultimaModificacion,
-	al1.idRepuesto
+	al1.idRepuesto,
+	al1.idProducto
 FROM 
 	elx_rep_requerimiento al1,
 	elx_core_producto al2, 
