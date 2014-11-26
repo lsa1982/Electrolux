@@ -45,7 +45,7 @@
 								<td colspan="2" style=" font-size: 14px;"><strong> </strong></td>
 							</tr>
 							<tr>
-								<td style=" width: 120px" >Codigo<input type="hidden" id="ldlId" /></td>
+								<td style=" width: 120px" >C&oacute;digo<input type="hidden" id="ldlId" /></td>
 								<td style="vertical-align:  middle"> 
 									<div id="lblCodigo" style="float: left" ></div>  
 								</td>
@@ -55,7 +55,7 @@
 								<td><div id="lblRepuesto"></div> </td>
 							</tr>
 							<tr>
-								<td>Categoria</td>
+								<td>Categor&iacute;a</td>
 								<td><div id="lblCategoria"></div></td>
 							</tr>
 							<tr>
@@ -116,7 +116,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2">Lista de producto que utilizan este repuesto:<br>&nbsp;</td>
+			<td colspan="2">Lista de movimientos asociados a este repuesto:<br>&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="2"><div id="grid"></div></td>
@@ -146,7 +146,7 @@
 <div id="winCargaImagen" style="font-size: 11px">
 	<table>
 		<tr>
-			<td>Seleccione la imagenes que desea subir: </td>
+			<td>Seleccione la imagen que desea subir: </td>
 		</tr>
 		<tr>
 			<td><input id="imgNewImagen" type="file" name="imgNewImagen" validationMessage="Select movie" /></td>
@@ -542,9 +542,9 @@
 			columns: [
 				{ command: { text: "Detalle", click: onView }, title: " ", width: "90px" },
 				{ field: "idInventario", title: "id", width: "40px" },
-				{ field: "fechaMovimiento", title: "Codigo", width: "180px" },
+				{ field: "fechaMovimiento", title: "Código", width: "180px" },
 				{ field: "tipoDocumento", title: "Documento", width: "160px" },
-				{ field: "referencia", title: "nReferencia", width: "150px" },
+				{ field: "referencia", title: "Referencia", width: "150px" },
 				{ field: "valor", title: "Valor", width: "100px" },
 				{ field: "cantidad", title: "Cantidad", width: "100px" },
 				{ field: "", title: "" }
@@ -567,9 +567,9 @@
 			error: errorGrid,
 			schema: { errors: "msgState", data: "args", total: "totalFila" },
 			change: function (e) {
+				$('#banner-fade').empty();
 				if (this._data.length > 0) {
 					var data = this.data();
-					$('#banner-fade').empty();
 					$('#banner-fade').bjqs({ data: data, path: '../../Styles/Repuestos/', responsive: true });
 				}
 				else {

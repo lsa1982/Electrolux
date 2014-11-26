@@ -165,6 +165,7 @@
 			border: 1px solid #DDDDDD;
 			margin-bottom: 5px;
 			position: relative;
+			font-size: 11px;
 			}
 		
 		.areaTrabajoRMid{
@@ -201,6 +202,7 @@
 			}
 		body {
 			margin: 0px;
+			
 			}
 		
 		.k-grid { 
@@ -240,14 +242,14 @@
 		}
 		
 		.areaTrabajo table td{
-			font-size: 11px;
 			border-bottom: 1px dashed #EEEEEE;
 			padding-bottom:5px;
 			vertical-align: top
 		}
 		
 		.areaTrabajo table {
-			width: 100%
+			width: 100%;
+			font-size: 11px;
 		}
 		
 		.k-button-red{

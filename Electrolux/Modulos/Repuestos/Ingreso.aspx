@@ -31,7 +31,7 @@
 		
 	</table>
 </div>
-<div class="areaTrabajo" id="findProducto">
+<div class="areaTrabajo" id="findProducto"> 
 	<table style= "padding-bottom: 10px; font-size : 10px; width:100%">
 		<tr >
 			<td colspan="2" >
@@ -44,7 +44,7 @@
 				Categor&iacute;a: 
 			</td>
 			<td >
-				<input id="cmbCategoria" style="width: 200px" />
+				<input id="cmbCategoria" style="width: 300px" />
 			</td>
 		</tr>
 		<tr >
@@ -52,7 +52,7 @@
 				Marca: 
 			</td>
 			<td>
-				<input id="cmbMarca" style="width: 200px" />
+				<input id="cmbMarca" style="width: 300px" />
 			</td>
 		</tr>
 		<tr>
@@ -60,7 +60,7 @@
 				Producto: 
 			</td>
 			<td>
-				<input id="txtProducto" style="width: 200px" />
+				<input id="txtProducto" style="width: 300px" />
 			</td>
 		</tr>
 		<tr>
@@ -86,7 +86,7 @@
 	<table style= "padding-bottom: 10px; font-size : 10px; width:100%">
 		<tr >
 			<td colspan="2" >
-				<span style=" font-size: 24px;">Paso 3 - Seleccion de Repuesto</span>
+				<span style=" font-size: 24px;">Paso 3 - Selecci&oacute;n de Repuesto</span>
 					<button id="btnVolverRepuesto" type="button" class="k-button" style="float:right">Volver</button>
 			</td>
 		</tr>
@@ -184,14 +184,6 @@
 </div>
 <script>
 	$(document).ready(function () {
-
-		function dehabilitarDiv(vDiv) {
-			$('#' + vDiv).append('<div name="divBloqueo" style="position: absolute;top:0;left:0;width: 100%;height:100%;display: block;z-index: 10002;opacity: 0.5; background-color: #ccc;"></div>');
-		}
-
-		function habilitarDiv(vDiv) {
-			$('#' + vDiv).find("div[name='divBloqueo']").remove();
-		}
 
 		//#region Paso 1 Busca Tienda
 		// ####################################

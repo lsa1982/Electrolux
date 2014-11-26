@@ -34,11 +34,11 @@
 		</tr>
 		<tr>
 			<td style=" width: 150px" >Producto</td>
-			<td ><div id="lblProducto"></div>  </td>
+			<td style=" text-decoration: underline; color: #00F; cursor: pointer"> <div id="lblProducto"></div>  </td>
 		</tr>
 		<tr>
 			<td >Respuesto</td>
-			<td ><span style=" text-decoration: underline; color: #00F; cursor: pointer"><div id="lblRepuesto"></div></span></td>
+			<td style=" text-decoration: underline; color: #00F; cursor: pointer"><div id="lblRepuesto"></div></td>
 		</tr>
 		<tr>
 			<td >Tienda</td>
@@ -415,7 +415,7 @@
 				return val.idEstado == data[0].estado ? val : null;
 			});
 			$("#lblEmisor").html("<strong>" + data[0].usuario + "</strong>");
-			$("#lblProducto").html("<strong>" + data[0].nombre + "</strong>");
+			$("#lblProducto").html("<strong>" + data[0].marca + ' - ' + data[0].nombre + "</strong>");
 			$("#lblRepuesto").html("<strong>" + data[0].codigo + ' - ' + data[0].repuesto + "</strong>");
 			$("#lblTienda").html("<strong>" + data[0].tienda + "</strong>");
 			$("#lblIngreso").html("<strong>" + data[0].fechaInicio + "</strong>");
@@ -436,6 +436,9 @@
 			}
 			$("#lblRepuesto").click(function () {
 				window.location.href = 'RepuestoProducto.aspx?idRepuesto=' + data[0].idRepuesto;
+			});
+			$("#lblProducto").click(function () {
+				window.location.href = 'frmProducto.aspx?idProducto=' + data[0].idProducto;
 			})
 
 		}
