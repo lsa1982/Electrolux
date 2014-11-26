@@ -474,7 +474,7 @@
 		$("#btnEliminar").kendoButton({ click: onDelete });
 		$("#btnImagen").kendoButton({ click: onImagen });
 		function onImagen(e) {
-			$("#winCargaImagen").data("kendoWindow").center();
+			centrarWin("#winCargaImagen");
 			$("#winCargaImagen").data("kendoWindow").open();
 		}
 
@@ -645,11 +645,11 @@
 				var strDivProducto = "";
 				if (this._data.length > 0) {
 					var data = this.data();
-					var strDiv = "<span name='spanTitle' data-id='$8' style='font-weight: bold; color: #0B90A7 '>  $1 - $2";
-					strDiv = strDiv + "<img name='imgDelete' data-id='$7' src='../../Styles/images/circle_delete.png' style='float:right; width:16px; height:16px' />";
+					var strDiv = "<div name='spanTitle' data-id='$8' style='font-weight: bold; color: #0B90A7; float: left;width: 93%;'>  $1 - $2</div>";
+					strDiv = strDiv + "<div name='imgDelete' data-id='$7' style='float:right; width:16px; height:16px; background-image: url(\"../../Styles/images/circle_delete.png\");background-size: 16px 16px;' ></div>";
 
 					strDiv = strDiv + "</span><br><hr/>Tipo:<strong> $3</strong><br>Categoria:<strong> $4</strong><br>";
-					strDiv = strDiv + "<img src='$5' style='max-width:200px; max-height:200px; ' />";
+					strDiv = strDiv + "<div style='text-align: center;margin-top: 15px'><img src='$5' style='max-width:200px; max-height:200px; ' /></div>";
 
 					for (i = 0; i < this._data.length; i++) {
 						var strDivData = strDiv;
@@ -660,7 +660,7 @@
 						strDivData = strDivData.replace("$6", data[i].idProducto);
 						strDivData = strDivData.replace("$7", data[i].idProductoRepuesto);
 						strDivData = strDivData.replace("$8", data[i].idProducto);
-						if (data[i].imagen != "")
+						if (data[i].imagen != "noImage.png")
 							strDivData = strDivData.replace("$5", "../../Styles/Productos/" + data[i].imagen);
 						else
 							strDivData = strDivData.replace("$5", "../../Styles/Productos/noImage.png");
@@ -671,11 +671,12 @@
 					strDivProducto = "<strong>No existen productos asociados a este repuesto.</strong>";
 				}
 				$("#frmProducto").html(strDivProducto);
-				$(".divProducto").find("span[name='spanTitle']").click(function (e) {
+				$(".divProducto").find("div[name='spanTitle']").click(function (e) {
 					window.location.href = 'frmProducto.aspx?idProducto=' + this.dataset.id;
 				});
 
-				$(".divProducto").find("img[name='imgDelete']").click(function (e) {
+				$(".divProducto").find("div[name='imgDelete']").click(function (e) {
+					e.preventDefault();
 					var imgSel = this;
 					vex.defaultOptions.className = 'vex-theme-os';
 					vex.dialog.confirm({ message: 'Esta seguro de eliminar este Producto?',
@@ -700,6 +701,7 @@
 
 		$("#btnNewProducto").kendoButton({ click: onNewProducto });
 		function onNewProducto(e) {
+			centrarWin("#winNewProducto");
 			$("#winNewProducto").data("kendoWindow").center();
 			$("#winNewProducto").data("kendoWindow").open();
 		}

@@ -26,11 +26,11 @@
 		</tr>
 		<tr>
 			<td>Categoria</td>
-			<td><input id="cmbCategoria" style="width: 300px" /></td>
+			<td><input id="cmbCategoria" style="width: 350px" /></td>
 		</tr>
 		<tr>
 			<td>Grupo</td>
-			<td><input id="cmbMarca" style="width: 300px" /></td>
+			<td><input id="cmbMarca" style="width: 350px" /></td>
 		</tr>
 		<tr>
 			<td>CodigoBarra</td>
@@ -65,7 +65,7 @@
 					read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: 'POST' },
 					parameterMap: function (options, operation) {
 						var dataSend = {};
-						dataSend["clase"] = "Repuesto";
+						dataSend["clase"] = "Producto";
 						return dataSend;
 
 					}

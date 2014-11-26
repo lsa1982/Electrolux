@@ -158,6 +158,9 @@
 			margin-top: 5px;
 			}
 			
+		.k-window table{
+			font-size: 11px;
+			}
 		
 		.areaTrabajo{
 			background-color: #FFFFFF;
