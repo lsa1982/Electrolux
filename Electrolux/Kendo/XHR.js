@@ -225,3 +225,9 @@ function dehabilitarDiv(vDiv) {
 function habilitarDiv(vDiv) {
 	$('#' + vDiv).find("div[name='divBloqueo']").remove();
 };
+
+function centrarWin(vDiv) {
+	var h = window.scrollY + (window.innerHeight / 2) - 160;
+	var w = window.scrollX + (window.innerWidth / 2) - 225;
+	$(vDiv).closest(".k-window").css({ top: h, left: w });
+}

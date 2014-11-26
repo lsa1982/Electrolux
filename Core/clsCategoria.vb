@@ -24,6 +24,10 @@ Public Class clsCategoria
             strSql = strSql & " and tipo = '" & Me.prForm("tipo") & "'"
         End If
 
+		If Not prForm("clase") = "" Then
+			strSql = strSql & " and clase = '" & Me.prForm("clase") & "'"
+		End If
+
         strCx.ejecutaSql(strSql)
         dt = strCx.retornaDataTable(strSql)
 
