@@ -41,7 +41,7 @@
 
       
         var gridColumns = [
-			{ command: { text: "Productos", click: onView }, title: " ", width: "90px" },
+			{ command: { text: "Detalle", click: onView }, title: " ", width: "90px" },
 			{ field: "idProducto", title: "ID", width: "40px" },
 			{ field: "categoria", title: "Categoria", width: "120px" },
             { field: "marca", title: "Marca", width: "100px" },
@@ -69,7 +69,7 @@
         function onView(e) {
             e.preventDefault();
             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-            window.location = 'ProductoDetalle.aspx?idProducto=' + dataItem.idProducto;
+            window.location = 'frmProducto.aspx?idProducto=' + dataItem.idProducto;
         }
 
 
