@@ -77,7 +77,6 @@ Public Class Repuesto
 	Sub insertarProducto()
 		Dim strCx As New StringConex
 		Dim strSql As String
-		Dim idRepuesto As Integer
 		strSql = "INSERT INTO elx_rep_productorepuesto  (idProducto, idRepuesto, idSeccion) VALUES ($1, $2, $3) "
 		strSql = Replace(strSql, "$1", Me.prForm("idProducto"))
 		strSql = Replace(strSql, "$2", Me.prForm("idRepuesto"))
@@ -87,7 +86,22 @@ Public Class Repuesto
 		If strCx.flagError Then
 			rsp.estadoError(100, "Insertar: No se pudo acceder a la base", strCx.msgError)
 		Else
-			rsp.args = "{ ""idRepuesto"": """ & idRepuesto & """}"
+			rsp.args = "{ ""idRepuesto"": """ & Me.prForm("idRepuesto") & """}"
+		End If
+	End Sub
+
+	Sub modificarSeccion()
+		Dim strCx As New StringConex
+		Dim strSql As String
+		strSql = "UPDATE elx_rep_productorepuesto SET idSeccion = $1 WHERE idProductoRepuesto = $2"
+		strSql = Replace(strSql, "$1", Me.prForm("idSeccion"))
+		strSql = Replace(strSql, "$2", Me.prForm("idProductoRepuesto"))
+		strCx.ejecutaSql(strSql)
+
+		If strCx.flagError Then
+			rsp.estadoError(200, "Actualizar: No se pudo acceder a la base", strCx.msgError)
+		Else
+			rsp.args = "{ ""idProductoRepuesto"": """ & Me.prForm("idProductoRepuesto") & """}"
 		End If
 	End Sub
 #End Region
