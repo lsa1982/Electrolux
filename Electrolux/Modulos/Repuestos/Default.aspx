@@ -76,7 +76,7 @@
 			groupable: { messages: { empty: "Arrastre las columnas que desee para agrupar"} },
 			columns: [
 				{ command: { text: "Ver", click: onView }, title: " ", width: "60px" },
-				{ field: "idRequerimiento", title: "id", width: "40px" },
+				{ field: "idRequerimiento", title: "Id", width: "40px" },
 				{ field: "tienda", title: "Tienda", width: "150px" },
 				{ field: "nombre", title: "Producto", width: "200px", template: '#: marca # - #: nombre #' },
 				{ field: "repuesto", title: "Repuesto", width: "200px" },
@@ -84,7 +84,7 @@
 				{ field: "fechaInicio", title: "Fecha Inicio", width: "110px", template: '<span class="claseEstado claseEstado5">#: fechaInicio #</span>' },
 				{ field: "fechaCompromiso", title: "Fecha Plazo", width: "110px", template: '<span class="claseEstado claseEstado#: estado #">#: fechaCompromiso #</span>' },
 				{ field: "actividad", title: "Actividad", width: "120px" },
-				{ field: "usuario", title: "emisor", width: "80px" },
+				{ field: "usuario", title: "Emisor", width: "80px" },
 				{ field: "cadena", title: "Cadena", width: "80px" },
 				{ field: "", title: "" }
 			]

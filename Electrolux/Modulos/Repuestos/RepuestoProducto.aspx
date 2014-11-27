@@ -10,7 +10,7 @@
 	<span style=" font-size: 24px;">Detalle de Repuesto</span><br/>
 	<table>
 		<tr>
-			<td style=" width:220px">Ingrese codigo de repuesto a buscar</td>
+			<td style=" width:220px">Ingrese código de repuesto a buscar</td>
 			<td style=" width:180px"><input id="txtFindCodigo" type="text" /></td>
 			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
 		</tr>
@@ -101,7 +101,7 @@
 
 		<tr>
 			<td style=" width: 300px; vertical-align: middle" > Para agregar un nuevo producto presione aqui:</td>
-			<td><button id="btnNewProducto" type="button" class="k-button-red">Nueva Producto</button></td>
+			<td><button id="btnNewProducto" type="button" class="k-button-red">Nuevo Producto</button></td>
 		</tr>
 		<tr>
 			<td colspan="2"><div id="frmProducto"></div></td>
@@ -187,7 +187,7 @@
 <div id="winNewProducto" style="font-size:11px">
 		<table >
 		<tr >
-			<td style="width: 120px">Categoria: </td>
+			<td style="width: 120px">Categoría: </td>
 			<td ><input id="cmbCategoria" style="width: 200px" /></td>
 		</tr>
 		<tr >
@@ -541,7 +541,7 @@
 			autoBind: false,
 			columns: [
 				{ command: { text: "Detalle", click: onView }, title: " ", width: "90px" },
-				{ field: "idInventario", title: "id", width: "40px" },
+				{ field: "idInventario", title: "Id", width: "40px" },
 				{ field: "fechaMovimiento", title: "Código", width: "180px" },
 				{ field: "tipoDocumento", title: "Documento", width: "160px" },
 				{ field: "referencia", title: "Referencia", width: "150px" },
