@@ -7,7 +7,7 @@
 	<table>
 		<tr>
 			<td style=" width:220px">Ingrese codigo de prodcuto a buscar</td>
-			<td style=" width:180px"><input id="txtFindCodigo" type="text" /></td>
+			<td style=" width:180px"><input id="txtBuscar" type="text" /><input id="txtBuscarId" type="hidden" /></td>
 			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
 		</tr>
 	</table>
@@ -78,7 +78,7 @@
 		<tr>
 			<td colspan="2">
 				<div id="layerRepuestos" style=" font-size: 24px; float:left">
-					Repuestos Compatibles
+					Vista del Producto
 				</div>
 				<button id="btnVolver1" type="button" class="k-button" style="float:right">Volver </button>
 			</td>
@@ -841,10 +841,7 @@
 
 		//#region Boton Buscar
 		//################################################
-		$("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
-		function onFind(e) {
-			dsProducto.read({ "codigo": txtFindCodigo.value });
-		}
+		
 		//#endregion
 
 		// #region Grid Repuestos
@@ -888,7 +885,7 @@
 			$("#lblCodigoCS").html("<strong>" + dataItem.codigo + "</strong>");
 			$("#lblRepuestoCS").html("<strong>" + dataItem.repuesto + "</strong>");
 			$("#lblTipoCS").html("<strong>" + dataItem.tipo + "</strong>");
-			lblIdCS.value =  dataItem.idProductoRepuesto ;
+			lblIdCS.value = dataItem.idProductoRepuesto;
 			$("#cmbSeccionCS").data("kendoComboBox").value(dataItem.idSeccion);
 
 		}
@@ -904,6 +901,38 @@
 		var vGet = getVarsUrl();
 		if (typeof vGet.idProducto != "undefined") {
 			idProducto = vGet.idProducto;
+			dsProducto.read({ "idProducto": idProducto });
+		}
+
+		$("#txtBuscar").kendoAutoComplete({
+			dataTextField: "nombre",
+			filter: "contains",
+			select: onSelectProducto,
+			minLength: 3,
+			error: errorGrid,
+			dataSource: {
+				serverFiltering: true,
+				transport: { read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: "POST" },
+					parameterMap: function (options, operation) {
+						var dataSend = {};
+						if (options.filter != undefined) {
+							dataSend["value"] = $("#txtBuscar").data("kendoAutoComplete")._prev;
+						}
+						return dataSend;
+
+					}
+				},
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+		function onSelectProducto(e) {
+			var dataItem = this.dataItem(e.item.index());
+			txtBuscarId.value = dataItem.idProducto;
+		}
+
+		$("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
+		function onFind(e) {
+			idProducto = txtBuscarId.value;
 			dsProducto.read({ "idProducto": idProducto });
 		}
 		//#endregion
