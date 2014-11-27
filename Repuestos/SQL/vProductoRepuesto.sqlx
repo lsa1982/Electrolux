@@ -7,12 +7,15 @@
 	al3.categoria,
 	al3.tipo,
 	al2.imagen,
-	al1.idSeccion
+	al1.idSeccion,
+	al4.seccion
 FROM 
 	elx_rep_productoRepuesto al1,
 	elx_rep_repuesto al2,
-	elx_core_categoria al3
+	elx_core_categoria al3,
+	elx_core_seccion al4
 WHERE
 	al1.idRepuesto = al2.idRepuesto and
-	al2.idCategoria = al3.idCategoria 
+	al2.idCategoria = al3.idCategoria and
+	al1.idSeccion = al4.idSeccion
 

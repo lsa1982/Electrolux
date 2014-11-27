@@ -4,8 +4,8 @@
 <table >
 	<tr>
 		<td>
-			<span style=" font-size: 24px;">Mis Requerimientos</span>
-			<button id="btnNuevo" type="button" class="k-button">Nuevo Requerimiento </button>
+			<span style=" font-size: 24px;" style="float:right">Mis Requerimientos</span>
+			<button id="btnNuevo" type="button" class="k-button" style="float:right">Nuevo Requerimiento </button>
 		</td>
 	</tr>
 	<tr style="border-bottom-width: 1px; ">

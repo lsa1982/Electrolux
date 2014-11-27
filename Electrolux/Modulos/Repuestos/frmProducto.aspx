@@ -23,8 +23,8 @@
 			<td colspan="2" style="font-size: 16px; border: 0">
 				<strong>Información General del Repuesto</strong>
 				<div style="float: right;margin-right: 10px;font-size: 11px">
-					<button id="btnProducto" type="button" class="k-button">Productos</button>
-					<button id="btnInventario" type="button" class="k-button">Inventario</button>
+					<button id="btnMoveSeccion" type="button" class="k-button">Secciones</button>
+					<button id="btnMoveRepuesto" type="button" class="k-button">Repuestos</button>
 				</div> 
 			</td>
 		</tr>
@@ -111,7 +111,7 @@
 				<table>
 					<tr>
 						<td>
-							<button id="btnNewRepuesto" class="k-button">Nueva Repuesto</button>
+							
 							<button id="cropNew" class="k-button">Nueva Sección</button>
 							<button id="cropRelease" class="k-button" style="display: none">Guardar</button>
 							<button id="cropCancel" class="k-button" style="display: none">Cancelar</button>
@@ -142,8 +142,30 @@
 				</table>
 			</td>
 		</tr>
-
-		
+		<tr>
+			<td colspan="2">
+				<div id="Div2" style=" font-size: 24px; float:left; margin-bottom: 5px">
+					Repuestos
+				</div>
+				<button id="btnVolverRepuesto" type="button" class="k-button" style="float:right">Volver </button>
+			</td>
+			
+		</tr>
+		<tr>
+			<td colspan="2">
+				listado de todos los repuestos de este producto
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<button id="btnNewRepuesto" class="k-button-red">Nueva Repuesto</button>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<div id="gridRepuesto"></div>
+			</td>
+		</tr>
 	</table>
 </div>
 <div id="winImagen" style="font-size:11px; text-align:center">
@@ -207,25 +229,60 @@
 		</tr>
 	</table>
 </div>
-<div id="winNewProducto" style="font-size:11px">
+<div id="winNewRepuesto" style="font-size:11px">
 		<table >
 		<tr >
-			<td style="width: 120px">Categoria: </td>
-			<td ><input id="cmbCategoria" style="width: 200px" /></td>
+			<td style="width: 120px">Código: </td>
+			<td >
+				<input id="txtCodigo" style="width: 300px" /> 
+				<input id="lblId" type="hidden" />
+			</td>
 		</tr>
 		<tr >
-			<td>Marca: </td>
-			<td><input id="cmbMarca" style="width: 200px" /></td>
+			<td>Repuesto: </td>
+			<td><div id="lblRepuesto" ></div></td>
+		</tr>
+		<tr >
+			<td>Grupo: </td>
+			<td><div id="lblGrupo" ></div></td>
 		</tr>
 		<tr>
-			<td>Producto: </td>
-			<td><input id="txtProducto" style="width: 200px"  /></td>
+			<td>Sección: </td>
+			<td><input id="cmbSeccionRepuesto" style="width: 300px"  /></td>
 		</tr>
-
 		<tr style="font-size: 10px; border-bottom-width: 1px; ">
 			<td></td>
 			<td>
-				<button id="btnProductoAgregar" type="button" class="k-button-red">Agregar</button>
+				<button id="btnAgregarRepuesto" type="button" class="k-button-red">Agregar</button>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="winCambioSeccion" style="font-size:11px">
+		<table >
+		<tr >
+			<td style="width: 120px">Código: </td>
+			<td >
+				<div id="lblCodigoCS" ></div> 
+				<input id="lblIdCS" type="hidden" />
+			</td>
+		</tr>
+		<tr >
+			<td>Repuesto: </td>
+			<td><div id="lblRepuestoCS" ></div></td>
+		</tr>
+		<tr >
+			<td>Grupo: </td>
+			<td><div id="lblTipoCS" ></div></td>
+		</tr>
+		<tr>
+			<td>Sección: </td>
+			<td><input id="cmbSeccionCS" style="width: 300px"  /></td>
+		</tr>
+		<tr style="font-size: 10px; border-bottom-width: 1px; ">
+			<td></td>
+			<td>
+				<button id="btnGuardarCS" type="button" class="k-button-red">Guardar</button>
 			</td>
 		</tr>
 	</table>
@@ -363,137 +420,110 @@
 		}
 
 		//#endregion
-		//#region Windows Nuevo Producto
+
+		//#region Windows modificar sección
 		//################################################
-		$("#winNewProducto").kendoWindow({
+		$("#winCambioSeccion").kendoWindow({
 			width: "450px",
-			title: "Agregar Producto",
+			title: "Modificar Sección",
 			actions: ["Close"],
 			visible: false,
 			modal: true
 		});
 
-		$("#btnProductoAgregar").kendoButton({ click: onProductoAgregar });
-		function onProductoAgregar(e) {
+		$("#btnGuardarCS").kendoButton({ click: onGuardarCS });
+		function onGuardarCS(e) {
 
 			var pUrl = [];
-			pUrl.push("idRepuesto=" + idRepuesto);
-			pUrl.push("idProducto=" + txtProducto.value);
-			pUrl.push("idSeccion=" + cmbSeccion.value);
+			pUrl.push("idProductoRepuesto=" + lblIdCS.value);
+			pUrl.push("idSeccion=" + cmbSeccionCS.value);
 
 			var x = pUrl.join("&");
-			callScript(strInterOp("Repuesto", "insertarProducto"), '&' + x,
+			callScript(strInterOp("Repuesto", "modificarSeccion"), '&' + x,
 				function (e) {
-					$("#winNewProducto").data("kendoWindow").close();
-					dsProducto.read({ "idRepuesto": idRepuesto });
-					$("#txtProducto").data("kendoComboBox").text("");
-					$("#cmbCategoria").data("kendoComboBox").text("");
-					$("#cmbMarca").data("kendoComboBox").text("");
-					$("#cmbSeccion").data("kendoComboBox").text("");
+					$("#winCambioSeccion").data("kendoWindow").close();
+					dsRepuestoGrid.read({ "idProducto": idProducto });
 				}
 			);
 		}
 
-		$("#cmbCategoria").kendoComboBox({
-			dataTextField: "categoria",
-			dataValueField: "idCategoria",
-			autoBind: false,
-			placeholder: "Seleccione Categoria",
-			change: function (e) {
-				$("#txtProducto").data("kendoComboBox").text("");
-			},
-			dataSource: {
-				type: "json",
-				transport: {
-					read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "POST" },
-					parameterMap: function (options, operation) {
-						var dataSend = {};
-						dataSend["tipo"] = "Linea Blanca";
-						dataSend["clase"] = "Producto";
-						return dataSend;
-					}
-				},
-				sort: { field: "categoria", dir: "asc" },
-				schema: { errors: "msgState", data: "args", total: "totalFila" }
-			}
-		});
-
-		$("#cmbMarca").kendoComboBox({
-			dataTextField: "marca",
-			dataValueField: "idMarca",
-			autoBind: false,
-			placeholder: "Seleccione Marca",
-			change: function (e) {
-				$("#txtProducto").data("kendoComboBox").text("");
-			},
-			dataSource: {
-				type: "json",
-				transport: { read: { url: strInterOpAs("clsMarca", "lista", "Core"), dataType: "json", type: "post"} },
-				sort: { field: "marca", dir: "asc" },
-				schema: { errors: "msgState", data: "args", total: "totalFila" }
-			}
-		});
-
-		$("#cmbMarca").kendoComboBox({
-			dataTextField: "marca",
-			dataValueField: "idMarca",
-			autoBind: false,
-			placeholder: "Seleccione Marca",
-			change: function (e) {
-				$("#txtProducto").data("kendoComboBox").text("");
-			},
-			dataSource: {
-				type: "json",
-				transport: { read: { url: strInterOpAs("clsMarca", "lista", "Core"), dataType: "json", type: "post"} },
-				sort: { field: "marca", dir: "asc" },
-				schema: { errors: "msgState", data: "args", total: "totalFila" }
-			}
-		});
-
-		var dsProductoAdd = new kendo.data.DataSource({
-			serverFiltering: true,
-			transport: {
-				read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: "post" },
-				parameterMap: function (options, operation) {
-					var dataSend = {};
-					if (cmbMarca.value != "")
-						dataSend["idMarca"] = cmbMarca.value;
-					if (cmbCategoria.value != "")
-						dataSend["idCategoria"] = cmbCategoria.value;
-					if (options.filter != undefined)
-						dataSend["value"] = $("#txtProducto").data("kendoComboBox")._prev;
-					return dataSend;
-
-				}
-			},
-			schema: { errors: "msgState", data: "args", total: "totalFila" }
-		});
-		function onOpen(e) {
-			console.log("event: open");
-			dsProductoAdd.read();
-		};
-
-		$("#txtProducto").kendoComboBox({
-			dataTextField: "nombre",
-			dataValueField: "idProducto",
-			filter: "contains",
-			minLength: 4,
-			autoBind: false,
-			dataSource: dsProductoAdd,
-			open: onOpen
-		});
-
-		$("#cmbSeccion").kendoDropDownList({
+		$("#cmbSeccionCS").kendoComboBox({
 			dataTextField: "seccion",
 			dataValueField: "idSeccion",
 			autoBind: false,
+			placeholder: "Seleccione Sección",
 			dataSource: {
 				type: "json",
-				transport: { read: { url: strInterOpAs("clsSeccion", "lista", "Core"), dataType: "json", type: "post"} },
+				transport: {
+					read: { url: strInterOpAs("clsSeccion", "lista", "Core"), dataType: "json", type: "POST" }
+				},
 				sort: { field: "seccion", dir: "asc" },
 				schema: { errors: "msgState", data: "args", total: "totalFila" }
 			}
 		});
+
+		//#endregion
+
+		//#region Windows Nuevo Repuesto
+		//################################################
+		$("#winNewRepuesto").kendoWindow({
+			width: "450px",
+			title: "Agregar Repuesto",
+			actions: ["Close"],
+			visible: false,
+			modal: true
+		});
+
+		$("#btnAgregarRepuesto").kendoButton({ click: onAgregarRepuesto });
+		function onAgregarRepuesto(e) {
+
+			var pUrl = [];
+			pUrl.push("idRepuesto=" + lblId.value);
+			pUrl.push("idProducto=" + idProducto);
+			pUrl.push("idSeccion=" + cmbSeccionRepuesto.value);
+
+			var x = pUrl.join("&");
+			callScript(strInterOp("Repuesto", "insertarProducto"), '&' + x,
+				function (e) {
+					$("#winNewRepuesto").data("kendoWindow").close();
+					dsRepuestoGrid.read({ "idProducto": idProducto });
+				}
+			);
+		}
+
+		$("#cmbSeccionRepuesto").kendoComboBox({
+			dataTextField: "seccion",
+			dataValueField: "idSeccion",
+			autoBind: false,
+			placeholder: "Seleccione Sección",
+			dataSource: {
+				type: "json",
+				transport: {
+					read: { url: strInterOpAs("clsSeccion", "lista", "Core"), dataType: "json", type: "POST" }
+				},
+				sort: { field: "seccion", dir: "asc" },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		$("#txtCodigo").kendoAutoComplete({
+			dataTextField: "codigo",
+			filter: "contains",
+			select: onSelect,
+			minLength: 3,
+			error: errorGrid,
+			dataSource: {
+				serverFiltering: true,
+				transport: { read: { url: strInterOp("Repuesto", "lista"), dataType: "json", type: "POST"} },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+		function onSelect(e) {
+			var dataItem = this.dataItem(e.item.index());
+			$("#lblRepuesto").html("<strong>" + dataItem.repuesto + "</strong>");
+			$("#lblGrupo").html("<strong>" + dataItem.grupo + "</strong>");
+			lblId.value = dataItem.idRepuesto;
+		}
 
 		//#endregion
 
@@ -624,7 +654,7 @@
 		$("#btnNewView").kendoButton({ click: onImagen });
 		$("#btnImagen").kendoButton({ click: onImagen });
 		function onImagen(e) {
-			$("#winCargaImagen").data("kendoWindow").center();
+			centrarWin("#winCargaImagen");
 			$("#winCargaImagen").data("kendoWindow").open();
 		}
 
@@ -646,6 +676,13 @@
 			});
 		}
 
+
+		$("#btnNewRepuesto").kendoButton({ click: function (e) {
+			centrarWin("#winNewRepuesto");
+			$("#winNewRepuesto").data("kendoWindow").open();
+		}
+
+		});
 		//#endregion
 
 		//#region Botones Movimiento
@@ -742,7 +779,7 @@
 					var strDiv = "<div class='carrusel' name='carruselImagen' data-id='$1'>";
 					strDiv = strDiv + "<img src='../../Styles/Productos/$2' style=' max-width: 128px; max-height: 128px' />";
 					strDiv = strDiv + "<span class='carruselLabel'>$3</span></div>";
-					
+
 					for (i = 0; i < this._data.length; i++) {
 						var strDivData = strDiv;
 						strDivData = strDivData.replace("$1", data[i].idImagen);
@@ -762,6 +799,7 @@
 			}
 		});
 		//#endregion
+
 		//#region Carga de Formulario y dsProducto
 		//################################################
 		function cargaDatos(data) {
@@ -776,6 +814,7 @@
 			dsSeccion.read({ "idProducto": idProducto });
 			dsImagen.read({ "idProducto": idProducto });
 			dsRepuesto.read({ "idProducto": idProducto });
+			dsRepuestoGrid.read({ "idProducto": idProducto });
 		}
 
 		var dsProducto = new kendo.data.DataSource({
@@ -799,6 +838,7 @@
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
 		//#endregion
+
 		//#region Boton Buscar
 		//################################################
 		$("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
@@ -806,6 +846,56 @@
 			dsProducto.read({ "codigo": txtFindCodigo.value });
 		}
 		//#endregion
+
+		// #region Grid Repuestos
+		// ########################################
+
+		var dsRepuestoGrid = new kendo.data.DataSource({
+			transport: {
+				read: { url: strInterOp("Repuesto", "listaProductoRepuesto"), dataType: "json", type: 'POST' }
+			},
+			batch: true,
+			resizable: true,
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
+
+		$("#gridRepuesto").kendoGrid({
+			pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
+			dataSource: dsRepuestoGrid,
+			sortable: true,
+			autoBind: false,
+			filterable: filtroGrid,
+			resizable: true,
+			columns: [
+				{ command: [{ text: "Sección", click: onCambiarSeccion }, { text: "Eliminar", click: onEliminarRepuesto}], title: " ", width: "180px" },
+				{ field: "idProductoRepuesto", title: "", width: "1px" },
+				{ field: "idRepuesto", title: "id", width: "1px" },
+				{ field: "idSeccion", title: "", width: "1px" },
+				{ field: "codigo", title: "Código", width: "150px" },
+				{ field: "repuesto", title: "Repuesto", width: "300px" },
+				{ field: "seccion", title: "Sección", width: "200px" },
+				{ field: "tipo", title: "Tipo", width: "200px" },
+				{ field: "", title: "" }
+			]
+		});
+
+		function onCambiarSeccion(e) {
+			e.preventDefault();
+			var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+			centrarWin("#winCambioSeccion");
+			$("#winCambioSeccion").data("kendoWindow").open();
+			$("#lblCodigoCS").html("<strong>" + dataItem.codigo + "</strong>");
+			$("#lblRepuestoCS").html("<strong>" + dataItem.repuesto + "</strong>");
+			$("#lblTipoCS").html("<strong>" + dataItem.tipo + "</strong>");
+			lblIdCS.value =  dataItem.idProductoRepuesto ;
+			$("#cmbSeccionCS").data("kendoComboBox").value(dataItem.idSeccion);
+
+		}
+		function onEliminarRepuesto(e) {
+		}
+
+		// #endregion
 
 		//#region Proceso Inicial
 		//################################################
