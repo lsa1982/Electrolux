@@ -47,22 +47,22 @@ Public Class Sincronizacion
         Dim x
         Dim spli As String()
         Dim splits As String()
-
+        Dim tmp() As String
 
         spli = Split(prGet("dato"), "|")
         For i = 0 To spli.Length - 1 'recorre registros'
             str = spli(i)
             splits = Split(str, ",")
 
-            strSql = "INSERT INTO elx_core_lectura (idTienda, idProducto, precio, distancia, fleje, pop, oferta,sincronizado,fechaIngreso) " & _
-            "VALUES ($1, $2,$3, '$4',$5, $6,$7,$8,'$9')"
+            strSql = "INSERT INTO elx_db_test.elx_core_lectura (idTienda, idProducto, precio, distancia, fleje, pop, oferta,sincronizado,fechaIngreso,usuario) " & _
+            "VALUES ($1, $2,$3, '$4',$5, $6,$7,$8,'$9','$10')"
 
             For x = 0 To splits.Length - 1 ' recorre por campos'
 
                 strSql = Replace(strSql, "$" & (x + 1), splits(x))
             Next
             strCx.ejecutaSql(strSql)
-			'splits = tmp
+            splits = tmp
 
         Next
 
