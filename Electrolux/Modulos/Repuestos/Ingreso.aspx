@@ -188,7 +188,7 @@
 		//#region Paso 1 Busca Tienda
 		// ####################################
 
-		$("#btnBuscar").kendoButton({ icon: "arrow-s", click: 
+		$("#btnBuscar").kendoButton({ icon: "arrow-s", click:
 			function (e) {
 				if (cmbTienda.value != "") {
 					$("#findProducto").show(500);
@@ -419,6 +419,16 @@
 
 					});
 				}
+				else {
+					dehabilitarDiv("findProducto");
+					$("#layerRepuesto").show();
+					$("#layerSend").hide();
+					$("#carruselRepuesto").empty();
+					$("#fotoRepuesto").empty();
+					$("#findRepuesto").show(500);
+					$("body, html").animate({ scrollTop: $("#findRepuesto").offset().top }, 600);
+					dsRepuesto.read({ idProducto: idProducto });
+				}
 			}
 		});
 		var dsProductoSeccion = new kendo.data.DataSource({
@@ -465,7 +475,6 @@
 			$("#findRepuesto").show(500);
 			$("body, html").animate({ scrollTop: $("#findRepuesto").offset().top }, 600);
 			dsRepuesto.read({ idSeccion: vSeccion });
-
 		}
 
 		var dsRepuesto = new kendo.data.DataSource({
