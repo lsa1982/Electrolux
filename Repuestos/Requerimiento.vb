@@ -5,6 +5,14 @@ Imports System.Collections.Specialized
 Public Class Requerimiento
 	Inherits clsEntidad
 
+
+	' detalle
+	' ->repuesto
+	' ->producto
+	' ->cantidad
+	' tienda
+	' comentario
+
 	Sub insertar()
 
 		Dim strCx As New StringConex
@@ -52,7 +60,6 @@ Public Class Requerimiento
 				strSql = Replace(strSql, "$A", Me.prForm("comentario"))
 				strSql = Replace(strSql, "$B", registro(2))	' cantidad
 				strCx.ejecutaSql(strSql)
-
 
 				idRequerimiento = strCx.retornaDato("select LAST_INSERT_ID()")
 				If idRequerimiento < 1 Then Exit For

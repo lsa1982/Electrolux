@@ -3,7 +3,6 @@
 
 *.log
 *.user
-Electrolux.vbproj
 Electrolux.suo
 CommonClass/bin
 CommonClass/obj

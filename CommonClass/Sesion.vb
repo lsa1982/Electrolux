@@ -14,6 +14,19 @@ Public Class Sesion
 		strCx = New StringConex
 	End Sub
 
+	Public Function retornaRol(ByVal idUsuario As Integer) As Integer
+		strCx = New StringConex
+		Dim dt As DataTable
+
+		dt = strCx.retornaDataTable("select  idRol from elx_hr_personal where idUsuario  = '" & idUsuario & "'")
+		If Not IsNothing(dt) Then
+			retornaRol = dt.Rows(0).Item("idRol")
+		Else
+			retornaRol = 0
+		End If
+	End Function
+
+
 	Public Sub SesionOut()
 		FormsAuthentication.SignOut()
 		rsp.pagina = HttpContext.Current.Request.ApplicationPath & "/Login.aspx"
@@ -26,7 +39,6 @@ Public Class Sesion
 		Dim cookiestr As String
 		Dim strRedirect As String
 
-		Dim strCx As New StringConex
 		Dim dt As DataTable
 
 		dt = strCx.retornaDataTable("select idUsuario, password, idRol, nombre, apellido, cargo, email from elx_hr_personal where usuario  = '" & prForm("txtUser") & "'")
@@ -42,8 +54,6 @@ Public Class Sesion
 
 					cookiestr = FormsAuthentication.Encrypt(tkt)
 					ck = New HttpCookie(FormsAuthentication.FormsCookieName, cookiestr)
-					'If chkPersistCookie.Checked Then
-					'ck.Expires = tkt.Expiration
 					ck.Path = FormsAuthentication.FormsCookiePath
 					HttpContext.Current.Response.Cookies.Add(ck)
 
@@ -64,15 +74,15 @@ Public Class Sesion
 
 					HttpContext.Current.Response.Cookies.Add(ck)
 
-
-
 					strRedirect = prForm("ReturnUrl")
 					If strRedirect = "" Then
 						strRedirect = "Modulos/Repuestos/default.aspx"
 					End If
 
 					rsp.pagina = Replace(HttpUtility.UrlDecode(strRedirect), "/Electrolux/", "")
-					rsp.args = "{ ""Sesion"": ""OK""}"
+					rsp.args = "{ ""Sesion"": ""OK"", ""idUsuario"" : $1 , ""idRol"": $2}"
+					rsp.args = Replace(rsp.args, "$1", dt.Rows(0).Item("idUsuario"))
+					rsp.args = Replace(rsp.args, "$2", dt.Rows(0).Item("idRol"))
 				Else
 					rsp.estadoError(200, "Seguridad: Usuario sin Rol")
 				End If
@@ -112,5 +122,6 @@ Public Class Sesion
 		Return sBuilder.ToString()
 
 	End Function
+
 
 End Class
