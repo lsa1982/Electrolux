@@ -78,7 +78,7 @@
 		<tr>
 			<td colspan="2">
 				<div id="layerRepuestos" style=" font-size: 24px; float:left">
-					Repuestos Compatibles
+					Vista de Productos
 				</div>
 				<button id="btnVolver1" type="button" class="k-button" style="float:right">Volver </button>
 			</td>
