@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false"  MasterPageFile="~/Core.Master" %>
+<%@ Page Title="" Language="vb" AutoEventWireup="false"  MasterPageFile="~/Core.Master" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
@@ -69,7 +69,7 @@
         function onView(e) {
             e.preventDefault();
             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-            window.location = 'frmProducto.aspx?idProducto=' + dataItem.idProducto;
+            window.location = '../Repuestos/frmProducto.aspx?idProducto=' + dataItem.idProducto;
         }
 
 
