@@ -6,7 +6,7 @@
 	<span style=" font-size: 24px;">Detalle de Producto</span><br/>
 	<table>
 		<tr>
-			<td style=" width:220px">Ingrese codigo de prodcuto a buscar</td>
+			<td style=" width:220px">Ingrese nombre de producto a buscar</td>
 			<td style=" width:180px"><input id="txtFindCodigo" type="text" /></td>
 			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
 		</tr>
