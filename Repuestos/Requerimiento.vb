@@ -130,27 +130,31 @@ Public Class Requerimiento
 
 		Dim idActividadSiguiente As Integer = strCx.retornaDato(strSql)
 
-
-		If prForm("id") <> "1" Then
-			If prForm("idTipoDocumento") = prForm("TipoDocumento") Then
-				strSql = "insert into elx_wf_tipodocumento  values (null, '$1') "
-				strSql = Replace(strSql, "$1", prForm("TipoDocumento"))
+		If Not IsNothing(prForm("id")) Then
+			If prForm("id") <> "1" Then
+				If prForm("idTipoDocumento") = prForm("TipoDocumento") Then
+					strSql = "insert into elx_wf_tipodocumento  values (null, '$1') "
+					strSql = Replace(strSql, "$1", prForm("TipoDocumento"))
+					strCx.ejecutaSql(strSql)
+					idTipoDocumento = strCx.retornaDato("select LAST_INSERT_ID()")
+				Else
+					idTipoDocumento = prForm("idTipoDocumento")
+				End If
+				strSql = "insert into elx_wf_documento  values (null, '$1','$2', '$3', '$4', '$5') "
+				strSql = Replace(strSql, "$1", idTipoDocumento)	' idTipoDocumento
+				strSql = Replace(strSql, "$2", prForm("idDocumento"))	' nroDocumento
+				strSql = Replace(strSql, "$3", prForm("valor"))	   ' valorUnitario
+				strSql = Replace(strSql, "$4", prForm("valor"))	' valorTotal
+				strSql = Replace(strSql, "$5", "")	' comentario
 				strCx.ejecutaSql(strSql)
-				idTipoDocumento = strCx.retornaDato("select LAST_INSERT_ID()")
+				idDocumento = strCx.retornaDato("select LAST_INSERT_ID()")
 			Else
-				idTipoDocumento = prForm("idTipoDocumento")
+				idDocumento = prForm("id")
 			End If
-			strSql = "insert into elx_wf_documento  values (null, '$1','$2', '$3', '$4', '$5') "
-			strSql = Replace(strSql, "$1", idTipoDocumento)	' idTipoDocumento
-			strSql = Replace(strSql, "$2", prForm("idDocumento"))	' nroDocumento
-			strSql = Replace(strSql, "$3", prForm("valor"))	   ' valorUnitario
-			strSql = Replace(strSql, "$4", prForm("valor"))	' valorTotal
-			strSql = Replace(strSql, "$5", "")	' comentario
-			strCx.ejecutaSql(strSql)
-			idDocumento = strCx.retornaDato("select LAST_INSERT_ID()")
 		Else
-			idDocumento = prForm("id")
+			idDocumento = 1
 		End If
+		
 
 		If idActividadSiguiente > 0 Then
 			Dim dr As DataRow
@@ -167,7 +171,7 @@ Public Class Requerimiento
 			strSql = Replace(strSql, "$0", idRequerimiento)
 			strSql = Replace(strSql, "$1", idActividadSiguiente)
 			strSql = Replace(strSql, "$2", idFinalizacion)
-			strSql = Replace(strSql, "$3", "1")	' idDocumento
+			strSql = Replace(strSql, "$3", idDocumento)	' idDocumento
 			strSql = Replace(strSql, "$4", Format(Now(), "yyyy-MM-dd HH:mm:ss"))
 			strSql = Replace(strSql, "$5", Format(DateAdd(itx, dr("duracion"), Now()), "yyyy-MM-dd HH:mm:ss"))
 			strSql = Replace(strSql, "$6", Format(Now(), "yyyy-MM-dd HH:mm:ss"))

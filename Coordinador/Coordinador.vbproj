@@ -70,6 +70,7 @@
     <Compile Include="clsActividad2.vb" />
     <Compile Include="clsGrafo.vb" />
     <Compile Include="clsMatrizResponsabilidad.vb" />
+    <Compile Include="Matriz.vb" />
     <Compile Include="Rol.vb" />
     <Compile Include="Perfil.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -125,6 +126,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="SQL\vMatriz.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQL\vRolUsuario.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

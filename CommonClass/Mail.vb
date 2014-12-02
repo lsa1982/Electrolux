@@ -67,6 +67,7 @@ Public Class Mail
 		oServer.Port = 465
 		oServer.HeloDomain = "vanda.cl"
 
+
 		oServer.ConnectType = SmtpConnectType.ConnectDirectSSL
 		' CONFIGURACION DEL MENSAJE
 		oMail.To = _to	'Cuenta de Correo al que se le quiere enviar el e-mail

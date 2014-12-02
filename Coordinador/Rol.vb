@@ -32,5 +32,15 @@ Public Class Rol
 		listaSql("select region from elx_core_region where region in (select distinct region from elx_hr_perfil where 1=1 ", vFiltro, False, " ) order by nmroRegion")
 	End Sub
 
+	Sub listaUsuario()
+		Dim vFiltro As String = ""
+
+		If Not prForm("idRol") = "" Then
+			vFiltro = " and al1.idRol = " & Me.prForm("idRol")
+		End If
+
+		listaSql("vRolUsuario", vFiltro)
+	End Sub
+
 
 End Class

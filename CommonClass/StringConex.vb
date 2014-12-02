@@ -52,6 +52,7 @@ Public Class StringConex
 			Me.flagError = True
 			Me.msgError = ex.Message
 			retornaDataRow = Nothing
+			escribeLog("SQL", "ERROR Sql: " & strSql)
 			Me.closeConex()
 		End Try
 	End Function
@@ -72,6 +73,7 @@ Public Class StringConex
 			Me.flagError = True
 			Me.msgError = ex.Message
 			retornaDataTable = Nothing
+			escribeLog("SQL", "ERROR Sql: " & strSql)
 			Me.closeConex()
 		End Try
 	End Function
@@ -90,6 +92,7 @@ Public Class StringConex
 			retornaDato = -1
 			Me.flagError = True
 			Me.msgError = ex.Message
+			escribeLog("SQL", "ERROR Sql: " & strSql)
 		End Try
 		Me.closeConex()
 	End Function
@@ -108,6 +111,7 @@ Public Class StringConex
 			retornaDatoStr = ""
 			Me.flagError = True
 			Me.msgError = ex.Message
+			escribeLog("SQL", "ERROR Sql: " & strSql)
 		End Try
 		Me.closeConex()
 	End Function
@@ -126,7 +130,7 @@ Public Class StringConex
 			Catch ex As Exception
 				Me.flagError = True
 				Me.msgError = ex.Message
-				escribeLog("ERROR SQL", strSql)
+				escribeLog("SQL", "ERROR Sql: " & strSql)
 			End Try
 			Me.closeConex()
 		End If
