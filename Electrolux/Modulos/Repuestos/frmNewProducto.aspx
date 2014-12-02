@@ -21,7 +21,7 @@
 	<table style= "padding-top: 15px;display: none" id="layerProducto">
 		<tr>
 			<td colspan="2" style="font-size: 16px; border: 0">
-				<strong>Información General del Repuesto</strong>
+				<strong>Información General del Producto</strong>
 				<div style="float: right;margin-right: 10px;font-size: 11px">
 					<button id="btnMoveSeccion" type="button" class="k-button">Secciones</button>
 					<button id="btnMoveRepuesto" type="button" class="k-button">Repuestos</button>
