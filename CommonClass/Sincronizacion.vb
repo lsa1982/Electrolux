@@ -1,8 +1,6 @@
-﻿
-
 Public Class Sincronizacion
 	Inherits clsEntidad
-	
+
 
 	Sub ActualizarCampo()
 		Dim strCx As New StringConex
@@ -73,7 +71,7 @@ Public Class Sincronizacion
 		End If
 
 	End Sub
-	
+
 	Sub InsertarLectura()
 
 		Dim strCx As New StringConex
@@ -88,7 +86,6 @@ Public Class Sincronizacion
 		For i = 0 To spli.Length - 1 'recorre registros'
 			str = spli(i)
 			splits = Split(str, ",")
-
 			strSql = "INSERT INTO elx_core_lectura (idTienda, idProducto, precio, distancia, fleje, pop, oferta,sincronizado,fechaIngreso,usuario) " & _
 			"VALUES ($1, $2,$3, '$4',$5, $6,$7,$8,'$9','$10')"
 
@@ -97,7 +94,6 @@ Public Class Sincronizacion
 				strSql = Replace(strSql, "$" & (x + 1), splits(x))
 			Next
 			strCx.ejecutaSql(strSql)
-
 		Next
 
 		If strCx.flagError Then
@@ -105,7 +101,5 @@ Public Class Sincronizacion
 		Else
 			rsp.args = "{ ""Registros"": " & spli.Length & "}"
 		End If
-
 	End Sub
 End Class
-
