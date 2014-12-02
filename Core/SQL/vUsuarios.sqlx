@@ -1,0 +1,19 @@
+﻿Select 
+	al1.idUsuario,
+	al1.idRol,
+	al1.nombre,
+	al1.apellido,
+	al1.cargo,
+	al1.antiguedad,
+	al1.fechaNacimiento,
+	al1.ultimaModificacion,
+	al1.fono,
+	al1.email,
+	al1.usuario,
+	al1.password,
+	al2.ROL
+From
+	elx_hr_personal al1,
+	elx_hr_rol al2
+Where
+	al1.idRol = al2.IDROL

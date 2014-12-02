@@ -1,0 +1,117 @@
+﻿<form id="check">
+<table style="width:100%">
+	
+    <tr style="width:100%">
+		<td style="width: 100px">
+				Rol: 
+			</td>
+			<td>
+					<input id="cmbRol" name="txtidRol" style="width: 250px" requeired />
+			</td> 
+     </tr>  
+     
+       <tr style="width:100%">
+		<td style="width: 100px">
+				Flujo: 
+			</td>
+			<td>
+					<input id="cmbFlujo" name="txtidFlujo" style="width: 250px" requeired />
+			</td> 
+     </tr>             
+
+    <tr style="width:100%">
+		<td>Actividad</td>
+		<td> <input  type="text" id="txtActividad" name="txtActividad" class="k-textbox" value="" required/></td>
+	</tr>
+
+    
+     <tr style="width:100%">
+		<td>Duracion</td>
+		<td> <input  type="number" id="txtDuracion" name="txtDuracion" class="k-textbox" value="" required/></td>
+	</tr>
+
+     <tr style="width:100%">
+		<td>Medida</td>
+		<td> <input  type="text" id="txtMedida" name="txtMedida" class="k-textbox" value="" required/></td>
+	</tr>
+
+     <tr style="width:100%">
+		<td>Orden</td>
+		<td> <input  type="number" id="txtOrden" name="txtOrden" class="k-textbox" value="" required/></td>
+	</tr>
+
+		<td colspan="2" style="border-top-style: dashed ; border-top-color: Gray; border-top-width: 1px; padding-top: 10px">
+			<button id="btnAgregar" type="button" class="k-button">Agregar</button>&nbsp;
+			<button id="btnCancelar" type="button" class="k-button">Cancelar</button>
+		</td>
+	</tr>
+
+</table>
+</form>
+<script>
+
+    $(document).ready(function () {
+
+        $("#btnAgregar").kendoButton({ icon: "plus", click: onClick });
+        $("#btnCancelar").kendoButton({ icon: "plus", click: onClose });
+        $("#txtDuracion").kendoNumericTextBox({ format: "#" });
+        $("#txtOrden").kendoNumericTextBox({ format: "#" });
+
+        function onClick(e) {
+            var validator = $("#check").kendoValidator().data("kendoValidator");
+            enviaForm(validator, 'check', 'clsActividad', 'insertar', onSuccess);
+            $("#cmbRol").data("kendoComboBox").enable(true);
+            $("#cmbFlujo").data("kendoComboBox").enable(true);
+
+        }
+
+        function onSuccess() {
+            $("#winNewRequest").data("kendoWindow").close();
+            ds.read();
+        };
+
+        function onClose() {
+            $("#winNewRequest").data("kendoWindow").close();
+        }
+
+        var cmbRol = $("#cmbRol").kendoComboBox({
+            dataTextField: "ROL",
+            dataValueField: "IDROL",
+            autoBind: false,
+            placeholder: "Seleccionar",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: { url: strInterOpAs("clsRol", "lista", "Core"), dataType: "json", type: "post" }
+                },
+                sort: { field: "ROL", dir: "asc" },
+                schema: {
+                    errors: "msgState",
+                    data: "args",
+                    total: "totalFila"
+                }
+            }
+        });
+
+        var cmbFlujo = $("#cmbFlujo").kendoComboBox({
+            dataTextField: "Flujo",
+            dataValueField: "idFlujo",
+            autoBind: false,
+            placeholder: "Seleccionar",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: { url: strInterOpAs("clsFlujo", "lista2", "Coordinador"), dataType: "json", type: "post" }
+                },
+                sort: { field: "Flujo", dir: "asc" },
+                schema: {
+                    errors: "msgState",
+                    data: "args",
+                    total: "totalFila"
+                }
+            }
+        });
+
+
+    });
+</script>

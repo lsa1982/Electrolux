@@ -1,0 +1,10 @@
+﻿Select 
+	AL1.idRol,
+	al1.rol,
+	al1.region,
+	al2.perfil
+From
+	elx_hr_rol al1,
+	elx_hr_perfil al2
+Where
+	al1.idPerfil = al2.idPerfil 

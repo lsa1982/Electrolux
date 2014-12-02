@@ -1,0 +1,15 @@
+﻿Select
+    SQL_CALC_FOUND_ROWS 
+	al1.idSeccionImagen,
+	al1.idSeccion,
+	al1.idImagen,
+	al1.x,
+	al1.y,
+	al1.w,
+	al1.h,
+	al2.seccion
+FROM
+    elx_core_seccionImagen al1,
+    elx_core_seccion al2
+WHERE
+    al1.idSeccion = al2.idSeccion

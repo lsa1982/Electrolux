@@ -1,0 +1,45 @@
+﻿Select 
+	al1.idRequerimiento,
+	DATE_FORMAT( al1.fechaInicio,  '%Y-%m-%d' ) fechaInicio,
+	DATE_FORMAT(al1.fechaCompromiso ,  '%Y-%m-%d' ) fechaCompromiso,
+	DATE_FORMAT(al1.fechaFin,  '%Y-%m-%d' ) fechaFin,
+	case 
+		when al1.estado = 1 and al1.fechaCompromiso <= now() then 3
+		when al1.estado = 1 and al1.fechaCompromiso > now() then 1
+	else
+		al1.estado
+	end estado,
+	al1.codiLegado,
+	al1.descripcion,
+	al2.nombre,
+	al3.codigo,
+	al3.repuesto,
+	al4.tienda,
+	al5.cadena,
+	al8.actividad,
+	al9.usuario,
+	al1.cantidad,
+	al10.marca,
+	al1.ultimaModificacion,
+	al1.idRepuesto,
+	al1.idProducto
+FROM 
+	elx_rep_requerimiento al1,
+	elx_core_producto al2, 
+	elx_rep_repuesto al3,
+	elx_core_tienda al4,
+	elx_core_cadena al5,
+	elx_rep_estados al7,
+	elx_wf_actividad al8,
+	elx_hr_personal al9,
+	elx_core_marca al10
+WHERE
+	al1.idProducto = al2.idProducto and
+	al1.idRepuesto = al3.idRepuesto and
+	al1.idTienda = al4.idTienda and
+	al4.idCadena = al5.idCadena and
+	al1.idRequerimiento = al7.idRequerimiento and
+	al7.activo = 1 and
+	al7.idActividad= al8.idActividad and
+	al1.idUsuario = al9.idUsuario and
+	al2.idMarca = al10.idMarca

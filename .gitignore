@@ -1,0 +1,25 @@
+# .gitignore
+
+
+*.log
+*.user
+Electrolux.suo
+CommonClass/bin
+CommonClass/obj
+Core/bin
+Core/obj
+Electrolux/bin
+Electrolux/obj
+Electrolux/Log
+Electrolux/Styles/Repuestos/*.jpg
+Electrolux/Styles/Repuestos/*.png
+Electrolux/Styles/Repuestos/Temp
+Electrolux/Styles/Productos/*.jpg
+Electrolux/Styles/Productos/*.png
+Electrolux/Styles/Productos/Temp
+Repuestos/bin
+Repuestos/obj
+Seguridad/bin
+Seguridad/obj
+Coordinador/bin
+Coordinador/obj

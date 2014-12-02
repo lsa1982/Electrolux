@@ -1,0 +1,15 @@
+﻿Select
+	al1.idActividad,
+	al2.actividad,
+	al3.Finalizacion,
+	al1.idActividadSiguiente,
+	al4.actividad as actividadSiguiente
+From
+	elx_wf_actividadfinalizacion al1,
+	elx_wf_actividad	al2,
+	elx_wf_finalizacion	al3,
+	elx_wf_actividad	al4
+Where
+	al1.idFinalizacion = al3.idFinalizacion and
+	al1.idActividad = al2.idActividad and
+	al1.idActividadSiguiente = al4.idActividad
