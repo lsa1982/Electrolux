@@ -32,9 +32,9 @@
 			}
 		});
 
-		$("#btnNuevoRepuesto").kendoButton({ icon: 'plus', click:
+		$("#btnNuevoRepuesto").kendoButton({ icon: 'search', click:
 			function (e) {
-				window.location.href = 'frmNewProducto.aspx';
+				window.location.href = 'frmNewRepuesto.aspx';
 			}
 		});
 

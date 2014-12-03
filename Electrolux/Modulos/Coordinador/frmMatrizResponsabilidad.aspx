@@ -107,10 +107,11 @@
 						</li>
 						
 					</ul>
-					<div >
-						<table style="border: 1px solid #CCC; width: 300px" >
+					<div>
+						<table>
 							<tr>
-								<td  >Seleccione Cliente: </td>
+								<td style=" width: 300px"  >Seleccione Cliente: </td>
+								<td rowspan="7"><div id="gridTienda" ></div></td>
 							</tr>
 							<tr>
 								<td><input id='cmbTiendaCliente'  /></td>
@@ -131,19 +132,49 @@
 								<td><button id='btnTiendaAgregar' class="k-button-red" >Agregar</button></td>
 							</tr>
 						</table>
-						<div id="gridTienda" style="height: 380px; float: right"></div>
-						
-						
+							
 					</div>
 					<div >
-						Seleccione: <input id='cmb2'  name='cmb2'   validationMessage='Debe ingresar un tipo' required />
-						<!-- Grilla 2 -->
-						<div id="grid2" style="height: 380px"></div>
+						<table>
+							<tr>
+								<td style=" width: 300px"  >Seleccione Marca: </td>
+								<td rowspan="7"><div id="gridMarca" ></div></td>
+							</tr>
+							<tr>
+								<td><input id='cmbMarca'  /></td>
+							</tr>
+							<tr>
+								<td><button id='btnMarcaAgregar' class="k-button-red" >Agregar</button></td>
+							</tr>
+						</table>
 					</div>
 					<div >
-					Seleccione : <input id='cmb3'  name='cmb3'   validationMessage='Debe ingresar un tipo' required />
-						<!-- Grilla 3 -->
-					<div id="grid3" style="height: 380px"></div>
+						<table>
+							<tr>
+								<td style=" width: 300px"  >Seleccione Categoria: </td>
+								<td rowspan="7"><div id="gridCategoria" ></div></td>
+							</tr>
+							<tr>
+								<td><input id='cmbCategoria'  /></td>
+							</tr>
+							<tr>
+								<td><button id='btnCategoriaAgregar' class="k-button-red" >Agregar</button></td>
+							</tr>
+						</table>
+					</div>
+					<div >
+						<table>
+							<tr>
+								<td style=" width: 300px"  >Seleccione Cadena: </td>
+								<td rowspan="7"><div id="gridCadena" ></div></td>
+							</tr>
+							<tr>
+								<td><input id='cmbCadena'  /></td>
+							</tr>
+							<tr>
+								<td><button id='btnCadenaAgregar' class="k-button-red" >Agregar</button></td>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</td>
@@ -158,16 +189,39 @@
 		//#region Buscador de Rol
 		// ####################################
 
+		
+
 		$("#btnBuscar").kendoButton({ icon: "arrow-s", click:
-				function (e) {
-					if (cmbRol.value != "") {
-						dehabilitarDiv("findPerfil");
-						$("#findRol").show(500);
-						$("#findResponsabilidad").show();
-						dsRolUsuario.read({ "idRol": cmbRol.value })
+			function (e) {
+				if (cmbRol.value != "") {
+					dehabilitarDiv("findPerfil");
+					$("#findRol").show(500);
+					$("#findResponsabilidad").show();
+					dsRolUsuario.read({ "idRol": cmbRol.value })
+					dsTienda.read({ "idRol": cmbRol.value, "variable": "tienda" })
+					dsMarca.read({ "idRol": cmbRol.value, "variable": "marca" })
+					dsCategoria.read({ "idRol": cmbRol.value, "variable": "categoria" })
+					dsCadena.read({ "idRol": cmbRol.value, "variable": "cadena" })
+				}
+			}
+		});
+
+			var dsRolUsuario = new kendo.data.DataSource({
+				type: "json",
+				transport: {
+					read: { url: strInterOp("Rol", "listaUsuario"), dataType: "json", type: "post" }
+				},
+				schema: { errors: "msgState", data: "args", total: "totalFila" },
+				change: function (e) {
+					if (this._data.length > 0) {
+						var data = this._data[0];
+						$("#txtRol").html(data.rol);
+						$("#txtAsignado").html(data.nombre + ' ' + data.apellido);
+						$("#txtFono").html(data.fono);
+						$("#txtMail").html(data.email);
 					}
 				}
-		});
+			});
 
 		$("#cmbPerfil").kendoComboBox({
 			dataTextField: "perfil",
@@ -254,77 +308,251 @@
 
 		//#endregion
 
-		// #region Rol
+		// #region Matriz Tienda
 
-		var dsRolUsuario = new kendo.data.DataSource({
-			type: "json",
-			transport: {
-				read: { url: strInterOp("Rol", "listaUsuario"), dataType: "json", type: "post" }
+		$("#cmbTiendaCliente").kendoComboBox({
+			dataTextField: "cadena",
+			dataValueField: "idCadena",
+			placeholder: "Seleccione Cadena",
+			dataSource: {
+				type: "json",
+				transport: {
+					read: { url: strInterOpAs("clsCadena", "lista", "Core"), dataType: "json", type: "post" }
+				},
+				sort: { field: "cadena", dir: "asc" },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
 			},
-			schema: { errors: "msgState", data: "args", total: "totalFila" },
-			change: function (e) {
-				if (this._data.length > 0) {
-					var data = this._data[0];
-					$("#txtRol").html(data.rol);
-					$("#txtAsignado").html(data.nombre + ' ' + data.apellido);
-					$("#txtFono").html(data.fono);
-					$("#txtMail").html(data.email);
-				}
+			cascade: function (e) {
+				$("#cmbTienda").data("kendoComboBox").text("");
+				$("#cmbTienda").data("kendoComboBox").value("");
 			}
 		});
 
-		
-
-		var dsCadena = new kendo.data.DataSource({
-			transport: { read: { url: strInterOp("Matriz", "cadena"), dataType: "json", type: "post"} },
+		var dsTiendaRegion = new kendo.data.DataSource({
+			transport: {
+				read: { url: strInterOpAs("clsTienda", "listaRegion", "Core"), dataType: "json", type: "post" },
+				parameterMap: function (options, operation) {
+					var dataSend = {};
+					if (cmbTiendaCliente.value != "") 
+						dataSend["idCadena"] = cmbTiendaCliente.value;
+					if (cmbTiendaRegion.value != "")
+						dataSend["region"] = cmbTiendaRegion.value;
+					return dataSend;
+				}
+			},
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
 
-		var dsCategoria = new kendo.data.DataSource({
-			transport: { read: { url: strInterOp("Matriz", "categoria"), dataType: "json", type: "post"} },
+		$("#cmbTiendaRegion").kendoComboBox({
+			dataTextField: "region",
+			dataValueField: "region",
+			autoBind: false,
+			placeholder: "Seleccione Región",
+			autoBind: false,
+			dataSource: dsTiendaRegion,
+			open: function (e) {
+				dsRegion.read();
+			}
+		});
+
+		var dsTiendaFiltro = new kendo.data.DataSource({
+			serverFiltering: true,
+			transport: {
+				read: { url: strInterOpAs("clsTienda", "lista", "Core"), dataType: "json", type: "post" },
+				parameterMap: function (options, operation) {
+					var dataSend = {};
+					if (cmbTiendaCliente.value != "")
+						dataSend["txtidCadena"] = cmbTiendaCliente.value;
+					if (cmbTiendaRegion.value != "")
+						dataSend["region"] = cmbTiendaRegion.value;
+					if (options.filter != undefined) 
+						dataSend["nombre"] = $("#cmbTienda").data("kendoComboBox")._prev;
+					return dataSend;
+				}
+			},
+			sort: { field: "tienda", dir: "asc" },
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
 
-		var dsMarca = new kendo.data.DataSource({
-			transport: { read: { url: strInterOp("Matriz", "marca"), dataType: "json", type: "post"} },
-			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		$("#cmbTienda").kendoComboBox({
+			dataTextField: "tienda",
+			dataValueField: "idTienda",
+			autoBind: false,
+			placeholder: "Seleccione Tienda",
+			filter: "contains",
+			minLength: 4,
+			autoBind: false,
+			dataSource: dsTiendaFiltro,
+			open: function (e) {
+				dsTiendaFiltro.read();
+			}
 		});
-
-		var dsRegion = new kendo.data.DataSource({
-			transport: { read: { url: strInterOp("Matriz", "region"), dataType: "json", type: "post"} },
-			schema: { errors: "msgState", data: "args", total: "totalFila" }
-		});
-
-
-		// #endregion
-
-		// #region Matriz Tienda
 
 		var dsTienda = new kendo.data.DataSource({
-			transport: { read: { url: strInterOp("Matriz", "listaTienda"), dataType: "json", type: "post"} },
+			transport: { read: { url: strInterOp("Matriz", "lista"), dataType: "json", type: "post"} },
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
-
 		$("#gridTienda").kendoGrid({
-			dataSource: dsVariable1,
-			height: 350,
+			dataSource: dsTienda,
 			pageable: true,
+			height: 300,
 			autoBind: false,
-			filterable: filtroGrid,
 			resizable: true,
 			columns: [
 				cmdGrid,
 				{ field: "idResponsabilidad",  hidden: true },
 				{ field: "idTienda",   hidden: true },
-				{ field: "Tienda", title: "Tienda", width: "200px" }
+				{ field: "tienda", title: "Tienda", width: "200px" }
 			]
 		}).data("kendoGrid");
-		
+
+		$("#btnTiendaAgregar").kendoButton({ icon: "arrow-s", click:
+			function (e) {
+				
+			}
+		});
+
 		// #endregion
+
+		// #region Matriz Marca
+
+		$("#cmbMarca").kendoComboBox({
+			dataTextField: "marca",
+			dataValueField: "idMarca",
+			autoBind: false,
+			placeholder: "Seleccione Marca",
+			dataSource: {
+				transport: {
+					read: { url: strInterOpAs("clsMarca", "lista", "Core"), dataType: "json", type: "post" }
+				},
+				sort: { field: "marca", dir: "asc" },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		$("#btnMarcaAgregar").kendoButton({ icon: "arrow-s", click:
+			function (e) {
+
+			}
+		});
+
+
+		var dsMarca = new kendo.data.DataSource({
+			transport: { read: { url: strInterOp("Matriz", "lista"), dataType: "json", type: "post"} },
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
+
+		$("#gridMarca").kendoGrid({
+			dataSource: dsMarca,
+			pageable: true,
+			height: 300,
+			autoBind: false,
+			resizable: true,
+			columns: [
+				cmdGrid,
+				{ field: "idResponsabilidad", hidden: true },
+				{ field: "idMarca", hidden: true },
+				{ field: "marca", title: "Marca", width: "200px" }
+			]
+		}).data("kendoGrid");
+
+
+		// #endregion
+
+		// #region Matriz Categoria
+
+		$("#cmbCategoria").kendoComboBox({
+			dataTextField: "categoria",
+			dataValueField: "idCategoria",
+			autoBind: false,
+			placeholder: "Seleccione Categoria",
+			dataSource: {
+				transport: {read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "post" }},
+				sort: { field: "marca", dir: "asc" },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		$("#btnCategoriaAgregar").kendoButton({ icon: "arrow-s", click:
+			function (e) {
+
+			}
+		});
+
+		var dsCategoria = new kendo.data.DataSource({
+			transport: { read: { url: strInterOp("Matriz", "lista"), dataType: "json", type: "post"} },
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
+
+		$("#gridCategoria").kendoGrid({
+			dataSource: dsCategoria,
+			pageable: true,
+			height: 300,
+			autoBind: false,
+			resizable: true,
+			columns: [
+				cmdGrid,
+				{ field: "idResponsabilidad", hidden: true },
+				{ field: "idCategoria", hidden: true },
+				{ field: "categoria", title: "Categoria", width: "200px" }
+			]
+		}).data("kendoGrid");
+
+		// #endregion
+
+		// #region Matriz Cadena
+
+		$("#cmbCadena").kendoComboBox({
+			dataTextField: "cadena",
+			dataValueField: "idCadena",
+			autoBind: false,
+			placeholder: "Seleccione Cadena",
+			dataSource: {
+				transport: { read: { url: strInterOpAs("clsCadena", "lista", "Core"), dataType: "json", type: "post"} },
+				sort: { field: "cadena", dir: "asc" },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		$("#btnCadenaAgregar").kendoButton({ icon: "arrow-s", click:
+			function (e) {
+
+			}
+		});
+
+		var dsCadena = new kendo.data.DataSource({
+			transport: { read: { url: strInterOp("Matriz", "lista"), dataType: "json", type: "post"} },
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
+
+		$("#gridCadena").kendoGrid({
+			dataSource: dsCadena,
+			pageable: true,
+			height: 300,
+			autoBind: false,
+			resizable: true,
+			columns: [
+				cmdGrid,
+				{ field: "idResponsabilidad", hidden: true },
+				{ field: "idCadena", hidden: true },
+				{ field: "cadena", title: "Cadena", width: "200px" }
+			]
+		}).data("kendoGrid");
+
+		// #endregion
+
 
 		//$("#findRol").hide();
 		//$("#findResponsabilidad").hide();
-		var tabStrip = $("#tabView").kendoTabStrip().data("kendoTabStrip");
+		
+		
+		$("#tabView").kendoTabStrip({
+			animation: {
+				close: {duration: 0,effects: "fadeOut"},
+				open: {duration: 0,effects: "fadeIn"}
+			}
+			
+		});
 	});
 	
 </script>

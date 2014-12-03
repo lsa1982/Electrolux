@@ -174,7 +174,6 @@
 				<input id="txtTiendaCheck" type="radio" checked   name="checkNext" > Seguir en la Tienda</input> <br />
 				<input id="txtProductoCheck"  type="radio"  name="checkNext"> Seguir en la Producto</input><br />
 				<input id="txtSeguimientoCheck" type="radio"   name="checkNext"> Ir al Inicio</input>
-				
 			</td>
 		</tr>
 		<tr>
@@ -265,7 +264,7 @@
 					if (cmbCliente.value != "") {
 						dataSend["idCadena"] = cmbCliente.value;
 					}
-					if (cmbCliente.value != "") {
+					if (cmbRegion.value != "") {
 						dataSend["region"] = cmbRegion.value;
 					}
 					return dataSend;
