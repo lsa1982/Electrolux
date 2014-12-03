@@ -6,7 +6,7 @@
 	<span style=" font-size: 24px;">Detalle de Producto</span><br/>
 	<table>
 		<tr>
-			<td style=" width:220px">Ingrese codigo de prodcuto a buscar</td>
+			<td style=" width:220px">Ingrese nombre de producto a buscar</td>
 			<td style=" width:180px"><input id="txtFindCodigo" type="text" /></td>
 			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
 		</tr>
@@ -21,7 +21,7 @@
 	<table style= "padding-top: 15px;display: none" id="layerProducto">
 		<tr>
 			<td colspan="2" style="font-size: 16px; border: 0">
-				<strong>Información General del Repuesto</strong>
+				<strong>Información General del Producto</strong>
 				<div style="float: right;margin-right: 10px;font-size: 11px">
 					<button id="btnMoveSeccion" type="button" class="k-button">Secciones</button>
 					<button id="btnMoveRepuesto" type="button" class="k-button">Repuestos</button>
@@ -78,7 +78,7 @@
 		<tr>
 			<td colspan="2">
 				<div id="layerRepuestos" style=" font-size: 24px; float:left">
-					Repuestos Compatibles
+					Vista de Productos
 				</div>
 				<button id="btnVolver1" type="button" class="k-button" style="float:right">Volver </button>
 			</td>
