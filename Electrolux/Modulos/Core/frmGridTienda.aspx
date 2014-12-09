@@ -31,6 +31,8 @@
                         "txtultimaModificacion": options.models[0].ultimaModificacion,
                         "txtidCategoria": options.models[0].idCategoria,
                         "txtCadena": options.models[0].cadena,
+                        "txtRegion": options.models[0].region,
+						"txtCodigoTienda": options.models[0].codigoTienda
                
                     };
                 }
@@ -52,15 +54,16 @@
             model: {
                 id: "idTienda",
                 fields: {
-                    idTienda: { editable: false, nullable: true },
                     idCadena: { editable: false, nullable: true },
                     cadena:   { editable: false, nullable: true },
                     categoria:{ editable: false, nullable: true },
-                    tienda:   { validation: { required: true, pattern: "[a-zA-Z \s]{1,}"} },
+                    tienda:   { validation: { required: false} },
                     status:   { validation: { required: false} },
                     geo_x:    { validation: { required: false} },
                     geo_y:    { validation: { required: false} },
-                    ultimaModificacion: { editable: false, nullable: true }
+                    ultimaModificacion: { editable: false, nullable: true },
+                    codigoTienda: { validation: { required: false} },
+					region: { validation: { required: false} }
 
                 }
             }
@@ -83,13 +86,14 @@
 
         var gridColumns = [
 			cmdGrid,
-			{ field: "idTienda", title: "ID", width: "40px" },
             { field: "cadena", title: "Cadena", width: "120px" },
+			{ field: "codigoTienda", title: "Codigo Tienda", width: "120px" },
             { field: "categoria", title: "Categoria", width: "120px" },
 			{ field: "tienda", title: "Tienda", width: "180px" },
 			{ field: "status", title: "Status", width: "80px" },
 			{ field: "geo_x", title: "Geo_x", width: "100px" },
             { field: "geo_y", title: "Geo_y", width: "100px" },
+			{ field: "region", title: "Región", width: "100px" },
 			{ field: "ultimaModificacion", title: "Ultima Modificacion", width: "180px" }
 			];
 

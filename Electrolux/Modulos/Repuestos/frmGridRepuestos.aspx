@@ -13,6 +13,11 @@
 			
 		</td>
 	</tr>
+	<tr>
+			<td style=" width:220px">Ingrese codigo de prodcuto a buscar</td>
+			<td style=" width:180px"><input id="txtBuscar" type="text" /><input id="txtBuscarId" type="hidden" /></td>
+			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
+	</tr>
 	<tr style="font-size: 10px; border-bottom-width: 1px; ">
 		
 		<td>Listado de todos los repuestos ingresados al sistema:
@@ -85,6 +90,47 @@
 				{ field: "", title: "" }
 			]
 		});
+
+		var dsProducto = new kendo.data.DataSource({
+			transport: { read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: 'POST'} },
+			batch: true,
+			resizable: true,
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
+
+		$("#txtBuscar").kendoAutoComplete({
+			dataTextField: "nombre",
+			filter: "contains",
+			select: onSelectProducto,
+			minLength: 3,
+			error: errorGrid,
+			dataSource: {
+				serverFiltering: true,
+				transport: { read: { url: strInterOpAs("clsProducto", "lista", "Core"), dataType: "json", type: "POST" },
+					parameterMap: function (options, operation) {
+						var dataSend = {};
+						if (options.filter != undefined) {
+							dataSend["value"] = $("#txtBuscar").data("kendoAutoComplete")._prev;
+						}
+						return dataSend;
+
+					}
+				},
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+		function onSelectProducto(e) {
+			var dataItem = this.dataItem(e.item.index());
+			txtBuscarId.value = dataItem.idProducto;
+		}
+
+		$("#btnBuscar").kendoButton({ click: onFind, icon: "search" });
+		function onFind(e) {
+			idProducto = txtBuscarId.value;
+			dsRepuestos.read({ "idProducto": idProducto });
+			$("#gridProducto").show();
+		}
 
 		function onView(e) {
 			e.preventDefault();

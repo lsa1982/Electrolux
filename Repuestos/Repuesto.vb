@@ -109,6 +109,9 @@ Public Class Repuesto
 	Sub lista()
 
 		Dim vFiltro As String = ""
+		If Not prForm("idProducto") = "" Then
+			vFiltro = vFiltro & "  and al1.idRepuesto in ( select idRepuesto from elx_rep_productorepuesto where idProducto =" & prForm("idProducto") & ")"
+		End If
 		If Not prForm("idRepuesto") = "" Then
 			vFiltro = vFiltro & "  and al1.idRepuesto =" & prForm("idRepuesto")
 		End If

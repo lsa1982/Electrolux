@@ -1,4 +1,5 @@
 ﻿Select 
+	SQL_CALC_FOUND_ROWS
 	al1.idTienda,
 	al1.idCadena,
 	al1.tienda,
@@ -8,7 +9,8 @@
 	al1.ultimaModificacion,
 	al1.idCategoria,
 	al2.categoria,
-	al3.cadena
+	al3.cadena,
+	al1.codigoTienda
 From
 	elx_core_tienda al1,
 	elx_core_categoria al2,
