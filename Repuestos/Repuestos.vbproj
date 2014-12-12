@@ -68,9 +68,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mensaje.vb" />
-    <Compile Include="Motivo.vb" />
-    <Compile Include="Prorroga.vb" />
+    <Compile Include="Grupo.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -88,7 +86,6 @@
     </Compile>
     <Compile Include="Repuesto.vb" />
     <Compile Include="Requerimiento.vb" />
-    <Compile Include="TipoDocumento.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -108,28 +105,16 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <EmbeddedResource Include="SQL\vRequerimiento.sqlx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="SQL\vProductoRepuesto.sqlx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SQL\vRequerimientoEstado.sqlx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SQL\vRequerimientoFinalizacion.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="SQL\vRepuestoProducto.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="SQL\vProrroga.sqlx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SQL\vMensaje.sqlx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="SQL\vRepuesto.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQL\vInventarioRepuesto.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -141,6 +126,10 @@
     <ProjectReference Include="..\Seguridad\Seguridad.vbproj">
       <Project>{21552046-7332-4822-9887-96E3771C8609}</Project>
       <Name>Seguridad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Workflow\Workflow.vbproj">
+      <Project>{6D64A615-2BD3-4ACD-A0F7-0E57B2A9F140}</Project>
+      <Name>Workflow</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

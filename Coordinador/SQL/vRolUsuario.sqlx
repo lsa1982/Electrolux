@@ -1,0 +1,18 @@
+﻿Select 
+	AL1.idRol,
+	al1.rol,
+	al1.region,
+	al2.nombre,
+	al2.apellido,
+	al2.usuario,
+	al2.email,
+	al2.fono,
+	al2.idUsuario,
+	al3.descripcion,
+	al3.perfil
+From
+	elx_hr_rol al1 left join elx_hr_personal al2 on
+		al1.idUsuario= al2.idUsuario,
+	elx_hr_perfil al3
+Where
+	al1.idPerfil = al3.idPerfil

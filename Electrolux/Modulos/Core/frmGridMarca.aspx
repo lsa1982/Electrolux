@@ -2,11 +2,14 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
-<div class="msgPagina">
-	<button id="button" type="button">Agregar Nueva Marca</button>
+<div class="areaTrabajo" id="trabajo">
+<table>
+	<tr>
+    <td><button id="button" type="button">Agregar Nueva Marca</button></td>
+    </tr>
+</table>
+<div id="grid" style="width: 100%;position: absolute"></div>
 </div>
-<div id="grid" style="height: 380px"></div>
-
 <div id="winNewRequest">Espere Mientras se actualizan los datos</div>
 
 <script>

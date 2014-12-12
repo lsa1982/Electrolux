@@ -1,0 +1,9 @@
+﻿Select 
+	al1.idFinalizacion,
+	al2.finalizacion
+FROM 
+	elx_wf_actividadFinalizacion al1,
+	elx_wf_finalizacion al2
+WHERE
+	al1.idFinalizacion = al2.idFinalizacion 
+

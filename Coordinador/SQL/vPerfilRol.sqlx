@@ -1,0 +1,10 @@
+﻿Select 
+	al1.perfil AS ROL,  
+	al2.rol AS NOMBRE  
+From 
+	elx_sec_perfil al1,
+	elx_hr_rol al2 
+Where 
+	al1.idperfil = al2.idperfil
+order by 
+	al2.ROL

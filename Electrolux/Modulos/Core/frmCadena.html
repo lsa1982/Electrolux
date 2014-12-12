@@ -21,8 +21,26 @@
 		<td> <input  type="text" id="txtEstado" name="txtEstado" class="k-textbox" value="" required/></td>
 
      <tr style="width:100%">
-		<td>Imagen</td>
-		<td> <input  type="text" id="txtImagen" name="txtImagen" class="k-textbox" value="" required/></td>
+		<div id="winCargaImagen" style="font-size: 11px">
+	<table>
+		<tr>
+			<td>Seleccione la imagenes que desea subir: </td>
+		</tr>
+		<tr>
+			<td><input id="imgNewImagen" type="file" name="imgNewImagen" validationMessage="Select movie" /></td>
+		</tr>
+		<tr>
+			<td><div id="uploadMsg"></div></td>
+		</tr>
+	</table>
+	<table id="layerInfoImagen" style="display:none">
+		<tr>
+			<td>
+				<input id="txtUpload" name="txtUpload" type="hidden"/>
+			</td>
+		</tr>
+	</table>
+</div>
 	</tr>
 
 		<td colspan="2" style="border-top-style: dashed ; border-top-color: Gray; border-top-width: 1px; padding-top: 10px">
@@ -51,6 +69,73 @@
         function onClose() {
             $("#winNewRequest").data("kendoWindow").close();
         }
+
+
+        $("#winCargaImagen").kendoWindow({
+            width: "450px",
+            title: "Imagen de Repuesto",
+            actions: ["Close"],
+            visible: false,
+            modal: true
+        });
+
+
+        $("#imgNewImagen").kendoUpload({
+            localization: {
+                select: "Seleccione Imagen a subir",
+                uploadSelectedFiles: "Subir Archivos",
+                remove: "Eliminar",
+                retry: "Reintentar",
+                headerStatusUploaded: "Hecho",
+                headerStatusUploading: "Subiendo",
+                statusFailed: "customStatusFailed"
+            },
+            async: {
+                saveUrl: strInterOp("clsCadena", "subirImagen"),
+                autoUpload: true
+            },
+            multiple: false,
+            success: onSuccessUp,
+            error: onError
+        });
+
+        function onError(e) {
+            var rspUpload = JSON.parse(e.XMLHttpRequest.responseText);
+            $("#uploadMsg").html("Se ha producido un problema en la carga: <strong>" + rspUpload.msgState + "</strong>");
+        }
+
+        function onSuccessUp(e) {
+            var files = e.files;
+            if (e.operation == "upload") {
+                $("#imgNewImagen").data("kendoUpload").disable();
+                $("#layerInfoImagen").show(0);
+                $("#uploadMsg").html("");
+                txtUpload.value = files[0].name;
+            }
+        }
+
+        $("#btnImagenSend").kendoButton({ click: onImagenSend });
+        function onImagenSend(e) {
+            var pUrl = [];
+            pUrl.push("fileUpload=" + txtUpload.value);
+
+            var x = pUrl.join("&");
+            callScript(strInterOp("clsCadena", "guardarImagen"), '&' + x,
+				function (e) {
+				    $("#winCargaImagen").data("kendoWindow").close();
+				}
+			);
+        }
+
+        $("#btnImagenCancel").kendoButton({ click: onImagenCancel });
+        function onImagenCancel(e) {
+            $("#layerInfoImagen").hide(200);
+            $(".k-widget.k-upload").find("ul").remove();
+            $("#imgNewImagen").data("kendoUpload").enable();
+        }
+
+
+
 
 
     });

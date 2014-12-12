@@ -3,9 +3,9 @@
 <script runat="server">
 	Sub page_load()
 		If Not HttpContext.Current.User.Identity.IsAuthenticated Then
-			Response.Redirect("Login.aspx")
+			Response.Redirect("~/Login.aspx")
 		Else
-			Response.Redirect("Modulos/Repuesto/")
+			Response.Redirect("~/Modulos/Repuestos/Default.aspx")
 		End If
 	End Sub
 </script>

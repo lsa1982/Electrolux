@@ -4,21 +4,17 @@
 Public Class clsUsuario
     Inherits clsEntidad
 
-    Sub lista()
-        Dim vFiltro As String = ""
-        If Not prForm("txtidUsuario") = "" Then
-            vFiltro = " and al1.idUsuario = " & Me.prGet("txtidUsuario")
-        End If
+	Sub lista()
+		Dim vFiltro As String = ""
 
-        If Not prGet("txtidUsuario") = "" Then
-            vFiltro = " and al1.idUsuario = " & Me.prGet("txtidUsuario")
-        End If
+		If prForm("filter[filters][0][field]") = "usuario" Then
+			vFiltro = vFiltro & " and usuario like '%" & prForm("filter[filters][0][value]") & "%' "
+		End If
 
-        If Not prForm("filter[filters][0][field]") = "" Then
-            vFiltro = " and al1.idUsuario= " & Me.prForm("filter[filters][0][value]")
-        End If
-        listaSql("vUsuarios", vFiltro)
-    End Sub
+		listaSql("vUsuarios", vFiltro)
+	End Sub
+
+
 
     Sub insertar()
         Dim strCx As New StringConex

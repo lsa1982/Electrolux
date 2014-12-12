@@ -7,7 +7,7 @@ Public Class clsMatrizResponsabilidad
 	'' ###	carga de cargar perfiles                            ###
 	'' ############################################################
 
-	Sub Listar_perfilRol()
+	Sub ListarPerfilRol()
 		Dim strCx As New StringConex
 		Dim dt As DataTable
 		Dim strSql As String
@@ -16,19 +16,9 @@ Public Class clsMatrizResponsabilidad
 		Dim rolcol = 0
 		Dim rolstr = 0
 		Dim rols_comapre As String = """"
-
-		strSql = "Select " & _
-				 "al1.perfil AS ROL,  " & _
-				 "al2.rol AS NOMBRE  " & _
-				  "From " & _
-				 "elx_db_test.elx_sec_perfil al1," & _
-				 "elx_db_test.elx_hr_rol al2 " & _
-					"    Where " & _
-				 "al1.idperfil = al2.idperfil" & _
-				 " order by al2.ROL"
-
+		strSql = sqlText("vPerfilRol")
+		
 		dt = strCx.retornaDataTable(strSql)
-
 
 		If dt.Rows.Count > 0 Then
 			strResult = "["
@@ -90,25 +80,13 @@ Public Class clsMatrizResponsabilidad
 		Dim strCx As New StringConex
 		Dim dt As DataTable
 		Dim strSql As String
-		strSql = "Select " & _
-		"al1.idUsuario, " & _
-	   "CONCAT(al1.Nombre,  ' ', al1.apellido)   AS usuario, " & _
-	   "al1.UltimaModificacion as asignacion,  " & _
-	   "al1.email as eMail,  " & _
-	   "al1.email as fono  " & _
-	   "From " & _
-		"elx_db_test.elx_hr_personal al1, " & _
-		"elx_db_test.elx_hr_rol al2  " & _
-		"Where " & _
-		"al1.idUsuario = al2.idUsuario and " & _
-		"al2.rol= '" & prForm("txtTipo") & "'"
+		strSql = sqlText("vMatriz")
+		strSql = strSql & " and al2.rol= '" & prForm("txtTipo") & "'"
 
 		dt = strCx.retornaDataTable(strSql)
 
-
-
 		If strCx.flagError Then
-			rsp.estadoError(100, "Lista: No se pudo acceder a la base")
+			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
 		Else
 			rsp.totalFila = dt.Rows.Count
 			rsp.args = Me.retornaTablaSerializada(dt)
@@ -130,26 +108,26 @@ Public Class clsMatrizResponsabilidad
 		Dim strTabla = ""
 		Dim strColumns = ""
 
-		numRol = strCx.retornaDato("select idRol from elx_db_test.elx_hr_rol where rol = '" & prForm("idRol") & "'")
-		strTabla = strCx.retornaDatoStr("select tabla from elx_db_test.elx_cdt_variable where idVariable = " & prForm("idvariable"))
-		strColumns = strCx.retornaDatoStr("select columnaid from elx_db_test.elx_cdt_variable where idVariable = " & prForm("idvariable"))
+		numRol = strCx.retornaDato("select idRol from elx_hr_rol where rol = '" & prForm("idRol") & "'")
+		strTabla = strCx.retornaDatoStr("select tabla from elx_cdt_variable where idVariable = " & prForm("idvariable"))
+		strColumns = strCx.retornaDatoStr("select columnaid from elx_cdt_variable where idVariable = " & prForm("idvariable"))
 		strVariable = strCx.retornaDatoStr("select " & strColumns & " from " & strTabla & " where id" & strColumns & " = " & prForm("idVar"))
 		strSql = "Select  " & _
-					"al2.idResponsabilidad,  " & _
-					"al3.Rol,  " & _
-					 "'" & strVariable & "' as variable, " & _
-					"al2.estado,  " & _
-					"al2.valorInt,  " & _
-					"al2.valorChar " & _
-				 "From " & _
-					"elx_db_test.elx_cdt_variable al1, " & _
-					"elx_db_test.elx_cdt_matrizresponsabilidad al2, " & _
-					"elx_db_test.elx_hr_rol al3 " & _
-				 "where " & _
-					"al2.idrol = al3.idrol And " & _
-					"al1.idvariable = al2.idVariable And " & _
-					"al2.idVariable =   " & prForm("idVariable") & " and " & _
-					"al2.idrol = " & numRol
+		   "al2.idResponsabilidad,  " & _
+		   "al3.Rol,  " & _
+			"'" & strVariable & "' as variable, " & _
+		   "al2.estado,  " & _
+		   "al2.valorInt,  " & _
+		   "al2.valorChar " & _
+		   "From " & _
+		   "elx_cdt_variable al1, " & _
+		   "elx_cdt_matrizresponsabilidad al2, " & _
+		   "elx_hr_rol al3 " & _
+		   "where " & _
+		   "al2.idrol = al3.idrol And " & _
+		   "al1.idvariable = al2.idVariable And " & _
+		   "al2.idVariable =   " & prForm("idVariable") & " and " & _
+		   "al2.idrol = " & numRol
 
 		If prForm("idVar") <> 0 Then
 			strSql = strSql & " and idTabVariable = " & prForm("idVar")
@@ -158,7 +136,7 @@ Public Class clsMatrizResponsabilidad
 		dt = strCx.retornaDataTable(strSql)
 
 		If strCx.flagError Then
-			rsp.estadoError(100, "Lista: No se pudo acceder a la base")
+			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
 		Else
 			rsp.totalFila = dt.Rows.Count
 			rsp.args = Me.retornaTablaSerializada(dt)
@@ -178,24 +156,24 @@ Public Class clsMatrizResponsabilidad
 		Dim strColumns = ""
 		Dim numRol = 0
 
-		strTabla = strCx.retornaDatoStr("select tabla from elx_db_test.elx_cdt_variable where idVariable = " & prForm("idvariable"))
-		strColumns = strCx.retornaDatoStr("select columnaid from elx_db_test.elx_cdt_variable where idVariable = " & prForm("idvariable"))
-		numRol = strCx.retornaDato("select idRol from elx_db_test.elx_hr_rol where rol = '" & prForm("idRol") & "'")
+		strTabla = strCx.retornaDatoStr("select tabla from elx_cdt_variable where idVariable = " & prForm("idvariable"))
+		strColumns = strCx.retornaDatoStr("select columnaid from elx_cdt_variable where idVariable = " & prForm("idvariable"))
+		numRol = strCx.retornaDato("select idRol from elx_hr_rol where rol = '" & prForm("idRol") & "'")
 		strSql = "Select  " & _
-					"distinct al1." & strColumns & " as TIPO,  " & _
-					"al1.id" & strColumns & " as TIP " & _
-				 "From " & _
-				   strTabla & " al1, " & _
-					"elx_db_test.elx_cdt_matrizresponsabilidad al2 " & _
-				 "where " & _
-					"al2.IdTabVariable = al1.id" & strColumns & " and " & _
-					"al2.idVariable =   " & prForm("idvariable") & " and " & _
-					"al2.idrol = " & numRol
+		   "distinct al1." & strColumns & " as TIPO,  " & _
+		   "al1.id" & strColumns & " as TIP " & _
+		   "From " & _
+			 strTabla & " al1, " & _
+		   "elx_cdt_matrizresponsabilidad al2 " & _
+		   "where " & _
+		   "al2.IdTabVariable = al1.id" & strColumns & " and " & _
+		   "al2.idVariable =   " & prForm("idvariable") & " and " & _
+		   "al2.idrol = " & numRol
 
 		dt = strCx.retornaDataTable(strSql)
 
 		If strCx.flagError Then
-			rsp.estadoError(100, "Lista: No se pudo acceder a la base")
+			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
 		Else
 			rsp.totalFila = dt.Rows.Count
 			rsp.args = Me.retornaTablaSerializada(dt)
@@ -211,12 +189,12 @@ Public Class clsMatrizResponsabilidad
 	Sub eliminar()
 		Dim strCx As New StringConex
 		Dim strSql As String
-		strSql = "DELETE FROM  elx_db_test.elx_cdt_matrizresponsabilidad WHERE idResponsabilidad =  $1"
+		strSql = "DELETE FROM  elx_cdt_matrizresponsabilidad WHERE idResponsabilidad =  $1"
 		strSql = Replace(strSql, "$1", Me.prForm("txtidresponsabilidad"))
 
 		strCx.ejecutaSql(strSql)
 		If strCx.flagError Then
-			rsp.estadoError(100, "Eliminar: No se pudo acceder a la base")
+			rsp.estadoError(100, "Eliminar: No se pudo acceder a la base", strCx.msgError)
 		End If
 	End Sub
 
@@ -229,9 +207,9 @@ Public Class clsMatrizResponsabilidad
 		Dim strSql As String
 		Dim numRol
 
-		numRol = strCx.retornaDato("select idRol from elx_db_test.elx_hr_rol where rol = '" & prForm("txtidRol") & "'")
+		numRol = strCx.retornaDato("select idRol from elx_hr_rol where rol = '" & prForm("txtidRol") & "'")
 
-		strSql = "INSERT INTO ELX_DB_TEST.ELX_CDT_MATRIZRESPONSABILIDAD VALUES (null, $1, $2, $3, $4,'$5',$6)"
+		strSql = "INSERT INTO ELX_CDT_MATRIZRESPONSABILIDAD VALUES (null, $1, $2, $3, $4,'$5',$6)"
 		strSql = Replace(strSql, "$1", numRol)
 		strSql = Replace(strSql, "$2", prForm("txtidVariable"))
 		strSql = Replace(strSql, "$3", prForm("txtestado"))
@@ -257,16 +235,12 @@ Public Class clsMatrizResponsabilidad
 		Dim strCx As New StringConex
 		Dim dt As DataTable
 		Dim strSql As String
-		strSql = "Select " & _
-		"idtienda as variable, " & _
-		"tienda " & _
-	   "From " & _
-		"elx_db_test.elx_core_tienda "
+		strSql = "Select idtienda as variable, tienda From elx_core_tienda "
 
 		dt = strCx.retornaDataTable(strSql)
 
 		If strCx.flagError Then
-			rsp.estadoError(100, "Lista: No se pudo acceder a la base")
+			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
 		Else
 			rsp.totalFila = dt.Rows.Count
 			rsp.args = Me.retornaTablaSerializada(dt)
@@ -278,16 +252,12 @@ Public Class clsMatrizResponsabilidad
 		Dim strCx As New StringConex
 		Dim dt As DataTable
 		Dim strSql As String
-		strSql = "Select " & _
-		"idmarca as variable, " & _
-		"marca " & _
-	   "From " & _
-		"elx_db_test.elx_core_marca "
+		strSql = "Select idmarca as variable, marca From elx_core_marca "
 
 		dt = strCx.retornaDataTable(strSql)
 
 		If strCx.flagError Then
-			rsp.estadoError(100, "Lista: No se pudo acceder a la base")
+			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
 		Else
 			rsp.totalFila = dt.Rows.Count
 			rsp.args = Me.retornaTablaSerializada(dt)
@@ -299,16 +269,11 @@ Public Class clsMatrizResponsabilidad
 		Dim strCx As New StringConex
 		Dim dt As DataTable
 		Dim strSql As String
-		strSql = "Select " & _
-		"idlinea as variable, " & _
-		"linea " & _
-	   "From " & _
-		"elx_db_test.elx_core_linea "
-
+		strSql = "Select idlinea as variable, linea From elx_core_linea "
 		dt = strCx.retornaDataTable(strSql)
 
 		If strCx.flagError Then
-			rsp.estadoError(100, "Lista: No se pudo acceder a la base")
+			rsp.estadoError(100, "Lista: No se pudo acceder a la base", strCx.msgError)
 		Else
 			rsp.totalFila = dt.Rows.Count
 			rsp.args = Me.retornaTablaSerializada(dt)

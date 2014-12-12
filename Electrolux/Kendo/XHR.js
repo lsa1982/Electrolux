@@ -1,6 +1,11 @@
 ﻿var appDir = '/Electrolux/';
-function callScript(scriptName, args, execFunc) {
-    $("#window").data("kendoWindow").open();
+function callScript(scriptName, args, execFunc, inBackground) {
+	var h = window.scrollY + (window.innerHeight / 2) - 160;
+	var w = window.scrollX + (window.innerWidth / 2) - 225;
+	$('#window').closest(".k-window").css({ top: h, left: w });
+	if (!inBackground)
+		 $("#window").data("kendoWindow").open();
+	
     var xhr_object = null;
 
     if (window.XMLHttpRequest)
@@ -24,7 +29,7 @@ function callScript(scriptName, args, execFunc) {
                 $("#mensaje").text(responseXhr.msgState);
             } else {
                 if (responseXhr.pagina != "") {
-                    window.location = responseXhr.pagina;
+                    window.location.href = responseXhr.pagina;
                 }
                 if (execFunc != null) {
                     execFunc(responseXhr.args);
@@ -42,72 +47,61 @@ function callScript(scriptName, args, execFunc) {
 }
 
 function serialize(form) {
-    if (!form || form.nodeName !== "FORM") {
-        return;
-    }
-    var i, j, q = [];
-    for (i = form.elements.length - 1; i >= 0; i = i - 1) {
-        if (form.elements[i].name === "") {
-            continue;
-        }
-        //alert(form.elements[i].name + "=" + form.elements[i].type);
-        switch (form.elements[i].nodeName) {
-            case 'INPUT':
-                switch (form.elements[i].type) {
-                    case 'text':
-                    case 'hidden':
-                    case 'password':
-                    case 'button':
-                    case 'reset':
-                    case 'submit':
-                        q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-                        break;
-                    case 'checkbox':
-                    case 'radio':
-                        if (form.elements[i].checked) {
-                            q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-                        }
-                        break;
-                }
-                break;
-            case 'file':
-                break;
-            case 'TEXTAREA':
-                q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-                break;
-            case 'SELECT':
-                switch (form.elements[i].type) {
-                    case 'select-one':
-                        q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-                        break;
-                    case 'select-multiple':
-                        for (j = form.elements[i].options.length - 1; j >= 0; j = j - 1) {
-                            if (form.elements[i].options[j].selected) {
-                                q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].options[j].value));
-                            }
-                        }
-                        break;
-                }
-                break;
-            case 'BUTTON':
-                switch (form.elements[i].type) {
-                    case 'reset':
-                    case 'submit':
-                    case 'button':
-                        q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-                        break;
-                }
-                break;
-        }
-    }
-    return q.join("&");
+	if (!form || form.nodeName !== "FORM") {
+		return;
+	}
+	var i, q = [];
+	for (i = form.elements.length - 1; i >= 0; i = i - 1) {
+		if (form.elements[i].id === "") 
+			continue;
+		switch (form.elements[i].nodeName) {
+			case 'INPUT':
+				switch (form.elements[i].type) {
+					case 'text':
+					case 'hidden':
+					case 'password':
+					case 'button':
+					case 'reset':
+					case 'submit':
+						q.push(form.elements[i].id + "=" + encodeURIComponent(form.elements[i].value));
+						break;
+					case 'checkbox':
+					case 'radio':
+						if (form.elements[i].checked) {
+							q.push(form.elements[i].id + "=" + encodeURIComponent(form.elements[i].value));
+						}
+						break;
+				}
+				break;
+			case 'file':
+				break;
+			case 'TEXTAREA':
+				q.push(form.elements[i].id + "=" + encodeURIComponent(form.elements[i].value));
+				break;
+			case 'SELECT':
+				switch (form.elements[i].type) {
+					case 'select-one':
+						q.push(form.elements[i].id + "=" + encodeURIComponent(form.elements[i].value));
+						break;
+					case 'select-multiple':
+						for (j = form.elements[i].options.length - 1; j >= 0; j = j - 1) {
+							if (form.elements[i].options[j].selected) {
+								q.push(form.elements[i].id + "=" + encodeURIComponent(form.elements[i].options[j].value));
+							}
+						}
+						break;
+				}
+				break;
+		}
+	}
+	return q.join("&");
 }
 
 
 function enviaForm(jsValidator, jsForm, jsClase, jsOperacion, jsFunction) {
     if (jsValidator.validate()) {
         var pUrl = serialize(document.getElementById(jsForm));
-        callScript(strInterOp( jsClase, jsOperacion), '&' + pUrl, jsFunction);
+        callScript(strInterOp( jsClase, jsOperacion), pUrl, jsFunction);
     }
 };
 
@@ -168,6 +162,15 @@ var filtroGrid = {
 	}
 };
 
+var mensajeGrid =  {
+      of: "de {0}",
+      itemsPerPage: "registros por página",
+      next: "Siguiente",
+	  last: "Ultima",
+	  previous: "Anterior",
+	  display: "{0}-{1} de {2} registros"
+    }
+
 function setCookie(cname, cvalue, exdays) {
 	var d = new Date();
 	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -215,3 +218,17 @@ var dsEstado = [
 	{ "idEstado": 3, "estado": "Atrasado" },
 	{ "idEstado": 4, "estado": "Anulado" }
 ];
+
+function dehabilitarDiv(vDiv) {
+	$('#' + vDiv).append('<div name="divBloqueo" style="position: absolute;top:0;left:0;width: 100%;height:100%;display: block;z-index: 10002;opacity: 0.5; background-color: #ccc;"></div>');
+};
+
+function habilitarDiv(vDiv) {
+	$('#' + vDiv).find("div[name='divBloqueo']").remove();
+};
+
+function centrarWin(vDiv) {
+	var h = window.scrollY + (window.innerHeight / 2) - 160;
+	var w = window.scrollX + (window.innerWidth / 2) - 225;
+	$(vDiv).closest(".k-window").css({ top: h, left: w });
+}

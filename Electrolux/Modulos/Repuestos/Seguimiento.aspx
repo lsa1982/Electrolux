@@ -4,8 +4,8 @@
 	<span style=" font-size: 24px;">Seguimiento</span><br/>
 	<table>
 		<tr>
-			<td>Ingrese número de requerimiento a buscar</td>
-			<td><input id="txtIdRequerimiento" type="text" /></td>
+			<td style="width: 250px">Ingrese número de requerimiento a buscar</td>
+			<td style="width: 150px"><input id="txtIdRequerimiento" type="text" class="k-textbox" /></td>
 			<td><button id="btnBuscar" type="button" class="k-button">Buscar </button></td>
 		</tr>
 	</table>
@@ -29,19 +29,11 @@
 			</td>
 		</tr>
 		<tr>
-			<td style=" width: 150px" >Emisor</td>
-			<td ><div id="lblEmisor"></div>  </td>
+			<td style=" width: 150px">Flujo</td>
+			<td ><div id="lblFlujo"></div></td>
 		</tr>
 		<tr>
-			<td style=" width: 150px" >Producto</td>
-			<td ><div id="lblProducto"></div>  </td>
-		</tr>
-		<tr>
-			<td >Respuesto</td>
-			<td ><div id="lblRepuesto"></div></td>
-		</tr>
-		<tr>
-			<td >Tienda</td>
+			<td>Tienda</td>
 			<td ><div id="lblTienda"></div></td>
 		</tr>
 		<tr>
@@ -53,12 +45,12 @@
 			<td ><div id="lblCompromiso"></div> </td>
 		</tr>
 		<tr>
-			<td >Cantidad</td>
-			<td ><div id="lblCantidad"></div></td>
-		</tr>
-		<tr>
 			<td >Estado</td>
 			<td ><div id="lblEstado"></div></td>
+		</tr>
+		<tr>
+			<td>Solicitud</td>
+			<td><div id="lblClave"></div></td>
 		</tr>
 		<tr>
 			<td ></td>
@@ -75,6 +67,10 @@
 		<tr>
 			<td>Actividad Actual</td>
 			<td><div id="lblActividad"></div></td>
+		</tr>
+		<tr>
+			<td>Responsables</td>
+			<td><div id="lblResponsable"></div></td>
 		</tr>
 		
 		<tr>
@@ -122,7 +118,7 @@
 <div id="winProrroga" class="winSeguimiento">
 	 <table>
 		 <tr>
-			<td colspan="2">Ingrese Motivo y nuevo plazo de postergacion</td>
+			<td colspan="2">Ingrese Motivo y nuevo plazo de requerimiento</td>
 		 </tr>
 		 <tr>
 			<td style="width:100px">Motivo</td>
@@ -187,7 +183,7 @@
 			<td><textarea id="txtMensaje" name="txtMensaje" class="k-textbox" style="width:350px; height:100px" ></textarea></td>
 		 </tr>
 		 <tr>
-			<td><button id="btnSendMensaje" type="button" class="k-button">Enviar</button></td>
+			<td><button id="btnSendMensaje" type="button" class="k-button-red">Enviar</button></td>
 		 </tr>
 	 </table>
 </div>
@@ -195,20 +191,19 @@
 
 <script>
 	$(document).ready(function () {
-		var idRequerimiento = 0;
+
+		// #region Windows Mensajes
 		// ####################################################
-		// ## Windows Mensajes								###
-		// ####################################################
-		$("#btnSendMensaje").kendoButton({ click: onSendMensaje, icon: "close" });
+		$("#btnSendMensaje").kendoButton({ click: onSendMensaje, icon: "plus" });
 		function onSendMensaje(e) {
 			var pUrl = [];
 			pUrl.push("idRequerimiento=" + idRequerimiento);
 			pUrl.push("mensaje=" + txtMensaje.value);
 
 			var x = pUrl.join("&");
-			callScript(strInterOp("Mensaje", "insertar"), '&' + x,
+			callScript(strInterOpAs("Mensaje", "insertar", "Workflow"), '&' + x,
 				function (e) {
-					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+					dsMensaje.read({ "idRequerimiento": idRequerimiento });
 					$("#winMensaje").data("kendoWindow").close();
 					$("body, html").animate({ scrollTop: $("#layerMensaje").offset().top }, 600);
 				}
@@ -222,8 +217,10 @@
 			visible: false,
 			modal: true
 		});
-		// ####################################################
-		// ## Windows Finalizacion							###
+
+		//#endregion
+
+		// #region Windows Finalizacion
 		// ####################################################
 		$('#chkDocumento').change(function () {
 			if ($(this).is(":checked"))
@@ -247,7 +244,7 @@
 			autoBind: false,
 			dataSource: {
 				type: "json",
-				transport: { read: { url: strInterOp("Requerimiento", "listaFinalizacion"), type: "post"} },
+				transport: { read: { url: strInterOpAs("Requerimiento", "listaFinalizacion", "Workflow"), type: "post"} },
 				schema: { errors: "msgState", data: "args", total: "totalFila" }
 			}
 		});
@@ -259,7 +256,7 @@
 			placeholder: "Seleccione Documento",
 			dataSource: {
 				type: "json",
-				transport: { read: { url: strInterOp("TipoDocumento", "lista"), type: "post"} },
+				transport: { read: { url: strInterOpAs("TipoDocumento", "lista", "Workflow"), type: "post"} },
 				schema: { errors: "msgState", data: "args", total: "totalFila" }
 			}
 		});
@@ -282,16 +279,17 @@
 				pUrl.push("idTipoDocumento=1");
 				pUrl.push("valor=0");
 			}
-
 			var x = pUrl.join("&");
-			callScript(strInterOp("Requerimiento", "avanzarActividad"), '&' + x,
+			callScript(strInterOpAs("Requerimiento", "avanzarActividad", "Workflow"), '&' + x,
 				function (e) {
-					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+					dsEstados.read({ "idRequerimiento": idRequerimiento });
 					$("#winFinalizacion").data("kendoWindow").close();
 				});
 		}
-		// ####################################################
-		// ## Windows Prorroga								###
+
+		// #endregion
+
+		// #region Windows Prorroga
 		// ####################################################
 		$("#btnSendPostegar").kendoButton({ click: onSendPostegar, icon: "close" });
 		function onSendPostegar(e) {
@@ -303,9 +301,9 @@
 			pUrl.push("comentario=" + txtComentario.value);
 
 			var x = pUrl.join("&");
-			callScript(strInterOp("Prorroga", "insertar"), '&' + x,
+			callScript(strInterOpAs("Prorroga", "insertar", "Workflow"), '&' + x,
 				function (e) {
-					dsRepuestos.read({ "idRequerimiento": idRequerimiento });
+					dsProrroga.read({ "idRequerimiento": idRequerimiento });
 					$("#winProrroga").data("kendoWindow").close();
 					$("body, html").animate({ scrollTop: $("#layerProrroga").offset().top }, 600);
 				}
@@ -322,7 +320,7 @@
 			dataSource: {
 				type: "json",
 				transport: {
-					read: { url: strInterOp("Motivo", "lista"), type: "post" }
+					read: { url: strInterOpAs("Motivo", "lista", "Workflow"), type: "post" }
 				},
 				schema: { errors: "msgState", data: "args", total: "totalFila" }
 			}
@@ -336,8 +334,9 @@
 			modal: true
 		});
 
-		// ####################################################
-		// ## Botones										###
+		// #endregion
+
+		// #region Botones
 		// ####################################################
 		$("#btnVolver1").kendoButton({ click: onVolver, icon: "arrow-n" });
 		$("#btnVolver2").kendoButton({ click: onVolver, icon: "arrow-n" });
@@ -352,13 +351,13 @@
 
 		$("#btnNewMensaje").kendoButton({ click: onNewMensaje });
 		function onNewMensaje(e) {
-			$("#winMensaje").data("kendoWindow").center();
+			centrarWin("#winMensaje");
 			$("#winMensaje").data("kendoWindow").open();
 		}
 
 		$("#btnNewProrroga").kendoButton({ click: onNewProrroga, icon: "tick" });
 		function onNewProrroga(e) {
-			$("#winProrroga").data("kendoWindow").center();
+			centrarWin("#winProrroga");
 			$("#winProrroga").data("kendoWindow").open();
 		}
 
@@ -404,68 +403,102 @@
 
 		$("#btnAvanzar").kendoButton({ click: onClick, icon: "arrow-u" });
 		function onClick(e) {
-			$("#winFinalizacion").data("kendoWindow").center();
+			centrarWin("#winFinalizacion");
 			$("#winFinalizacion").data("kendoWindow").open();
 		}
-		// ####################################################
-		// ## Carga Datos									###
+
+		// #endregion
+
+		// #region Carga Datos
 		// ####################################################
 		function cargaDatos(data, idRequerimiento) {
 			var vEstado = $.map(dsEstado, function (val) {
 				return val.idEstado == data[0].estado ? val : null;
 			});
-			$("#lblEmisor").html("<strong>" + data[0].usuario + "</strong>");
-			$("#lblProducto").html("<strong>" + data[0].nombre + "</strong>");
-			$("#lblRepuesto").html("<strong>" + data[0].codigo + ' - ' + data[0].repuesto + "</strong>");
+
+			$("#lblFlujo").html("<strong>" + data[0].flujo + ' - ' + data[0].subflujo + "</strong>");
 			$("#lblTienda").html("<strong>" + data[0].tienda + "</strong>");
 			$("#lblIngreso").html("<strong>" + data[0].fechaInicio + "</strong>");
 			$("#lblCompromiso").html("<strong>" + data[0].fechaCompromiso + "</strong>");
-			$("#lblCantidad").html("<strong>" + data[0].cantidad + "</strong>");
 			$("#lblEstado").html("<strong>" + vEstado[0].estado + "</strong>");
-			$("#lblActividad").html("<strong>" + data[0].actividad + "</strong>");
-			dsRequerimiento.read({ "idRequerimiento": idRequerimiento });
+			dsRoles.read({ "idRequerimiento": idRequerimiento });
+			dsClaves.read({ "idRequerimiento": idRequerimiento });
+			dsEstados.read({ "idRequerimiento": idRequerimiento });
 			dsProrroga.read({ "idRequerimiento": idRequerimiento });
 			dsMensaje.read({ "idRequerimiento": idRequerimiento });
 			if (data[0].estado == 2) {
 				$("#btnAvanzar").hide();
-				$("#cmbFinalizacion").data("kendoDropDownList").enable(false);
 			}
-			else {
-				$("#cmbFinalizacion").data("kendoDropDownList").dataSource.read({ "idRequerimiento": idRequerimiento });
-				$("#cmbTipoDocumento").data("kendoComboBox").dataSource.read();
-			}
-
 		}
+
+		// #endregion
+
+		// #region Datasource Claves
 		// ####################################################
-		// ## Datasource									###
-		// ####################################################
-		var dsRepuestos = new kendo.data.DataSource({
-			transport: {
-				read: { url: strInterOp("Requerimiento", "lista"), dataType: "json", type: 'POST' },
-				destroy: { url: strInterOp("Requerimiento", "eliminar"), dataType: "json", type: 'POST' },
-				parameterMap: function (data, type) {
-					if (type == "destroy") {
-						return { idRequerimiento: data.models[0].idRequerimiento }
+		var dsClaves = new kendo.data.DataSource({
+			transport: { read: { url: strInterOpAs("Requerimiento", "listaClaves", "Workflow"), dataType: "json", type: 'POST'} },
+			change: function (e) {
+				if (this._data.length > 0) {
+					var data = this.data();
+					var lblClase = "";
+					var classImage = "vertical-align: middle;margin-right: 15px;max-width: 64px;max-height: 64px;"
+					var claseProducto = "font-weight: bold;margin-right: 15px;padding: 5px;background-color: #f0f9f9;border: 1px solid #ddf3f4; border-radius: 5px;width: 350;margin-bottom: 5px";
+					var claseRepuesto = "font-weight: bold;margin-right: 15px;padding: 5px;background-color: #f0f9f9;border: 1px solid #ddf3f4; border-radius: 5px;width: 350;margin-bottom: 5px";
+					for (i = 0; i < this._data.length; i++) {
+						var r = data[i].data;
+						if (data[i].tipo == 'producto')
+							lblClase = lblClase + "<div style='" + claseProducto + "'> <img style='" + classImage + "' src='../../Styles/Productos/noImage.png' />" + r.producto + ' - ' + r.marca + ' - ' + r.categoria + "</div>";
+						if (data[i].tipo == 'repuesto')
+							lblClase = lblClase + "<div style='" + claseRepuesto + "'> <img style='" + classImage + "' src='../../Styles/Productos/noImage.png' />" + r.codigo + ' - ' + r.repuesto + "</div>";
 					}
-					if (type == "read") {
-						return { idRequerimiento: data.idRequerimiento }
-					}
+					$("#lblClave").html(lblClase)
 				}
 			},
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila", model: { id: "idRequerimiento"} }
+		});
+
+		//#endregion
+
+		// #region Datasource Roles
+		// ####################################################
+		var dsRoles = new kendo.data.DataSource({
+			transport: { read: { url: strInterOpAs("Requerimiento", "listaRoles", "Workflow"), dataType: "json", type: 'POST'} },
 			change: function (e) {
-				if (e.action != "remove") {
-					if (this._data.length > 0) {
-						var data = this.data();
-
-						cargaDatos(data, data[0].idRequerimiento);
-						$("#layerNotFound").hide();
-						$("#layerSeguimiento").show();
+				if (this._data.length > 0) {
+					var data = this.data();
+					idEstado = data[0].idEstados;
+					$("#lblActividad").html("<strong>" + data[0].actividad + "</strong>");
+					var lblResponsable = "";
+					var clase = "font-weight: bold;margin-right: 15px;padding: 5px;background-color: #eee;border: 1px solid #ccc;border-radius: 5px;width: 150;text-align: center;margin-bottom: 5px";
+					for (i = 0; i < this._data.length; i++) {
+						lblResponsable = lblResponsable + "<div style='" + clase + "'>" + data[i].rol + "</div>";
 					}
-					else {
-						$("#layerSeguimiento").hide();
-						$("#layerNotFound").show();
-					}
+					$("#lblResponsable").html(lblResponsable)
+				}
+			},
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila", model: { id: "idRequerimiento"} }
+		});
 
+		//#endregion
+
+		// #region Datasource Requerimiento
+		// ####################################################
+		var dsRequerimiento = new kendo.data.DataSource({
+			transport: {
+				read: { url: strInterOpAs("Requerimiento", "lista", "Workflow"), dataType: "json", type: 'POST' }
+			},
+			change: function (e) {
+				if (this._data.length > 0) {
+					var data = this.data();
+					cargaDatos(data, data[0].idRequerimiento);
+					$("#layerNotFound").hide();
+					$("#layerSeguimiento").show();
+				}
+				else {
+					$("#layerSeguimiento").hide();
+					$("#layerNotFound").show();
 				}
 			},
 			batch: true,
@@ -474,18 +507,13 @@
 			schema: { errors: "msgState", data: "args", total: "totalFila", model: { id: "idRequerimiento"} }
 		});
 
-		var dsRequerimiento = new kendo.data.DataSource({
-			transport: {
-				read: { url: strInterOp("Requerimiento", "listaEstado"), dataType: "json", type: 'POST' }
-			},
-			batch: true,
-			resizable: true,
-			error: errorGrid,
-			schema: { errors: "msgState", data: "args", total: "totalFila" }
-		});
+		//#endregion
+
+		// #region Datasource Prorroga
+		// ###############################
 
 		var dsProrroga = new kendo.data.DataSource({
-			transport: { read: { url: strInterOp("Prorroga", "lista"), dataType: "json", type: 'POST'} },
+			transport: { read: { url: strInterOpAs("Prorroga", "lista", "Workflow"), dataType: "json", type: 'POST'} },
 			batch: true,
 			resizable: true,
 			error: errorGrid,
@@ -516,8 +544,13 @@
 			}
 		});
 
+		// #endregion
+
+		// #region Datasource Mensaje
+		// ###############################
+
 		var dsMensaje = new kendo.data.DataSource({
-			transport: { read: { url: strInterOp("Mensaje", "lista"), dataType: "json", type: 'POST'} },
+			transport: { read: { url: strInterOpAs("Mensaje", "lista", "Workflow"), dataType: "json", type: 'POST'} },
 			batch: true,
 			resizable: true,
 			error: errorGrid,
@@ -543,11 +576,23 @@
 				$("#frmMensaje").html(strDivMensaje);
 			}
 		});
+
+		// #endregion
+
+		// #region Grid Actividades
 		// ############################################
-		// ### Grid									###
-		// ############################################
+		var dsEstados = new kendo.data.DataSource({
+			transport: {
+				read: { url: strInterOpAs("Requerimiento", "listaEstados", "Workflow"), dataType: "json", type: 'POST' }
+			},
+			batch: true,
+			resizable: true,
+			error: errorGrid,
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
+
 		$("#grid").kendoGrid({
-			dataSource: dsRequerimiento,
+			dataSource: dsEstados,
 			pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
 			height: 250,
 			sortable: true,
@@ -556,19 +601,24 @@
 			autoBind: false,
 			scrollable: true,
 			columns: [
-				{ field: "idRequerimiento", title: "id", width: "40px" },
+				{ field: "idRequerimiento", hidden: true },
 				{ field: "estado", title: "E", template: '<span class="claseEstado claseEstado#: estado #">&nbsp;</span>', width: "35px" },
 				{ field: "actividad", title: "actividad", width: "180px" },
 				{ field: "fechaInicio", title: "Inicio", width: "170px" },
 				{ field: "fechaEsperada", title: "Compromiso", width: "170px" },
-				{ field: "fechaFin", title: "Fin", width: "170px" },
-				{ field: "rol", title: "rol", width: "120px" },
+				{ field: "fechaFin", title: "Fin", width: "170px", template: " #if (idFinalizacion != 0) { # #=fechaFin## }#" },
+				{ field: "rol", title: "rol", width: "120px", template: " #if (idFinalizacion != 0) { # #=rol## }#" },
+				{ field: "finalizacion", title: "", width: "120px" },
 				{ field: "", title: "" }
 			]
 		});
+
+		// #endregion
+
+		// #region Inicio del flujo
 		// ############################################
-		// ### Ejecución inicial					###
-		// ############################################
+		var idRequerimiento = 0;
+		var idEstado = 0;
 		$("#layerSeguimiento").hide();
 		$("#layerNotFound").hide();
 
@@ -576,8 +626,10 @@
 
 		if (typeof vGet.idRequerimiento != "undefined") {
 			idRequerimiento = vGet.idRequerimiento;
-			dsRepuestos.read({ "idRequerimiento": vGet.idRequerimiento });
+			dsRequerimiento.read({ "idRequerimiento": vGet.idRequerimiento });
 		}
+
+		// #endregion
 	});
 </script>
 <style>

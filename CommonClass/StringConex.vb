@@ -52,6 +52,7 @@ Public Class StringConex
 			Me.flagError = True
 			Me.msgError = ex.Message
 			retornaDataRow = Nothing
+			escribeLog("SQL", "ERROR Sql: " & strSql)
 			Me.closeConex()
 		End Try
 	End Function
@@ -72,6 +73,7 @@ Public Class StringConex
 			Me.flagError = True
 			Me.msgError = ex.Message
 			retornaDataTable = Nothing
+			escribeLog("SQL", "ERROR Sql: " & strSql)
 			Me.closeConex()
 		End Try
 	End Function
@@ -90,6 +92,7 @@ Public Class StringConex
 			retornaDato = -1
 			Me.flagError = True
 			Me.msgError = ex.Message
+			escribeLog("SQL", "ERROR Sql: " & strSql)
 		End Try
 		Me.closeConex()
 	End Function
@@ -108,6 +111,7 @@ Public Class StringConex
 			retornaDatoStr = ""
 			Me.flagError = True
 			Me.msgError = ex.Message
+			escribeLog("SQL", "ERROR Sql: " & strSql)
 		End Try
 		Me.closeConex()
 	End Function
@@ -126,7 +130,7 @@ Public Class StringConex
 			Catch ex As Exception
 				Me.flagError = True
 				Me.msgError = ex.Message
-				escribeLog("ERROR SQL", strSql)
+				escribeLog("SQL", "ERROR Sql: " & strSql)
 			End Try
 			Me.closeConex()
 		End If
@@ -158,18 +162,22 @@ Public Class StringConex
 	End Sub
 
 	Public Shared Sub escribeLog(ByVal strOperacion As String, ByVal strSql As String)
+		Try
+			Dim strWr As New StreamWriter(AppDomain.CurrentDomain.BaseDirectory & "\Log\LogDb.txt", True)
+			Dim strLog As String
+			Debug.Print(strSql)
+			strLog = "'fecha' : '$1', 'Operacion':'$2', 'SQL': '$3' "
+			strLog = Replace(strLog, "'", """")
+			strLog = Replace(strLog, "$1", Now())
+			strLog = Replace(strLog, "$2", "")
+			strLog = Replace(strLog, "$3", strSql)
+			strWr.WriteLine(strLog)
+			strWr.Close()
 
-		Dim strWr As New StreamWriter(AppDomain.CurrentDomain.BaseDirectory & "\Log\LogDb.txt", True)
-		Dim strLog As String
-		Debug.Print(strSql)
-		strLog = "'fecha' : '$1', 'Operacion':'$2', 'SQL': '$3' "
-		strLog = Replace(strLog, "'", """")
-		strLog = Replace(strLog, "$1", Now())
-		strLog = Replace(strLog, "$2", "")
-		strLog = Replace(strLog, "$3", strSql)
-		strWr.WriteLine(strLog)
-		strWr.Close()
+		Catch ex As Exception
 
+		End Try
+		
 	End Sub
 End Class
 

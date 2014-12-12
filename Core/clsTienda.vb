@@ -4,32 +4,61 @@
 Public Class clsTienda
     Inherits clsEntidad
 
-Sub lista()
-        Dim vFiltro As String = ""
-        If Not prForm("txtidCadena") = "" Then
+	Sub lista()
+		Dim vFiltro As String = ""
+		If Not prForm("txtidCadena") = "" Then
 			vFiltro = " and al1.idCadena = " & Me.prForm("txtidCadena")
-        End If
+		End If
 
-        If Not prGet("txtidCadena") = "" Then
-            vFiltro = " and al1.idCadena = " & Me.prGet("txtidCadena")
-        End If
+		If Not prGet("txtidCadena") = "" Then
+			vFiltro = " and al1.idCadena = " & Me.prGet("txtidCadena")
+		End If
 
-        If Not prForm("filter[filters][0][field]") = "" Then
-            vFiltro = " and al1.idCadena = " & Me.prForm("filter[filters][0][value]")
-        End If
+		If Not prForm("filter[filters][0][field]") = "" Then
+			vFiltro = vFiltro & " and al1.idCadena = " & Me.prForm("filter[filters][0][value]")
+		End If
+
+		If Not prForm("region") = "" Then
+			vFiltro = vFiltro & " and al1.region = '" & Me.prForm("region") & "'"
+		End If
 
 		If Not prForm("nombre") = "" Then
 			vFiltro = vFiltro & " and al1.tienda like '%" & Me.prForm("nombre") & "%'"
 		End If
 
-        If Not prForm("skip") = "" Then
-            vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
-        Else
+		If Not prForm("skip") = "" Then
+			vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
+		Else
 			vFiltro = vFiltro & " limit 0 , 50"
-        End If
+		End If
 
-        listaSql("vTiendas", vFiltro)
-    End Sub
+		listaSql("vTiendas", vFiltro)
+	End Sub
+	Sub listaRegion()
+		Dim vFiltro As String = ""
+		If Not prForm("idCadena") = "" Then
+			vFiltro = " and idCadena = " & Me.prForm("idCadena")
+		End If
+		listaSql("select region from elx_core_region where region in (select distinct region from elx_core_tienda where 1=1 ", vFiltro, False, " ) order by nmroRegion")
+	End Sub
+
+	Sub listaProducto()
+		Dim vFiltro As String
+		vFiltro = ""
+		If Not prForm("idProducto") = "" Then
+			vFiltro = vFiltro & " and al1.idProducto = " & prForm("idProducto")
+		End If
+		If Not prForm("idTienda") = "" Then
+			vFiltro = vFiltro & " and al4.idTienda = " & prForm("idTienda")
+		End If
+		If Not prForm("skip") = "" Then
+			vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
+		Else
+			vFiltro = vFiltro & " limit 0 , 50"
+		End If
+
+		listaSql("vTiendaProducto", vFiltro)
+	End Sub
 
     Sub insertar()
         Dim strCx As New StringConex

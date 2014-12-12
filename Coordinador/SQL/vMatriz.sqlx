@@ -1,0 +1,11 @@
+﻿Select 
+	al1.idUsuario, 
+	CONCAT(al1.Nombre,  ' ', al1.apellido)   AS usuario, 
+	al1.UltimaModificacion as asignacion,  
+	al1.email as eMail,  
+	al1.email as fono  
+From 
+	elx_hr_personal al1, 
+	elx_hr_rol al2  
+Where 
+	al1.idUsuario = al2.idUsuario 

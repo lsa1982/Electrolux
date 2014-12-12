@@ -2,10 +2,14 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="DetailContent" runat="server">
-<div class="msgPagina">
-	<button id="button" type="button">Agregar Nueva Cadena</button>
+<div class="areaTrabajo" id="trabajo">
+<table>
+	<tr>
+    <td><button id="button" type="button">Agregar Nueva Cadena</button></td>
+    </tr>
+</table>
+<div id="grid" style="width: 100%;position: absolute"></div>
 </div>
-<div id="grid" style="height: 380px"></div>
 <div id="winNewRequest">Espere Mientras se actualizan los datos</div>
 <script>
     var ds = new kendo.data.DataSource({
@@ -22,7 +26,7 @@
                         "txtRut": options.models[0].rut,
                         "txtEstado": options.models[0].estado,
                         txtultimaModificacion: options.models[0].ultimaModificacion,
-                        "txtImagen": options.models[0].imagen
+                        "txtUpload": options.models[0].imagen
                     };
                 }
             }
@@ -67,9 +71,10 @@
 			{ field: "cadena", title: "Cadena", width: "130px" },
 			{ field: "razonSocial", title: "Razón Social", width: "100px" },
 			{ field: "rut", title: "Rut", width: "120px" },
-			{ field: "estado", title: "Estado", width: "50px" },
+			{ field: "estado", title: "Estado", width: "80px" },
 			{ field: "imagen", title: "Imagen", template: "<img src='images/cadena/#= imagen #' height='50' width='80'/>", width: "80px" },
-            { field: "ultimaModificacion", title: "Ultima Modificacion", width: "180px" }
+            { field: "ultimaModificacion", title: "Ultima Modificacion", width: "180px" },
+            { field: "", title: "" }
 			];
 
 

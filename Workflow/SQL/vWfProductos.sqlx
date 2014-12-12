@@ -1,0 +1,15 @@
+﻿Select
+	al1.idProducto,
+	al1.nombre,
+	al1.descripcion,
+	al1.modelo,
+	al2.marca,
+	al3.categoria,
+	al1.imagen
+from
+	elx_core_Producto al1,
+	elx_core_categoria al3,
+	elx_core_marca al2
+where
+	al1.idCategoria = al3.idCategoria and
+	al1.idMarca = al2.idMarca

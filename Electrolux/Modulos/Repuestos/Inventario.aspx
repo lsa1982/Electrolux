@@ -7,8 +7,8 @@
 		<td colspan="2">
 			<span style=" font-size: 11px;">Ingreso de Documento de Movimiento:</span>
 			<div style="float: right;margin-right: 10px">
-				<button id="btnMensaje" type="button" class="k-button">Nuevo Repuesto</button>
-				<button id="btnProrroga" type="button" class="k-button">Nuevo Tipo Documento</button>
+				<button id="btnNuevoRepuesto" type="button" class="k-button">Nuevo Repuesto</button>
+				<button id="btnNuevoTipoDocumento" type="button" class="k-button">Nuevo Tipo Documento</button>
 			</div> 
 		</td>
 	</tr>
@@ -122,6 +122,12 @@
 		// ###############################
 		// ## Definicion general		##
 		// ###############################
+
+		$("#btnNuevoRepuesto").kendoButton({ icon: 'plus', click:
+			function (e) {
+				window.location.href = 'frmNewProducto.aspx';
+			}
+		});
 
 		$("#txtValor").kendoNumericTextBox({ format: "c0" });
 		$("#txtCantidad").kendoNumericTextBox({ format: "#,###" });

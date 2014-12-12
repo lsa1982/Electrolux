@@ -92,7 +92,7 @@ Public MustInherit Class clsEntidad
 			sqlText = ""
 		End If
 	End Function
-	Sub listaSql(ByVal vistaSql As String, Optional ByVal vistaParam As String = "", Optional ByVal archivoSql As Boolean = True)
+	Sub listaSql(ByVal vistaSql As String, Optional ByVal vistaParam As String = "", Optional ByVal archivoSql As Boolean = True, Optional ByVal postSql As String = "")
 		Dim strCx As New StringConex
 		Dim dt As DataTable
 		Dim strSql As String
@@ -101,6 +101,7 @@ Public MustInherit Class clsEntidad
 		Else
 			strSql = vistaSql & vistaParam
 		End If
+		strSql = strSql & postSql
 		strCx.iniciaTransaccion()
 		dt = strCx.retornaDataTable(strSql)
 		If strCx.flagError Then
@@ -112,14 +113,30 @@ Public MustInherit Class clsEntidad
 		End If
 	End Sub
 
-
-
 	Function DataTableSql(ByVal vistaSql As String, Optional ByVal vistaParam As String = "") As DataTable
 		Dim strCx As New StringConex
 		Dim strSql As String
 		strSql = sqlText(vistaSql) & vistaParam
 		DataTableSql = strCx.retornaDataTable(strSql)
 	End Function
+
+	Sub subirImagen()
+		If (prFile.Count = 0) Then
+			rsp.estadoError(100, "No se pudo subir archivo")
+		Else
+			If Right(prFile.Item(0).FileName, 3) <> "jpg" And Right(prFile.Item(0).FileName, 3) <> "png" Then
+				rsp.estadoError(200, "Extension Incorrecta")
+			Else
+				Try
+					prFile.Item(0).SaveAs(AppDomain.CurrentDomain.BaseDirectory & "Styles\Temp\" & prFile.Item(0).FileName)
+					rsp.pagina = prFile.Item(0).FileName
+				Catch ex As Exception
+					rsp.estadoError(201, ex.Message)
+				End Try
+
+			End If
+		End If
+	End Sub
 
 End Class
 

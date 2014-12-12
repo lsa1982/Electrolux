@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -67,9 +67,12 @@
     <Compile Include="clsDependencia.vb" />
     <Compile Include="clsFlujo.vb" />
     <Compile Include="clsActividad.vb" />
-    <Compile Include="clsActividad2.vb" />
     <Compile Include="clsGrafo.vb" />
     <Compile Include="clsMatrizResponsabilidad.vb" />
+    <Compile Include="Notificacion.vb" />
+    <Compile Include="Matriz.vb" />
+    <Compile Include="Rol.vb" />
+    <Compile Include="Perfil.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -119,11 +122,27 @@
     <EmbeddedResource Include="SQL\vDependencia.sqlx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="SQL\vPerfilRol.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQL\vMatriz.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQL\vRolUsuario.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SQL\vNotificacion.sqlx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonClass\CommonClass.vbproj">
       <Project>{0A8854AC-C942-464D-A17E-B4A148EAEF9F}</Project>
       <Name>CommonClass</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seguridad\Seguridad.vbproj">
+      <Project>{21552046-7332-4822-9887-96E3771C8609}</Project>
+      <Name>Seguridad</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

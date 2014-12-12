@@ -1,0 +1,15 @@
+﻿SELECT 
+	al1.idEstados, 
+	al1.idActividad, 
+	al2.actividad, 
+	al4.rol
+FROM 
+	elx_wf_estados al1, 
+	elx_wf_actividad al2, 
+	elx_wf_estadoRol al3, 
+	elx_hr_rol al4
+WHERE 
+	al1.idActividad = al2.idActividad
+	and al1.idEstados = al3.idEstados
+	and al3.idRol = al4.idRol
+	and al1.activo = 1
