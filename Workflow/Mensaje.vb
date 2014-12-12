@@ -20,7 +20,7 @@ Public Class Mensaje
 		Dim strCx As New StringConex
 		Dim strSql As String
 		strCx.iniciaTransaccion()
-		strSql = "INSERT INTO elx_rep_mensaje VALUES (null, '$1', '$2', '$3', '$4') "
+		strSql = "insert into elx_wf_mensaje values (null, '$1', '$2', '$3', '$4') "
 		strSql = Replace(strSql, "$1", Me.prForm("idRequerimiento")) 'idRequerimiento
 		strSql = Replace(strSql, "$2", Me.Rol.idUsuario) 'idUsuario
 		strSql = Replace(strSql, "$3", Me.prForm("mensaje"))	' mensaje

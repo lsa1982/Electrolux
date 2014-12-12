@@ -112,11 +112,19 @@ Public Class clsProducto
 		End If
 
 		If Not prForm("idProducto") = "" Then
-			vFiltro = " and al1.idProducto = " & prForm("idProducto")
+			vFiltro = vFiltro & " and al1.idProducto = " & prForm("idProducto")
+		End If
+
+		If Not prForm("idTienda") = "" Then
+			vFiltro = vFiltro & " and al1.idProducto in (select idProducto from elx_core_tiendaProducto where idTienda =  " & prForm("idTienda") & ")"
+		End If
+
+		If Not prForm("producto") = "" Then
+			vFiltro = vFiltro & " and nombre like '%" & Me.prForm("value") & "%'"
 		End If
 
 		If Not prForm("value") = "" Then
-			vFiltro = " and nombre like '%" & Me.prForm("value") & "%'"
+			vFiltro = vFiltro & " and nombre like '%" & Me.prForm("value") & "%'"
 		End If
 
 		If Not prForm("idMarca") = "" Then vFiltro = vFiltro & "and al1.idMarca = " & Me.prForm("idMarca")

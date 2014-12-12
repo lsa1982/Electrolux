@@ -33,10 +33,10 @@
 
 		function onChange(e) {
 			if (cmbEstado.value != 0) {
-				dsRepuestos.filter({ field: "estado", operator: "eq", value: cmbEstado.value });
+				dsRequerimiento.filter({ field: "estado", operator: "eq", value: cmbEstado.value });
 			}
 			else {
-				dsRepuestos.filter({});
+				dsRequerimiento.filter({});
 			}
 
 		}
@@ -50,9 +50,9 @@
 			change: onChange
 		});
 
-		var dsRepuestos = new kendo.data.DataSource({
+		var dsRequerimiento = new kendo.data.DataSource({
 			transport: {
-				read: { url: strInterOp("Requerimiento", "lista"), dataType: "json" }
+				read: { url: strInterOpAs("Requerimiento", "lista", "Workflow"), dataType: "json" }
 			},
 			batch: true,
 			resizable: true,
@@ -65,7 +65,7 @@
 		});
 
 		$("#grid").kendoGrid({
-			dataSource: dsRepuestos,
+			dataSource: dsRequerimiento,
 			pageable: { pageable: true, pageSizes: [5, 10, 25, 50] },
 			height: 400,
 			sortable: true,
@@ -76,16 +76,13 @@
 			groupable: { messages: { empty: "Arrastre las columnas que desee para agrupar"} },
 			columns: [
 				{ command: { text: "Ver", click: onView }, title: " ", width: "60px" },
-				{ field: "idRequerimiento", title: "Id", width: "40px" },
+				{ field: "idRequerimiento", hidden: true },
+				{ field: "subflujo", title: "Flujo", width: "150px"},
 				{ field: "tienda", title: "Tienda", width: "150px" },
-				{ field: "nombre", title: "Producto", width: "200px", template: '#: marca # - #: nombre #' },
-				{ field: "repuesto", title: "Repuesto", width: "200px" },
+				{ field: "fechaInicio", title: "Fecha Inicio", width: "210px", template: '<span class="claseEstado claseEstado5">#: fechaInicio #</span>' },
+				{ field: "fechaCompromiso", title: "Fecha Plazo", width: "210px", template: '<span class="claseEstado claseEstado#: estado #">#: fechaCompromiso #</span>' },
+				{ field: "observacion", title: "", width: "200px" },
 				{ field: "cantidad", title: "Cantidad", width: "80px" },
-				{ field: "fechaInicio", title: "Fecha Inicio", width: "110px", template: '<span class="claseEstado claseEstado5">#: fechaInicio #</span>' },
-				{ field: "fechaCompromiso", title: "Fecha Plazo", width: "110px", template: '<span class="claseEstado claseEstado#: estado #">#: fechaCompromiso #</span>' },
-				{ field: "actividad", title: "Actividad", width: "120px" },
-				{ field: "usuario", title: "Emisor", width: "80px" },
-				{ field: "cadena", title: "Cadena", width: "80px" },
 				{ field: "", title: "" }
 			]
   		});

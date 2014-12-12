@@ -1,0 +1,23 @@
+﻿Select
+	SQL_CALC_FOUND_ROWS  al1.idProducto,
+	al4.idTienda,
+	al1.nombre,
+	al2.marca,
+	al3.categoria,
+	al4.assorment,
+	al4.facing,
+	al4.flagQuiebre,
+	al4.flagObsoleto,
+	al4.precio,
+	al4.oferta,
+	al4.ultimaLectura
+FROM
+	elx_core_Producto al1,
+	elx_core_marca al2,
+	elx_core_categoria al3,
+	elx_core_tiendaProducto al4
+	
+WHERE
+	al1.idCategoria = al3.idCategoria and
+	al1.idMarca = al2.idMarca and
+	al1.idProducto = al4.idProducto

@@ -6,7 +6,7 @@
 	al1.mensaje,
 	concat(al2.nombre, " ", al2.nombre) as usuario
 FROM 
-	elx_rep_mensaje al1,
+	elx_wf_mensaje al1,
 	elx_hr_personal al2
 WHERE
 	al1.idUsuario = al2.idUsuario 

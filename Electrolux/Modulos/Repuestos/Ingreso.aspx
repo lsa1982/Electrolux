@@ -541,7 +541,6 @@
 				var detalle = "";
 				detalle = idRepuesto + '|' + idProducto + '|' + txtCantidad.value + ';';
 				var pUrl = [];
-
 				pUrl.push("idTienda=" + cmbTienda.value);
 				pUrl.push("comentario=" + txtComentario.value);
 				pUrl.push("detalle=" + detalle);
@@ -553,7 +552,6 @@
 						$("#layerSiguiente").show(500);
 					}
 				);
-
 			}
 		});
 

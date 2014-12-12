@@ -4,7 +4,8 @@
 	Public ActiveMenu As Menu
 	Public ActiveModulo As Modulo
 	Public idUsuario As Integer
-
+	Public idTipoUsuario As Integer
+	Public idRol As Integer
 	Public _email As String
 	Public _nombre As String
 	Sub New()
@@ -16,6 +17,7 @@
 		Dim mCore As Modulo
 		Dim mDashBoard As Modulo
 		Dim mCoordinador As Modulo
+		Dim mTienda As Modulo
 
 		Dim mnuSeguimiento As Menu
 		Dim mnuRequerimiento As Menu
@@ -23,7 +25,9 @@
 
 		modulo.Clear()
 		idUsuario = vUser
+		idRol = vRol
 
+		mTienda = New Modulo("Tienda", "../Tienda/default.aspx")
 		mRepuesto = New Modulo("Repuestos", "../Repuestos/default.aspx")
 		mCore = New Modulo("Core", "../Core/frmGridCategoria.aspx")
 		mDashBoard = New Modulo("DashBoard", "")
@@ -37,6 +41,11 @@
 
 		If vRol = "1" Then
 			_name = "Administrador"
+			mTienda.AddMenu(New Menu("Productos", "default.aspx"))
+			mTienda.AddMenu(New Menu("Material", "frmFlujoMaterial.aspx"))
+			mTienda.AddMenu(New Menu("Visitas", "frmFlujoVisita.aspx"))
+			mTienda.AddMenu(New Menu("Dashboard", "frmDashboard.aspx"))
+			mTienda.AddMenu(New Menu("Información", "frmInformacion.aspx"))
 			mRepuesto.AddMenu(mnuRequerimiento)
 			mRepuesto.AddMenu(New Menu("Ingreso", "Ingreso.aspx", ""))
 			mRepuesto.AddMenu(mnuSeguimiento)
@@ -49,6 +58,7 @@
 			mCoordinador.AddMenu(New Menu("Flujos", "frmFlujo.aspx", ""))
 			mCoordinador.AddMenu(New Menu("Actividad", "frmGridActividad.aspx", ""))
 			mCore.AddMenu(mnuCategoria)
+			modulo.Add(mTienda.Name, mTienda)
 			modulo.Add(mRepuesto.Name, mRepuesto)
 			modulo.Add(mCore.Name, mCore)
 			modulo.Add(mDashBoard.Name, mDashBoard)

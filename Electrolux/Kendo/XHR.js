@@ -1,9 +1,10 @@
 ﻿var appDir = '/Electrolux/';
-function callScript(scriptName, args, execFunc) {
+function callScript(scriptName, args, execFunc, inBackground) {
 	var h = window.scrollY + (window.innerHeight / 2) - 160;
 	var w = window.scrollX + (window.innerWidth / 2) - 225;
 	$('#window').closest(".k-window").css({ top: h, left: w });
-	$("#window").data("kendoWindow").open();
+	if (!inBackground)
+		 $("#window").data("kendoWindow").open();
 	
     var xhr_object = null;
 

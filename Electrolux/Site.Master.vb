@@ -21,7 +21,6 @@ Public Class Site
 			End If
 		End If
 
-
 		Dim m As Modulo
 		rolUsuario.SetRol(Request.Cookies("rol").Value, Request.Cookies("usuario").Value)
 
@@ -38,14 +37,12 @@ Public Class Site
 				If m.Menu.Count = 0 Then
 					Response.Redirect("~/About.aspx?msg=no tiene menu disponibles")
 				Else
-
 					For Each i As Menu In m.Menu.Values
 						mItem = mItem & "{ 'text' : '" & i.Name & "', 'value' :'" & i.Page & "'}"
 					Next
 					mItem = Replace(mItem, "}{", "},{")
 					mRol = rolUsuario.Name
 					mUsuario = Request.Cookies("nombre").Value
-
 				End If
 			Else
 				Response.Redirect("~/About.aspx")
@@ -53,7 +50,5 @@ Public Class Site
 		Else
 			Response.Redirect("~/About.aspx")
 		End If
-
-		
 	End Sub
 End Class

@@ -1,0 +1,14 @@
+﻿Select 
+	al1.idTienda,
+	al1.idCadena,
+	al1.tienda,
+	al2.categoria,
+	al3.cadena,
+	al1.region
+From
+	elx_core_tienda al1,
+	elx_core_categoria al2,
+	elx_core_cadena al3
+Where
+	al1.idCategoria = al2.idCategoria and
+	al1.idCadena = al3.idCadena

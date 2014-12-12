@@ -42,6 +42,24 @@ Public Class clsTienda
 		listaSql("select region from elx_core_region where region in (select distinct region from elx_core_tienda where 1=1 ", vFiltro, False, " ) order by nmroRegion")
 	End Sub
 
+	Sub listaProducto()
+		Dim vFiltro As String
+		vFiltro = ""
+		If Not prForm("idProducto") = "" Then
+			vFiltro = vFiltro & " and al1.idProducto = " & prForm("idProducto")
+		End If
+		If Not prForm("idTienda") = "" Then
+			vFiltro = vFiltro & " and al4.idTienda = " & prForm("idTienda")
+		End If
+		If Not prForm("skip") = "" Then
+			vFiltro = vFiltro & " limit " & prForm("skip") & ", " & prForm("take")
+		Else
+			vFiltro = vFiltro & " limit 0 , 50"
+		End If
+
+		listaSql("vTiendaProducto", vFiltro)
+	End Sub
+
     Sub insertar()
         Dim strCx As New StringConex
         Dim strSql As String

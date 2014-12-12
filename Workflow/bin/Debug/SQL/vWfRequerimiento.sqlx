@@ -1,0 +1,17 @@
+﻿Select 
+	al1.idTienda,
+	al2.idCadena,
+	al4.idMarca,
+	al4.idCategoria,
+	al3.idClave,
+	al1.malla
+From
+	elx_wf_requerimiento al1,
+	elx_core_tienda al2,
+	elx_wf_flujoClave al3,
+	elx_core_producto al4
+Where
+	al1.idTienda = al2.idTienda and
+	al1.idRequerimiento = al3.idRequerimiento and
+	al3.variable = 'producto' and
+	al3.idClave = al4.idProducto

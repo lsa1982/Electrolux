@@ -1,0 +1,12 @@
+﻿Select 
+	al1.idRequerimiento,
+	al1.idMensaje,
+	al1.mensaje,
+	al1.fechaIngreso,
+	al1.mensaje,
+	concat(al2.nombre, " ", al2.nombre) as usuario
+FROM 
+	elx_wf_mensaje al1,
+	elx_hr_personal al2
+WHERE
+	al1.idUsuario = al2.idUsuario 

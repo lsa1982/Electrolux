@@ -1,7 +1,5 @@
 ﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Site.master.vb" Inherits="Electrolux.Site" %>
-
-
-<html >
+<html>
 <head id="Head1" runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Coordinador de Tareas</title>
@@ -19,28 +17,91 @@
 		var mRol = '<% = mRol %>';
 		var mFecha = '<% = now() %>';
 		var mUsuario = '<% = mUsuario %>';
+		var flagNotificacion = false;
+
 		kendo.culture("es-CL");
 		function onSelect(e) {
 			var index = $(e.item).index();
 			window.location = this.options.dataSource[index].value;
 		}
+		function CerrarSesion(){
+			callScript(strInterOpAs("Sesion", "SesionOut", "CommonClass"));
+		}
+
+		function marcaLeidos(){
+			callScript(strInterOpAs("Notificacion", "leerNotificacion", "Coordinador"), '&',
+				function (e) {
+					$("#burbuja").hide();
+					flagNotificacion = false;
+					dsNotificacion.read( { "estado" : "0" });
+					tooltip.refresh();
+				}
+				, true
+			);
+		}
+		
+	
 
 		$(document).ready(function () {
 			
 			var mItemMain = [ <% = mItemMain %>];
-		
-			$("#menuLogin").kendoTooltip({
+			
+
+			 var tooltip = $("#menuLogin").kendoTooltip({
 				//filter: "a",
-				
-				content: kendo.template($("#template").html()),
-				width: 150,
-				height: 150,
-				position:"bottom",
+				content: function (){
+					var data = dsNotificacion.data();
+					var html = "<div class='tituloNotificacion'>Notificaciones</div>";
+					if(data.length > 0)
+						html = html + "<div class='leerNotificacion' onClick='marcaLeidos()'>Todo como leido</div> ";
+					var html = html + "<div id='notas' class='contenedorNotificacion' >";
+					for (i=0; i< data.length; i++){
+						html = html + "<div class='tablaNotificacion' data-id='" + data[i].idNotificacion +"'  >";
+						html = html + "<div class='imgNotificacion'><img height=38  src='../../Styles/images/noTasks.png' /></div>";
+						html = html + "<div class='msgNotificacion'>" + data[i].notificacion + "</div>";
+						html = html + "<div class='fechaNotificacion'>" + data[i].fechaIngreso + "</div>";
+						html = html + "</div>";
+					}
+					html = html + "</div><button id='btnLogOut' type='button' class='k-button' onClick='CerrarSesion()' >Logout </button>";
+					return html;
+				},
+				width: 350,
+				height: 350,
+				position:"left",
 				animation: {
 					close: {effects: "fade:out",duration: 500},
 					open: {effects: "fade:in",duration: 200}
+				},
+				show: function() {
+					if (flagNotificacion){
+						var divNotas= $("#notas");
+						divNotas.children().click(function(){
+							dsNotificacion.filter(  { field: "idNotificacion", operator: "eq", value: this.dataset.id} );
+							var view = dsNotificacion.view();
+							if (view[0].idRequerimiento != "" )
+								window.location.href = '../../Modulos/Repuestos/Seguimiento.aspx?idRequerimiento=' +view[0].idRequerimiento ; 
+						});
+					}
+				}
+			}).data("kendoTooltip");
+
+			var dsNotificacion = new kendo.data.DataSource({
+				transport: { 
+					read: { url: strInterOpAs("Notificacion", "lista", "Coordinador"), dataType: "json", type: 'POST'},
+					update: { url: strInterOpAs("Notificacion", "leerNotificacion", "Coordinador"), dataType: "json", type: 'POST'}
+					},
+				schema: { errors: "msgState", data: "args", total: "totalFila" },
+				change: function (e) {
+					if (this._data.length > 0) {
+						$("#burbuja").html(this._data.length );
+						$("#burbuja").show();
+						flagNotificacion = true;
+					}
 				}
 			});
+			$("#burbuja").hide();
+			dsNotificacion.read( { "estado" : "0" });
+
 			$("#menu").kendoMenu({ 
 				width: "100px" , 
 				select: onSelect,
@@ -61,14 +122,11 @@
 				$("#mensaje").hide(500);
 			});
 
-			
 		});
-		function CerrarSesion(){
-			callScript(strInterOpAs("Sesion", "SesionOut", "CommonClass"));
-		}
 		
 		
-	</script>
+		
+</script>
 	<div id="window">Espere Mientras se actualizan los datos</div>
 	 <div id="mensaje"> Ha ocurrido un error inesperado, favor de reitentar o contactar a su proveedor.</div>
 	<div class="header">
@@ -81,9 +139,9 @@
 						
 					</ul>
 				</td>
-				<td>
+				<td style=" position: relative">
 					<img id="menuLogin" src="<% = resolveClientUrl("Styles/images/user.fw.png")%>" style="height: 34px; width: 34px;"/>
-					<span class="burbuja">1</span>
+					<span id="burbuja" class="burbuja">1</span>
 				</td>
 			</tr>
 		</table>
@@ -92,19 +150,75 @@
 	</div>
 	<div class="main">
 		<asp:ContentPlaceHolder ID="MainContent" runat="server" />
-		
 	</div>
-	
-	
-	
-
-	 <script id="template" type="text/x-kendo-template">
-		Configuración<br/>
-		<br/>
-		<button id="btnLogOut" type="button" class="k-button" onClick="CerrarSesion()" >Logout </button>
-	</script>
 
 	<style>
+		.leerNotificacion{
+			padding: 5px;
+			background-color: #888;
+			border-radius: 5px;
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			font-size: 11px;
+			color: #fff;
+			font-weight: bold;
+			}
+		.leerNotificacion:hover{
+			background-color: #ddd;
+			cursor: pointer;
+			}
+			
+		.tituloNotificacion{
+			height: 26px;
+			background-color: #eee;
+			font-size: 16px;
+			font-weight: bold;
+			border-bottom: 1px solid #d8deea;
+			text-align: left;
+			padding: 5px;
+		}
+		
+		.fechaNotificacion{
+			left: 60px;
+			position: absolute;
+			top: 20px;
+			font-size: 9px;
+			color: #0B90A7;
+			font-weight: bold;
+		}
+		
+		.tablaNotificacion {
+			font-size: 11px;
+			border-bottom: 1px solid #d8deea;
+			padding: 2px;
+			position: relative;
+			height: 54px;
+		}
+		
+		.tablaNotificacion:hover  {
+			background-color: #eef;
+			cursor: pointer;
+		}
+		
+		.imgNotificacion {
+			height: 48px;
+			width: 48px;
+			position: absolute;
+			top:5px;
+			left: 5px;
+			display: inline-flex;
+		}
+		
+		.msgNotificacion{
+			text-align: left;
+			font-weight: bold;
+			color: #888;
+			left: 60px;
+			position: absolute;
+			top: 5px;
+		}
+		
 		 .burbuja {
 			width: 8px;
 			height: 15px;
@@ -116,14 +230,7 @@
 			padding: 2px 6px;
 			position: absolute;
 			top: 0px;
-			
-
-			/* estas propiedades harán la animación */
-			-webkit-transition: all 0.5s ease-out;
-			   -moz-transition: all 0.5s ease-out;
-				-ms-transition: all 0.5s ease-out;
-				 -o-transition: all 0.5s ease-out;
-					transition: all 0.5s ease-out;
+			left: 20px;
 		}
 
 

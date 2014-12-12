@@ -1,0 +1,24 @@
+﻿Select 
+	al1.idRequerimiento,
+	al1.idTienda,
+	al1.malla,
+	al3.subflujo,
+	al4.flujo,
+	al2.tienda,
+	al2.region,
+	al1.fechaInicio,
+	al1.fechaCompromiso,
+	al1.fechaFin,
+	al1.estado,
+	al1.cantidad,
+	al2.region,
+	al1.observacion
+From
+	elx_wf_requerimiento al1,
+	elx_core_tienda al2,
+	elx_wf_subFlujo al3,
+	elx_wf_flujo al4
+Where
+	al1.idTienda = al2.idTienda and
+	al1.idSubFlujo = al3.idSubFlujo and
+	al3.idFlujo = al4.idFlujo 

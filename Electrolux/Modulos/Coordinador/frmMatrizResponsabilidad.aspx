@@ -43,7 +43,23 @@
 				Rol
 			</td>
 			<td >
-				<div id="txtRol" ></div>
+				<div id="lblRol" ></div>
+			</td>
+		</tr>
+		<tr>
+			<td style="width: 120px">
+				Perfil
+			</td>
+			<td >
+				<div id="lblPerfil" ></div>
+			</td>
+		</tr>
+		<tr >
+			<td>
+				Descripcion: 
+			</td>
+			<td>
+				<div id="lblDescripcion" ></div>
 			</td>
 		</tr>
 		<tr >
@@ -51,15 +67,15 @@
 				Región: 
 			</td>
 			<td>
-				<div id="txtRegion" ></div>
+				<div id="lblRegion" ></div>
 			</td>
 		</tr>
 		<tr>
 			<td>
 				Asignado a : 
 			</td>
-			<td>
-				<div id="txtAsignado" ></div>
+			<td><input id="lblIdUsuario" type="hidden"" />
+				<div id="lblAsignado" ></div>
 			</td>
 		</tr>
 		<tr>
@@ -67,7 +83,7 @@
 				Fono
 			</td>
 			<td>
-				<div id="txtFono" ></div>
+				<div id="lblFono" ></div>
 			</td>
 		</tr>
 		<tr>
@@ -75,7 +91,14 @@
 				eMail : 
 			</td>
 			<td>
-				<div id="txtMail" ></div>
+				<div id="lblMail" ></div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			</td>
+			<td>
+				<button id="btnAsignaUsuario" class="k-button-red" >Cambiar Usuario</button>
 			</td>
 		</tr>
 		
@@ -86,12 +109,11 @@
 		<tr>
 			<td colspan="2" >
 				<span style=" font-size: 24px;">Responsabilidad</span>
-					<button id="Button1" type="button" class="k-button" style="float:right">Volver</button>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2" >
-				<div id="tabView">
+				<div id="tabView" style=" min-height: 350px">
 					<ul>
 						<li class="k-state-active">
 							Tienda
@@ -110,69 +132,95 @@
 					<div>
 						<table>
 							<tr>
-								<td style=" width: 300px"  >Seleccione Cliente: </td>
-								<td rowspan="7"><div id="gridTienda" ></div></td>
-							</tr>
-							<tr>
-								<td><input id='cmbTiendaCliente'  /></td>
-							</tr>
-							<tr>
-								<td>Seleccione Región</td>
-							</tr>
-							<tr>
-								<td><input id='cmbTiendaRegion' /></td>
-							</tr>
-							<tr>
-								<td>Seleccion Tienda</td>
-							</tr>
-							<tr>
-								<td><input id='cmbTienda'  /></td>
-							</tr>
-							<tr>
-								<td><button id='btnTiendaAgregar' class="k-button-red" >Agregar</button></td>
-							</tr>
-						</table>
-							
-					</div>
-					<div >
-						<table>
-							<tr>
-								<td style=" width: 300px"  >Seleccione Marca: </td>
-								<td rowspan="7"><div id="gridMarca" ></div></td>
-							</tr>
-							<tr>
-								<td><input id='cmbMarca'  /></td>
-							</tr>
-							<tr>
-								<td><button id='btnMarcaAgregar' class="k-button-red" >Agregar</button></td>
+								<td>
+									<table>
+										<tr>
+											<td style=" width: 300px"  >Seleccione Cliente: </td>
+										</tr>
+										<tr>
+											<td><input id='cmbTiendaCliente'  /></td>
+										</tr>
+										<tr>
+											<td>Seleccione Región</td>
+										</tr>
+										<tr>
+											<td><input id='cmbTiendaRegion' /></td>
+										</tr>
+										<tr>
+											<td>Seleccion Tienda</td>
+										</tr>
+										<tr>
+											<td><input id='cmbTienda'  /></td>
+										</tr>
+										<tr>
+											<td><button id='btnTiendaAgregar' class="k-button-red" >Agregar</button></td>
+										</tr>
+									</table>
+								</td>
+								<td>
+									<div id="gridTienda" ></div>
+								</td>
 							</tr>
 						</table>
 					</div>
 					<div >
 						<table>
 							<tr>
-								<td style=" width: 300px"  >Seleccione Categoria: </td>
-								<td rowspan="7"><div id="gridCategoria" ></div></td>
-							</tr>
-							<tr>
-								<td><input id='cmbCategoria'  /></td>
-							</tr>
-							<tr>
-								<td><button id='btnCategoriaAgregar' class="k-button-red" >Agregar</button></td>
+								<td>
+									<table>
+										<tr>
+											<td style=" width: 300px"  >Seleccione Marca: </td>
+										</tr>
+										<tr>
+											<td><input id='cmbMarca'  /></td>
+										</tr>
+										<tr>
+											<td><button id='btnMarcaAgregar' class="k-button-red" >Agregar</button></td>
+										</tr>
+									</table>
+								</td>
+								<td><div id="gridMarca" ></div></td>
 							</tr>
 						</table>
 					</div>
 					<div >
 						<table>
 							<tr>
-								<td style=" width: 300px"  >Seleccione Cadena: </td>
-								<td rowspan="7"><div id="gridCadena" ></div></td>
+								<td>
+									<table>
+										<tr>
+											<td style=" width: 300px"  >Seleccione Categoria: </td>
+											<td rowspan="7"></td>
+										</tr>
+										<tr>
+											<td><input id='cmbCategoria'  /></td>
+										</tr>
+										<tr>
+											<td><button id='btnCategoriaAgregar' class="k-button-red" >Agregar</button></td>
+										</tr>
+									</table>
+								</td>
+								<td><div id="gridCategoria" ></div></td>
 							</tr>
+						</table>
+					</div>
+					<div >
+						<table>
 							<tr>
-								<td><input id='cmbCadena'  /></td>
-							</tr>
-							<tr>
-								<td><button id='btnCadenaAgregar' class="k-button-red" >Agregar</button></td>
+								<td>
+								<table>
+									<tr>
+										<td style=" width: 300px"  >Seleccione Cadena: </td>
+									</tr>
+									<tr>
+										<td><input id='cmbCadena'  /></td>
+									</tr>
+									<tr>
+										<td><button id='btnCadenaAgregar' class="k-button-red" >Agregar</button></td>
+									</tr>
+								</table>
+								</td>
+								<td><div id="gridCadena" ></div></td>
 							</tr>
 						</table>
 					</div>
@@ -183,45 +231,160 @@
 	</table>
 </div>
 
+<div id="winUsuario">
+	
+	 <table>
+		<tr>
+			<td>Rol</td>
+			<td><input id="txtRol" style="width: 250px" class="k-textbox" /></td>
+		 </tr>
+		 <tr>
+			<td>Región</td>
+			<td><input id="cmbRolRegion" style="width: 250px" /></td>
+		 </tr>
+		 <tr>
+			<td>Perfil</td>
+			<td><textarea id="txtRolDescripcion" class="k-textbox" style="width:100%; height:50px" rows="2" ></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="2"><span style=" font-size: 14px; font-weight: bold">Datos de Asignación </span> </td>
+		</tr>
+		<tr>
+			<td>Usuario Asignado actualmente</td>
+			<td><div id="lblUsuarioAsignado"></td>
+		 </tr>
+		<tr>
+			<td>Usuario</td>
+			<td>
+				<input id="txtUsuario" style="width: 250px" />
+				<input id="txtIdUsuario" type="hidden" />
+			</td>
+		 </tr>
+		 <tr>
+			<td></td>
+			<td>
+				<button id="btnActualizarRol" class="k-button-red" >Actualizar</button>
+			</td>
+		 </tr>
+	 </table>
+
+</div>
+
 <script>
 	$(document).ready(function () {
+		var botonEliminarGrid = { command: { text: "Eliminar", click: eliminarDeMatriz }, title: " ", width: "90px" };
+		var idRol = 0;
+
+		// #region Windows Usuario
+		$("#winUsuario").kendoWindow({
+			width: "400px",
+			title: "Asignación de Usuario",
+			actions: ["Close"],
+			visible: false,
+			modal: true
+		});
+
+		$("#btnAsignaUsuario").kendoButton({ icon: "arrow-n", click:
+			function (e) {
+				centrarWin("#winUsuario");
+				$("#winUsuario").data("kendoWindow").open();
+				txtRol.value = $("#lblRol").html();
+				cmbRolRegion.value = $("#lblRegion").html();
+				txtIdUsuario.value = lblIdUsuario.value;
+				txtRolDescripcion.value = $("#lblDescripcion").html();
+				$("#cmbRolRegion").data("kendoComboBox").text($("#lblRegion").html());
+				$("#lblUsuarioAsignado").html($("#lblAsignado").html());
+			}
+		});
+
+		$("#txtUsuario").kendoAutoComplete({
+			dataTextField: "usuario",
+			filter: "contains",
+			minLength: 3,
+			error: errorGrid,
+			select: onSelect,
+			template: '<strong>#:data.usuario#</strong> - #:data.nombre# #:data.apellido#',
+			dataSource: {
+				serverFiltering: true,
+				transport: { read: { url: strInterOpAs("clsUsuario", "lista", "Core"), dataType: "json", type: "POST"} },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		function onSelect(e) {
+			var dataItem = this.dataItem(e.item.index());
+			txtIdUsuario.value = dataItem.idUsuario;
+		}
+
+
+		$("#cmbRolRegion").kendoComboBox({
+			dataTextField: "region",
+			dataValueField: "region",
+			autoBind: false,
+			dataSource: {
+				transport: { read: { url: strInterOpAs("Region", "lista", "Core"), dataType: "json", type: "post"} },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			}
+		});
+
+		$("#btnActualizarRol").kendoButton({ icon: "arrow-s", click:
+			function (e) {
+				var pUrl = [];
+				pUrl.push("idRol=" + idRol);
+				pUrl.push("idUsuario=" + txtIdUsuario.value);
+				pUrl.push("rol=" + txtRol.value);
+				pUrl.push("region=" + cmbRolRegion.value);
+				pUrl.push("descripcion=" + txtRolDescripcion.value);
+				var x = pUrl.join("&");
+				callScript(strInterOp("Rol", "actualizar"), '&' + x,
+					function (e) {
+						dsRolUsuario.read({ "idRol": idRol });
+						$("#winUsuario").data("kendoWindow").close();
+					})
+			}
+		});
+
+		// #endregion
 
 		//#region Buscador de Rol
 		// ####################################
 
-		
-
 		$("#btnBuscar").kendoButton({ icon: "arrow-s", click:
 			function (e) {
 				if (cmbRol.value != "") {
+					idRol = cmbRol.value;
 					dehabilitarDiv("findPerfil");
 					$("#findRol").show(500);
 					$("#findResponsabilidad").show();
-					dsRolUsuario.read({ "idRol": cmbRol.value })
-					dsTienda.read({ "idRol": cmbRol.value, "variable": "tienda" })
-					dsMarca.read({ "idRol": cmbRol.value, "variable": "marca" })
-					dsCategoria.read({ "idRol": cmbRol.value, "variable": "categoria" })
-					dsCadena.read({ "idRol": cmbRol.value, "variable": "cadena" })
+					dsRolUsuario.read({ "idRol": idRol })
+					dsTienda.read({ "idRol": idRol, "variable": "tienda" })
+					dsMarca.read({ "idRol": idRol, "variable": "marca" })
+					dsCategoria.read({ "idRol": idRol, "variable": "categoria" })
+					dsCadena.read({ "idRol": idRol, "variable": "cadena" })
 				}
 			}
 		});
 
-			var dsRolUsuario = new kendo.data.DataSource({
-				type: "json",
-				transport: {
-					read: { url: strInterOp("Rol", "listaUsuario"), dataType: "json", type: "post" }
-				},
-				schema: { errors: "msgState", data: "args", total: "totalFila" },
-				change: function (e) {
-					if (this._data.length > 0) {
-						var data = this._data[0];
-						$("#txtRol").html(data.rol);
-						$("#txtAsignado").html(data.nombre + ' ' + data.apellido);
-						$("#txtFono").html(data.fono);
-						$("#txtMail").html(data.email);
-					}
+		var dsRolUsuario = new kendo.data.DataSource({
+			type: "json",
+			transport: {
+				read: { url: strInterOp("Rol", "listaUsuario"), dataType: "json", type: "post" }
+			},
+			schema: { errors: "msgState", data: "args", total: "totalFila" },
+			change: function (e) {
+				if (this._data.length > 0) {
+					var data = this._data[0];
+					$("#lblRol").html(data.rol);
+					$("#lblAsignado").html(data.nombre + ' ' + data.apellido);
+					$("#lblFono").html(data.fono);
+					$("#lblPerfil").html(data.perfil);
+					$("#lblMail").html(data.email);
+					$("#lblRegion").html(data.region);
+					$("#lblDescripcion").html(data.descripcion);
+					lblIdUsuario.value = data.idUsuario;
 				}
-			});
+			}
+		});
 
 		$("#cmbPerfil").kendoComboBox({
 			dataTextField: "perfil",
@@ -333,7 +496,7 @@
 				read: { url: strInterOpAs("clsTienda", "listaRegion", "Core"), dataType: "json", type: "post" },
 				parameterMap: function (options, operation) {
 					var dataSend = {};
-					if (cmbTiendaCliente.value != "") 
+					if (cmbTiendaCliente.value != "")
 						dataSend["idCadena"] = cmbTiendaCliente.value;
 					if (cmbTiendaRegion.value != "")
 						dataSend["region"] = cmbTiendaRegion.value;
@@ -342,7 +505,6 @@
 			},
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
-
 		$("#cmbTiendaRegion").kendoComboBox({
 			dataTextField: "region",
 			dataValueField: "region",
@@ -365,7 +527,7 @@
 						dataSend["txtidCadena"] = cmbTiendaCliente.value;
 					if (cmbTiendaRegion.value != "")
 						dataSend["region"] = cmbTiendaRegion.value;
-					if (options.filter != undefined) 
+					if (options.filter != undefined)
 						dataSend["nombre"] = $("#cmbTienda").data("kendoComboBox")._prev;
 					return dataSend;
 				}
@@ -373,7 +535,6 @@
 			sort: { field: "tienda", dir: "asc" },
 			schema: { errors: "msgState", data: "args", total: "totalFila" }
 		});
-
 		$("#cmbTienda").kendoComboBox({
 			dataTextField: "tienda",
 			dataValueField: "idTienda",
@@ -399,16 +560,18 @@
 			autoBind: false,
 			resizable: true,
 			columns: [
-				cmdGrid,
-				{ field: "idResponsabilidad",  hidden: true },
-				{ field: "idTienda",   hidden: true },
-				{ field: "tienda", title: "Tienda", width: "200px" }
+				botonEliminarGrid,
+				{ field: "idResponsabilidad", hidden: true },
+				{ field: "idTienda", hidden: true },
+				{ field: "variable", hidden: true },
+				{ field: "tienda", title: "Tienda", width: "200px" },
+				{ field: "" }
 			]
 		}).data("kendoGrid");
 
 		$("#btnTiendaAgregar").kendoButton({ icon: "arrow-s", click:
 			function (e) {
-				
+				insertaEnMatriz(cmbTienda.value, "tienda", dsTienda);
 			}
 		});
 
@@ -432,7 +595,7 @@
 
 		$("#btnMarcaAgregar").kendoButton({ icon: "arrow-s", click:
 			function (e) {
-
+				insertaEnMatriz(cmbMarca.value, "marca", dsMarca);
 			}
 		});
 
@@ -449,10 +612,12 @@
 			autoBind: false,
 			resizable: true,
 			columns: [
-				cmdGrid,
+				botonEliminarGrid,
 				{ field: "idResponsabilidad", hidden: true },
 				{ field: "idMarca", hidden: true },
-				{ field: "marca", title: "Marca", width: "200px" }
+				{ field: "variable", hidden: true },
+				{ field: "marca", title: "Marca", width: "200px" },
+				{ field: "" }
 			]
 		}).data("kendoGrid");
 
@@ -467,7 +632,7 @@
 			autoBind: false,
 			placeholder: "Seleccione Categoria",
 			dataSource: {
-				transport: {read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "post" }},
+				transport: { read: { url: strInterOpAs("clsCategoria", "lista", "Core"), dataType: "json", type: "post"} },
 				sort: { field: "marca", dir: "asc" },
 				schema: { errors: "msgState", data: "args", total: "totalFila" }
 			}
@@ -475,7 +640,7 @@
 
 		$("#btnCategoriaAgregar").kendoButton({ icon: "arrow-s", click:
 			function (e) {
-
+				insertaEnMatriz(cmbCategoria.value, "categoria", dsCategoria);
 			}
 		});
 
@@ -491,10 +656,12 @@
 			autoBind: false,
 			resizable: true,
 			columns: [
-				cmdGrid,
+				botonEliminarGrid,
 				{ field: "idResponsabilidad", hidden: true },
 				{ field: "idCategoria", hidden: true },
-				{ field: "categoria", title: "Categoria", width: "200px" }
+				{ field: "variable", hidden: true },
+				{ field: "categoria", title: "Categoria", width: "200px" },
+				{ field: "" }
 			]
 		}).data("kendoGrid");
 
@@ -516,7 +683,7 @@
 
 		$("#btnCadenaAgregar").kendoButton({ icon: "arrow-s", click:
 			function (e) {
-
+				insertaEnMatriz(cmbCadena.value, "cadena", dsCadena);
 			}
 		});
 
@@ -531,28 +698,67 @@
 			height: 300,
 			autoBind: false,
 			resizable: true,
+			variable: "cadena",
 			columns: [
-				cmdGrid,
+				botonEliminarGrid,
 				{ field: "idResponsabilidad", hidden: true },
 				{ field: "idCadena", hidden: true },
-				{ field: "cadena", title: "Cadena", width: "200px" }
+				{ field: "variable", hidden: true },
+				{ field: "cadena", title: "Cadena", width: "200px" },
+				{ field: "", title: "" }
 			]
 		}).data("kendoGrid");
 
 		// #endregion
 
+		// #region Funciones de la matriz
+		function eliminarDeMatriz(e) {
+			e.preventDefault();
+			var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+			var ds = this.dataSource;
+			callScript(strInterOp("Matriz", "eliminar"), '&idResponsabilidad=' + dataItem.idResponsabilidad,
+			function (e) {
+				ds.read({ "idRol": idRol, "variable": dataItem.variable });
+			})
 
-		//$("#findRol").hide();
-		//$("#findResponsabilidad").hide();
+		}
+
+		function insertaEnMatriz(strId, strVariable, strDs) {
+			var pUrl = [];
+			pUrl.push("idRol=" + idRol);
+			pUrl.push("id=" + strId);
+			pUrl.push("variable=" + strVariable);
+			var x = pUrl.join("&");
+			callScript(strInterOp("Matriz", "insertar"), '&' + x,
+			function (e) {
+				strDs.read({ "idRol": idRol, "variable": strVariable });
+			})
+		}
+
+		// #endregion
 		
+		// #region Inicio de la aplicacion
+
+		$("#btnVolverPerfil").kendoButton({ icon: "arrow-n", click:
+			function (e) {
+				habilitarDiv("findPerfil");
+				$("#findRol").hide();
+				$("#findResponsabilidad").hide();
+				$("body, html").animate({ scrollTop: 0 }, 600);
+			}
+		});
 		
+		$("#findRol").hide();
+		$("#findResponsabilidad").hide();
+
 		$("#tabView").kendoTabStrip({
 			animation: {
-				close: {duration: 0,effects: "fadeOut"},
-				open: {duration: 0,effects: "fadeIn"}
+				close: { duration: 0, effects: "fadeOut" },
+				open: { duration: 0, effects: "fadeIn" }
 			}
-			
+
 		});
+		// #endregion
 	});
 	
 </script>

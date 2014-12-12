@@ -1,0 +1,22 @@
+﻿SELECT 
+	al1.idRequerimiento, 
+	al1.idEstados, 
+	al2.actividad, 
+	al4.rol,
+	al1.fechaInicio,
+	al1.fechaEsperada,
+	al1.fechaFin,
+	al1.estado,
+	al3.idFinalizacion,
+	al3.codigoFinalizacion,
+	al3.finalizacion,
+	al1.activo
+FROM 
+	elx_wf_estados al1, 
+	elx_wf_actividad al2, 
+	elx_wf_finalizacion al3, 
+	elx_hr_rol al4
+WHERE 
+	al1.idActividad = al2.idActividad
+	and al1.idFinalizacion = al3.idFinalizacion
+	and al1.idRolFinalizador = al4.idRol

@@ -1,0 +1,203 @@
+﻿<%@ Master Language="VB" MasterPageFile="~/Site.Master" AutoEventWireup="false" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<div class="areaTrabajo">
+<table >
+	<tr>
+		<td><img src="<% = resolveClientUrl("Styles/images/suitcase.png") %>" /></td>
+		<td style="vertical-align: top; padding-top:10px; width: 80%">
+			<span style=" font-size: 24px; font-weight:bold">Tiendas</span><br />
+			<span style=" font-size: 16px; ">Información y requerimiento generales de tienda </span>
+		</td>
+		<td style="width: 20%;text-align: right">
+			<span style=" font-size: 12px; font-weight:bold; color: #0000D9">
+			<div id="txtUser"></div> <br/>
+			
+			</span>
+		</td>
+	</tr>
+</table>
+</div>
+<div class="areaHeader">
+	<ul id="menuArea">
+
+	</ul>
+</div>
+<div class="areaTrabajo" id="infoTienda">
+	<table style= "padding-bottom: 10px">
+		<tr>
+			<td >
+				Tienda Seleccionada: <span id="lblTiendaSeleccionada" style=" font-weight: bold"></span>
+				, <span id="lblTiendaSalir" style=" font-weight: bold; color:Blue; text-decoration: underline; cursor:pointer">Salir</span>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="areaTrabajo" id="findTienda">
+	<table style= "padding-bottom: 10px">
+		<tr>
+			<td colspan="4">
+				<span style=" font-size: 24px;">Paso 1 - Selecci&oacute;n de Tienda</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="width: 120px">
+				Seleccione Cliente: 
+			</td>
+			<td>
+				<input id="cmbCliente" style="width: 300px" />
+			</td>
+			<td>
+				Seleccione Tienda: 
+			</td>
+			<td>
+				<input id="cmbTienda" style="width: 300px" />
+			</td>
+			<td><button id="btnBuscar" type="button" class="k-button">Continuar...</button></td>
+		</tr>
+		<tr>
+			<td>
+				Seleccione Región: 
+			</td>
+			<td colspan="3"><input id="cmbRegion" style="width: 300px" /></td>
+		</tr>
+		
+	</table>
+</div>
+
+<script>
+	var idTienda;
+	$(document).ready(function () {
+		function iniciaTienda() {
+			$("#menuArea").kendoMenu({
+				select: onSelect,
+				dataSource: mItem
+			});
+			$("#findTienda").hide();
+			$("#infoTienda").show(0);
+			$("#layerTienda").show(0);
+			$("#lblTiendaSeleccionada").html(localStorage.getItem("Tienda"));
+		}
+
+		if (localStorage.getItem("idTienda") != null) {
+			idTienda = localStorage.getItem("idTienda");
+			iniciaTienda();
+		}
+		else {
+			$("#infoTienda").hide();
+			$("#layerTienda").hide();
+		}
+
+		$("#lblTiendaSalir").click(function () {
+			localStorage.removeItem("idTienda");
+			location.reload();
+		});
+		//#region Paso 1 Busca Tienda
+		// ####################################
+
+		$("#btnBuscar").kendoButton({ icon: "arrow-s", click:
+			function (e) {
+				if (cmbTienda.value != "") {
+					localStorage.setItem("idTienda", cmbTienda.value);
+					localStorage.setItem("Tienda", $("#cmbTienda").data("kendoComboBox").text());
+					location.reload();
+				}
+			}
+		});
+
+		$("#cmbCliente").kendoComboBox({
+			dataTextField: "cadena",
+			dataValueField: "idCadena",
+			placeholder: "Seleccione Cadena",
+			dataSource: {
+				type: "json",
+				transport: {
+					read: { url: strInterOpAs("clsCadena", "lista", "Core"), dataType: "json", type: "post" }
+				},
+				sort: { field: "cadena", dir: "asc" },
+				schema: { errors: "msgState", data: "args", total: "totalFila" }
+			},
+			cascade: function (e) {
+				$("#cmbTienda").data("kendoComboBox").text("");
+				$("#cmbTienda").data("kendoComboBox").value("");
+			}
+		});
+
+		var dsTienda = new kendo.data.DataSource({
+			serverFiltering: true,
+			type: "json",
+			transport: {
+				read: { url: strInterOpAs("clsTienda", "lista", "Core"), dataType: "json", type: "post" },
+				parameterMap: function (options, operation) {
+					var dataSend = {};
+					if (cmbCliente.value != "") {
+						dataSend["txtidCadena"] = cmbCliente.value;
+					}
+					if (cmbRegion.value != "") {
+						dataSend["region"] = cmbRegion.value;
+					}
+					if (options.filter != undefined) {
+						dataSend["nombre"] = $("#cmbTienda").data("kendoComboBox")._prev;
+					}
+					return dataSend;
+				}
+			},
+			sort: { field: "tienda", dir: "asc" },
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
+
+		$("#cmbTienda").kendoComboBox({
+			dataTextField: "tienda",
+			dataValueField: "idTienda",
+			autoBind: false,
+			placeholder: "Seleccione Tienda",
+			filter: "contains",
+			minLength: 4,
+			autoBind: false,
+			dataSource: dsTienda,
+			open: function (e) {
+				dsTienda.read();
+			}
+		});
+
+
+		var dsRegion = new kendo.data.DataSource({
+			type: "json",
+			transport: {
+				read: { url: strInterOpAs("clsTienda", "listaRegion", "Core"), dataType: "json", type: "post" },
+				parameterMap: function (options, operation) {
+					var dataSend = {};
+					if (cmbCliente.value != "") {
+						dataSend["idCadena"] = cmbCliente.value;
+					}
+					if (cmbRegion.value != "") {
+						dataSend["region"] = cmbRegion.value;
+					}
+					return dataSend;
+				}
+			},
+			schema: { errors: "msgState", data: "args", total: "totalFila" }
+		});
+
+		$("#cmbRegion").kendoComboBox({
+			dataTextField: "region",
+			dataValueField: "region",
+			autoBind: false,
+			placeholder: "Seleccione Región",
+			autoBind: false,
+			dataSource: dsRegion,
+			open: function (e) {
+				dsRegion.read();
+			}
+		});
+
+		//#endregion
+
+
+	});
+</script>
+<asp:ContentPlaceHolder ID="DetailContent" runat="server" />
+</asp:Content>
+
+
+

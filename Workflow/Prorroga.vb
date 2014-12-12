@@ -15,15 +15,15 @@ Public Class Prorroga
 		Dim strCx As New StringConex
 		Dim strSql As String
 		strCx.iniciaTransaccion()
-		strSql = "update ELX_REP_REQUERIMIENTO set fechaCompromiso = '$1' where idRequerimiento = $2 "
+		strSql = "update elx_wf_requerimiento set fechaCompromiso = '$1' where idRequerimiento = $2 "
 		strSql = Replace(strSql, "$1", Me.prForm("fechaNueva"))
 		strSql = Replace(strSql, "$2", Me.prForm("idRequerimiento"))
 		strCx.ejecutaSql(strSql)
-		strSql = "update elx_rep_estados set fechaEsperada  = '$1' where idRequerimiento = $2 and activo = 1"
+		strSql = "update elx_wf_estados set fechaEsperada  = '$1' where idRequerimiento = $2 and activo = 1"
 		strSql = Replace(strSql, "$1", Me.prForm("fechaNueva"))
 		strSql = Replace(strSql, "$2", Me.prForm("idRequerimiento"))
 		strCx.ejecutaSql(strSql)
-		strSql = "INSERT INTO elx_rep_prorroga VALUES (null, '$1', '$2', '$3', '$4','$5','$6','$7') "
+		strSql = "INSERT INTO elx_wf_prorroga VALUES (null, '$1', '$2', '$3', '$4','$5','$6','$7') "
 		strSql = Replace(strSql, "$1", Me.prForm("idRequerimiento")) 'idRequerimiento
 		strSql = Replace(strSql, "$2", Me.prForm("idMotivo")) 'idMotivo
 		strSql = Replace(strSql, "$3", Me.Rol.idUsuario)	' idUsuario

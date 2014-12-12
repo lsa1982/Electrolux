@@ -1,0 +1,15 @@
+﻿Select 
+	AL1.idNotificacion,
+	al1.notificacion,
+	al1.fechaIngreso,
+	al1.fechaLectura,
+	al1.estado,
+	al2.tipoNotificacion,
+	al2.imagen,
+	al1.idRequerimiento,
+	al1.idCita
+From
+	elx_hr_notificacion al1,
+	elx_hr_tipoNotificacion al2
+Where
+	al1.idTipoNotificacion = al2.idTipoNotificacion 

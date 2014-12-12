@@ -38,12 +38,12 @@ Public Class InterOpX
 
 
 			If HttpContext.Current.User.Identity.IsAuthenticated Then
-				If IsNothing(solicitud.Cookies("rol")) Or IsNothing(solicitud.Cookies("email")) Or IsNothing(solicitud.Cookies("nombre")) Or IsNothing(solicitud.Cookies("usuario")) Then
+				If IsNothing(solicitud.Cookies("rol")) Or IsNothing(solicitud.Cookies("nombre")) Or IsNothing(solicitud.Cookies("usuario")) Then
 					FormsAuthentication.SignOut()
-					respuesta.Write(HttpContext.Current.Request.ApplicationPath & "/Login.aspx")
+					respuesta.Redirect(HttpContext.Current.Request.ApplicationPath & "/Login.aspx")
 				Else
 					o.Rol.SetRol(solicitud.Cookies("rol").Value, solicitud.Cookies("usuario").Value)
-					o.Rol.email = solicitud.Cookies("email").Value
+
 					o.Rol.Nombre = solicitud.Cookies("nombre").Value
 					escribeLog(solicitud.ServerVariables("REMOTE_ADDR").ToString(), operacionAssem, "Autentificado :" & solicitud.Cookies("usuario").Value)
 				End If
